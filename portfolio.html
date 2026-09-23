@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Dakpion IMC</title>
+<meta name="description" content="Websites, software and video/CGI work for doctors, clinics and hospitals.">
+<link rel="icon" href="assets/images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="portfolio">
+
+<div data-include="partials/header.html"></div>
+
+<section class="breadcrumb-hero">
+  <div class="divider-blob" style="width:400px;height:400px;background:var(--green);top:-160px;right:10%;"></div>
+  <div class="container">
+    <div class="crumbs"><a href="index.html">Home</a> / <span>Portfolio</span></div>
+    <h1>Selected healthcare work</h1>
+    <p style="color:#c9c9c9;max-width:560px;font-size:16px;">Websites, booking software and video/CGI — filter by category, or browse each collection on its own page.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3 reveal" style="margin-bottom:56px;">
+      <a href="portfolio-websites.html" class="service-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Websites</h3><p>Personal doctor sites &amp; hospital websites.</p>
+        <span class="more">Browse Websites <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="portfolio-software.html" class="service-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div>
+        <h3>Software &amp; Booking Apps</h3><p>Patient booking systems &amp; clinic dashboards.</p>
+        <span class="more">Browse Software <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a href="portfolio-videos.html" class="service-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3>Video &amp; CGI</h3><p>Facility films, CGI and YouTube content.</p>
+        <span class="more">Browse Video &amp; CGI <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+
+    <div class="filter-bar reveal">
+      <button class="active" data-filter="all">All Work</button>
+      <button data-filter="website">Websites</button>
+      <button data-filter="software">Software</button>
+      <button data-filter="video">Video &amp; CGI</button>
+    </div>
+
+    <div class="grid grid--3">
+      <div class="work-card reveal" data-cat="website">
+        <div class="work-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="work-body"><div class="cat">Website</div><h4>Dr. Placeholder — Personal Website</h4><p>Cardiologist personal site with booking &amp; testimonials.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="website">
+        <div class="work-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/></svg></div>
+        <div class="work-body"><div class="cat">Website</div><h4>MediTrust Hospital — Institutional Website</h4><p>Multi-department site with doctor directory.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="website">
+        <div class="work-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="work-body"><div class="cat">Website</div><h4>NovaCare Diagnostics — Landing Page</h4><p>Service &amp; test-package landing page with online requests.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="software">
+        <div class="work-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></div>
+        <div class="work-body"><div class="cat">Software</div><h4>CareWell Clinic — Booking App</h4><p>Web-based appointment &amp; queue system for a multi-doctor clinic.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="software">
+        <div class="work-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="work-body"><div class="cat">Software</div><h4>Wellness Point — Staff Dashboard</h4><p>Internal dashboard for managing daily patient serials.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="video">
+        <div class="work-thumb"><div class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--green-dark)"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="work-body"><div class="cat">Video &amp; CGI</div><h4>MediTrust Hospital — Facility Film</h4><p>CGI walkthrough of a new diagnostic wing.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="video">
+        <div class="work-thumb"><div class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--green-dark)"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="work-body"><div class="cat">Video &amp; CGI</div><h4>Dr. Placeholder — Introduction Film</h4><p>Short brand film introducing a specialist to new patients.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="video">
+        <div class="work-thumb"><div class="play"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--green-dark)"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="work-body"><div class="cat">Video &amp; CGI</div><h4>PrimeHealth Group — YouTube Series</h4><p>Recurring health-tips series produced for YouTube.</p></div>
+      </div>
+      <div class="work-card reveal" data-cat="website">
+        <div class="work-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-dark)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="work-body"><div class="cat">Website</div><h4>Dr. Placeholder — Personal Website</h4><p>Dermatologist website with before/after gallery.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div><h2>Want results like these?</h2><p>Tell us about your practice and let's plan your project.</p></div>
+      <a href="contact.html" class="btn btn--primary">Start a Project</a>
+    </div>
+  </div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
