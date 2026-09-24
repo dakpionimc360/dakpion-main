@@ -1,5 +1,6 @@
-/* DAKPION IMC — 360° Marketing Solutions · v8 (Bento)
-   Tiny vanilla JS: mobile menu, tile reveals, counters, FAQ, work filter, forms. */
+/* DAKPION IMC — 360° Marketing Solutions · v9 (Playful)
+   Tiny vanilla JS: header, mobile menu, scroll-triggered reveals, counters, FAQ, filter, forms.
+   All motion itself lives in CSS; this file only adds the `.in` class when things scroll into view. */
 (function () {
   "use strict";
 
@@ -14,7 +15,14 @@
     const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
   }
 
-  function initMenu() {
+  function initHeader() {
+    const header = $('.site-header');
+    if (header) {
+      let ticking = false;
+      const update = () => { header.classList.toggle('is-scrolled', window.scrollY > 10); ticking = false; };
+      update();
+      window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    }
     const btn = $('.menu-btn');
     if (!btn) return;
     const setMenu = open => {
@@ -31,7 +39,7 @@
   function countUp(el) {
     const end = parseFloat(el.dataset.count), suf = el.dataset.suffix || '';
     if (reduced) { el.textContent = end + suf; return; }
-    const t0 = performance.now(), dur = 1200;
+    const t0 = performance.now(), dur = 1400;
     (function tick(t) {
       const p = Math.min(1, (t - t0) / dur);
       el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suf;
@@ -39,13 +47,12 @@
     })(t0);
   }
 
-  /* Stagger tiles within each grid so they rise one after another */
+  /* Children of [data-stagger] get increasing delays so they pop in one after another */
   function initReveal() {
-    $$('.bento').forEach(grid => {
-      let k = 0;
-      $$(':scope > .reveal', grid).forEach(t => t.style.setProperty('--d', (k++ % 6) * 0.06 + 's'));
+    $$('[data-stagger]').forEach(group => {
+      $$(':scope > .reveal, :scope > .pop', group).forEach((el, i) => el.style.setProperty('--d', (i % 8) * 0.09 + 's'));
     });
-    const els = $$('.reveal, .mini-bars'), counters = $$('[data-count]');
+    const els = $$('.reveal, .pop, .ticks, .sq, .path-wrap, .case'), counters = $$('[data-count]');
     if (reduced || !('IntersectionObserver' in window)) {
       els.forEach(e => e.classList.add('in'));
       counters.forEach(countUp);
@@ -56,7 +63,7 @@
       en.target.classList.add('in');
       if (en.target.dataset.count) countUp(en.target);
       io.unobserve(en.target);
-    }), { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+    }), { rootMargin: '0px 0px -10% 0px', threshold: .15 });
     els.forEach(e => io.observe(e));
     counters.forEach(e => io.observe(e));
   }
@@ -102,7 +109,7 @@
 
   function boot() {
     setActiveNav();
-    initMenu();
+    initHeader();
     initReveal();
     initFaq();
     initFilter();
