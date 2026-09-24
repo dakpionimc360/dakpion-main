@@ -1,5 +1,5 @@
 /* DAKPION IMC — 360° Marketing Solutions · v6
-   Tiny vanilla JS (no libraries): header, mobile menu, reveals, counters, FAQ, filters, forms. */
+   Tiny vanilla JS (no libraries): header, mobile menu, reveals, rotating words, counters, FAQ, filters, forms. */
 (function () {
   "use strict";
 
@@ -46,7 +46,7 @@
   }
 
   function initReveal() {
-    const els = $$('.reveal'), counters = $$('[data-count]');
+    const els = $$('.reveal, .reveal-l, .reveal-r, .reveal-s'), counters = $$('[data-count]');
     if (reduced || !('IntersectionObserver' in window)) {
       els.forEach(e => e.classList.add('in'));
       counters.forEach(countUp);
@@ -101,10 +101,30 @@
     }));
   }
 
+  function initRotator() {
+    $$('.rotator').forEach(r => {
+      const words = $$('span', r);
+      if (words.length < 2) return;
+      r.classList.add('ready');
+      let i = 0;
+      words[0].classList.add('is-on');
+      if (reduced) return;
+      setInterval(() => {
+        if (document.hidden) return;
+        const cur = words[i];
+        i = (i + 1) % words.length;
+        cur.classList.replace('is-on', 'is-out');
+        words[i].classList.remove('is-out'); words[i].classList.add('is-on');
+        setTimeout(() => cur.classList.remove('is-out'), 650);
+      }, 2200);
+    });
+  }
+
   function boot() {
     setActiveNav();
     initHeader();
     initReveal();
+    initRotator();
     initFaq();
     initFilter();
     initForms();
