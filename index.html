@@ -16,21 +16,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <script>
-(function(r){r.classList.add('js');try{if(!sessionStorage.getItem('dk-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('show-loader');if(sessionStorage.getItem('dk-pt'))r.classList.add('pt-enter');}catch(e){}
-setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.classList.remove('show-loader','pt-enter');}},3500);})(document.documentElement);
+(function(r){r.classList.add('js');setTimeout(function(){if(!window.__animReady)r.classList.add('no-anim');},2500);})(document.documentElement);
 </script>
 <script src="assets/js/vendor/gsap.min.js" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/vendor/SplitText.min.js" defer></script>
-<script src="assets/js/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </head>
 <body data-page="home">
 <!-- @header -->
 <div class="progress" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span></span></div><div class="cursor-dot" aria-hidden="true"></div>
-<div class="loader" aria-hidden="true"><span>Dakpion IMC — 360° Marketing</span><b>0°</b></div>
-<div class="pt" aria-hidden="true"></div>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="brand" aria-label="Dakpion IMC home"><img src="assets/images/logo-dark.webp" width="420" height="116" alt="Dakpion IMC"></a>
@@ -90,15 +85,14 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
   </div>
 </section>
 
-<section class="hs" id="services">
-  <div class="hs-pin">
-    <div class="hs-track">
-      <div class="hs-intro">
-        <div class="label">What we do</div>
-        <h2 data-split>Eight ways<br>we grow <span class="hl">brands.</span></h2>
-        <p class="lead">Use one, or plug them all together. Every service is built to work as part of a single 360° plan.</p>
-      </div>
-      <a class="svc" href="services.html#strategy" data-cursor="Explore">
+<section class="section section--paper round" id="services" style="margin:0 clamp(8px,1.4vw,20px)">
+  <div class="container">
+    <div class="head">
+      <div><div class="label" data-reveal>What we do</div><h2 data-split>Eight ways we grow <span class="hl">brands.</span></h2></div>
+      <a href="services.html" class="btn btn--line" data-reveal>All services <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+    </div>
+    <div class="svc-grid">
+      <a class="svc" href="services.html#strategy" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">01</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-target"/></svg></span>
@@ -106,7 +100,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>Insight, positioning and a full-funnel plan before a single taka is spent.</p>
         <div class="tags"><span class="tag">Research</span><span class="tag">Positioning</span><span class="tag">Media plan</span></div>
       </a>
-      <a class="svc" href="services.html#branding" data-cursor="Explore">
+      <a class="svc" href="services.html#branding" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">02</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-brand"/></svg></span>
@@ -114,7 +108,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>Identities and big ideas that make your brand impossible to ignore.</p>
         <div class="tags"><span class="tag">Identity</span><span class="tag">Packaging</span><span class="tag">Campaigns</span></div>
       </a>
-      <a class="svc" href="services.html#digital" data-cursor="Explore">
+      <a class="svc" href="services.html#digital" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">03</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-social"/></svg></span>
@@ -122,7 +116,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>Always-on content, community and creators across every platform.</p>
         <div class="tags"><span class="tag">Content</span><span class="tag">Community</span><span class="tag">Influencers</span></div>
       </a>
-      <a class="svc" href="services.html#performance" data-cursor="Explore">
+      <a class="svc" href="services.html#performance" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">04</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ads"/></svg></span>
@@ -130,7 +124,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>Meta, Google and TikTok ads plus SEO — optimised daily for sales.</p>
         <div class="tags"><span class="tag">Meta Ads</span><span class="tag">Google Ads</span><span class="tag">SEO</span></div>
       </a>
-      <a class="svc" href="services.html#production" data-cursor="Explore">
+      <a class="svc" href="services.html#production" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">05</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-video"/></svg></span>
@@ -138,7 +132,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>TVC, OVC, reels, 3D and CGI — produced in-house, script to screen.</p>
         <div class="tags"><span class="tag">TVC</span><span class="tag">Reels</span><span class="tag">3D &amp; CGI</span></div>
       </a>
-      <a class="svc" href="services.html#tech" data-cursor="Explore">
+      <a class="svc" href="services.html#tech" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">06</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-web"/></svg></span>
@@ -146,7 +140,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>Websites, e-commerce, CRM and automation built to convert.</p>
         <div class="tags"><span class="tag">Websites</span><span class="tag">E-commerce</span><span class="tag">CRM</span></div>
       </a>
-      <a class="svc" href="services.html#atl" data-cursor="Explore">
+      <a class="svc" href="services.html#atl" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">07</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-tv"/></svg></span>
@@ -154,7 +148,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>TV, radio, print, billboards and press — mass reach, measured.</p>
         <div class="tags"><span class="tag">TV &amp; Radio</span><span class="tag">OOH</span><span class="tag">PR</span></div>
       </a>
-      <a class="svc" href="services.html#btl" data-cursor="Explore">
+      <a class="svc" href="services.html#btl" data-reveal>
         <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
         <span class="n">08</span>
         <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-flag"/></svg></span>
@@ -162,7 +156,6 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
         <p>Launches, events, sampling and retail — brands people can touch.</p>
         <div class="tags"><span class="tag">Events</span><span class="tag">Sampling</span><span class="tag">Retail</span></div>
       </a>
-      <div class="hs-end"><a href="services.html" class="btn-orb" data-magnetic=".45"><span>All<br>services<svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></a></div>
     </div>
   </div>
 </section>
@@ -170,10 +163,10 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
 <section class="section">
   <div class="container">
     <div class="head">
-      <div><div class="label" data-reveal>Selected work</div><h2 data-split>Campaigns that<br><span class="hl">moved</span> numbers.</h2></div>
+      <div><div class="label" data-reveal>Selected work</div><h2 data-split>Campaigns that <span class="hl">moved</span> numbers.</h2></div>
       <a href="portfolio.html" class="btn btn--line" data-reveal>All work <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
     </div>
-    <div class="wl" data-cursor="View">
+    <div class="wl">
       <a class="wl-row" href="portfolio.html">
         <span class="i">01</span>
         <h3>Beverage brand national launch</h3>
@@ -213,7 +206,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
   <div class="big-360" aria-hidden="true">360°</div>
   <div class="container" style="position:relative">
     <div class="head">
-      <div><div class="label" data-reveal>By the numbers</div><h2 data-split>Small team energy.<br>Big brand results.</h2></div>
+      <div><div class="label" data-reveal>By the numbers</div><h2 data-split>Small team energy. Big brand results.</h2></div>
     </div>
     <div class="stats">
       <div class="stat" data-reveal><b data-count="9" data-suffix="+">9+</b><span>Years building brands in Bangladesh</span></div>
@@ -227,34 +220,34 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
 <section class="section">
   <div class="container">
     <div class="head">
-      <div><div class="label" data-reveal>How we work</div><h2 data-split>Brief to<br>results in five.</h2></div>
+      <div><div class="label" data-reveal>How we work</div><h2 data-split>Brief to results in five steps.</h2></div>
       <p class="lead" data-reveal>A clear, accountable process — you always know what's happening, why, and what it's delivering.</p>
     </div>
-    <div class="stack">
-      <div class="stack-card" style="--i:0">
+    <div class="steps">
+      <div class="step" data-reveal>
         <span class="sn">01</span>
         <h3>Discover</h3>
-        <div><p>We audit your brand, market, competitors and current marketing — and find where the real growth is hiding.</p><div class="tags"><span class="tag">Brand audit</span><span class="tag">Market research</span><span class="tag">Week 1</span></div></div>
+        <p>We audit your brand, market, competitors and current marketing — and find where the real growth is hiding.</p><div class="tags"><span class="tag">Brand audit</span><span class="tag">Market research</span><span class="tag">Week 1</span></div>
       </div>
-      <div class="stack-card" style="--i:1">
+      <div class="step" data-reveal>
         <span class="sn">02</span>
         <h3>Strategise</h3>
-        <div><p>Positioning, audiences, the big idea and a channel-by-channel plan with KPIs and budget.</p><div class="tags"><span class="tag">Big idea</span><span class="tag">Media plan</span><span class="tag">Week 2</span></div></div>
+        <p>Positioning, audiences, the big idea and a channel-by-channel plan with KPIs and budget.</p><div class="tags"><span class="tag">Big idea</span><span class="tag">Media plan</span><span class="tag">Week 2</span></div>
       </div>
-      <div class="stack-card" style="--i:2">
+      <div class="step" data-reveal>
         <span class="sn">03</span>
         <h3>Create</h3>
-        <div><p>Design, copy, video, web and media assets — produced in-house so everything looks and sounds like one brand.</p><div class="tags"><span class="tag">Production</span><span class="tag">Week 3–5</span></div></div>
+        <p>Design, copy, video, web and media assets — produced in-house so everything looks and sounds like one brand.</p><div class="tags"><span class="tag">Production</span><span class="tag">Week 3–5</span></div>
       </div>
-      <div class="stack-card" style="--i:3">
+      <div class="step" data-reveal>
         <span class="sn">04</span>
         <h3>Launch</h3>
-        <div><p>Go live across digital, ATL and BTL in one coordinated rollout, with tracking from day one.</p><div class="tags"><span class="tag">Rollout</span><span class="tag">Week 6</span></div></div>
+        <p>Go live across digital, ATL and BTL in one coordinated rollout, with tracking from day one.</p><div class="tags"><span class="tag">Rollout</span><span class="tag">Week 6</span></div>
       </div>
-      <div class="stack-card" style="--i:4">
+      <div class="step" data-reveal>
         <span class="sn">05</span>
         <h3>Optimise</h3>
-        <div><p>Weekly optimisation, monthly reports and quarterly reviews — we scale what works and cut what doesn’t.</p><div class="tags"><span class="tag">Reporting</span><span class="tag">Ongoing</span></div></div>
+        <p>Weekly optimisation, monthly reports and quarterly reviews — we scale what works and cut what doesn’t.</p><div class="tags"><span class="tag">Reporting</span><span class="tag">Ongoing</span></div>
       </div>
     </div>
   </div>
@@ -263,7 +256,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
 <section class="section section--paper round" style="margin:0 clamp(8px,1.4vw,20px)">
   <div class="container">
     <div class="head">
-      <div><div class="label" data-reveal>The crew</div><h2 data-split>People behind<br>the <span class="hl">360°.</span></h2></div>
+      <div><div class="label" data-reveal>The crew</div><h2 data-split>People behind the <span class="hl">360°.</span></h2></div>
       <a href="about.html#team" class="btn btn--line" data-reveal>Meet the full team <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
     </div>
     <div class="team-grid"><div class="member m1" data-tilt data-reveal style="transition-delay:0.00s">
@@ -293,7 +286,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
 <section class="section">
   <div class="container">
     <div class="head">
-      <div><div class="label" data-reveal>Client love</div><h2 data-split>Don't take<br>our word for it.</h2></div>
+      <div><div class="label" data-reveal>Client love</div><h2 data-split>Don't take our word for it.</h2></div>
     </div>
   </div>
   <div class="tm" data-reveal><div class="tm-track"><figure class="quote"><div class="qm">“</div><blockquote>We used to juggle four agencies. Dakpion replaced all of them with one plan and one report — and our launch hit its targets a month early.</blockquote><figcaption class="by"><span class="av">MK</span><div><b>Client name</b><span>Head of Marketing, FMCG brand</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>They understood healthcare audiences from day one. Patient enquiries grew every single month after the campaign went live.</blockquote><figcaption class="by"><span class="av">DR</span><div><b>Client name</b><span>Director, Multi-specialty hospital</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>From the 3D film to the billboards and the Facebook funnel, everything felt like one brand. Our sales team noticed the lead quality immediately.</blockquote><figcaption class="by"><span class="av">SA</span><div><b>Client name</b><span>CEO, Real estate developer</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>The creative testing system changed our business. We finally know which ads make money — and we scale them with confidence.</blockquote><figcaption class="by"><span class="av">NH</span><div><b>Client name</b><span>Founder, D2C fashion label</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>Open days were packed and our counsellors had a CRM full of warm leads. Best admission season we have had.</blockquote><figcaption class="by"><span class="av">TR</span><div><b>Client name</b><span>Registrar, Private university</span></div></figcaption></figure></div><div class="tm-track" aria-hidden="true"><figure class="quote"><div class="qm">“</div><blockquote>We used to juggle four agencies. Dakpion replaced all of them with one plan and one report — and our launch hit its targets a month early.</blockquote><figcaption class="by"><span class="av">MK</span><div><b>Client name</b><span>Head of Marketing, FMCG brand</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>They understood healthcare audiences from day one. Patient enquiries grew every single month after the campaign went live.</blockquote><figcaption class="by"><span class="av">DR</span><div><b>Client name</b><span>Director, Multi-specialty hospital</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>From the 3D film to the billboards and the Facebook funnel, everything felt like one brand. Our sales team noticed the lead quality immediately.</blockquote><figcaption class="by"><span class="av">SA</span><div><b>Client name</b><span>CEO, Real estate developer</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>The creative testing system changed our business. We finally know which ads make money — and we scale them with confidence.</blockquote><figcaption class="by"><span class="av">NH</span><div><b>Client name</b><span>Founder, D2C fashion label</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>Open days were packed and our counsellors had a CRM full of warm leads. Best admission season we have had.</blockquote><figcaption class="by"><span class="av">TR</span><div><b>Client name</b><span>Registrar, Private university</span></div></figcaption></figure></div></div>
@@ -304,7 +297,7 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
   <div class="container faq">
     <div>
       <div class="label" data-reveal>FAQ</div>
-      <h2 data-split>Good<br>questions.</h2>
+      <h2 data-split>Good questions.</h2>
       <p class="lead" data-reveal>Can't find your answer? The first consultation is free.</p>
     </div>
     <div data-reveal><div class="faq-item open"><button class="faq-q" aria-expanded="true">What does “360° marketing” actually mean?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Every channel your customer meets — social, search, TV, radio, billboards, shelves, events and your website — is planned and run as one connected campaign, with one message and one set of goals.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">Can I hire you for just one service?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Yes. Many clients start with one service — like social media or a website — and expand as they see results. Everything we build plugs into a wider 360° plan later.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">How do you measure results?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>We agree KPIs up front — reach, leads, sales, cost per acquisition, brand lift — set up tracking across channels, and share a clear monthly report with next-step recommendations.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">What budgets do you work with?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Growing SMEs and large enterprises alike. We recommend the channel mix that makes the most of your budget — digital-first or a full ATL + BTL rollout.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">How quickly can a campaign go live?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Digital campaigns can launch in 2–3 weeks. Integrated campaigns with production, TVC or on-ground activation usually take 5–8 weeks from brief to launch.</p></div></div></div></div>

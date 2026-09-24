@@ -16,21 +16,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <script>
-(function(r){r.classList.add('js');try{if(!sessionStorage.getItem('dk-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('show-loader');if(sessionStorage.getItem('dk-pt'))r.classList.add('pt-enter');}catch(e){}
-setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.classList.remove('show-loader','pt-enter');}},3500);})(document.documentElement);
+(function(r){r.classList.add('js');setTimeout(function(){if(!window.__animReady)r.classList.add('no-anim');},2500);})(document.documentElement);
 </script>
 <script src="assets/js/vendor/gsap.min.js" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/vendor/SplitText.min.js" defer></script>
-<script src="assets/js/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </head>
 <body data-page="services">
 <!-- @header -->
 <div class="progress" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span></span></div><div class="cursor-dot" aria-hidden="true"></div>
-<div class="loader" aria-hidden="true"><span>Dakpion IMC — 360° Marketing</span><b>0°</b></div>
-<div class="pt" aria-hidden="true"></div>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="brand" aria-label="Dakpion IMC home"><img src="assets/images/logo-dark.webp" width="420" height="116" alt="Dakpion IMC"></a>

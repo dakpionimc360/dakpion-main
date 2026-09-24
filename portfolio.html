@@ -16,21 +16,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <script>
-(function(r){r.classList.add('js');try{if(!sessionStorage.getItem('dk-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('show-loader');if(sessionStorage.getItem('dk-pt'))r.classList.add('pt-enter');}catch(e){}
-setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.classList.remove('show-loader','pt-enter');}},3500);})(document.documentElement);
+(function(r){r.classList.add('js');setTimeout(function(){if(!window.__animReady)r.classList.add('no-anim');},2500);})(document.documentElement);
 </script>
 <script src="assets/js/vendor/gsap.min.js" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/js/vendor/SplitText.min.js" defer></script>
-<script src="assets/js/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </head>
 <body data-page="work">
 <!-- @header -->
 <div class="progress" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><span></span></div><div class="cursor-dot" aria-hidden="true"></div>
-<div class="loader" aria-hidden="true"><span>Dakpion IMC — 360° Marketing</span><b>0°</b></div>
-<div class="pt" aria-hidden="true"></div>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="brand" aria-label="Dakpion IMC home"><img src="assets/images/logo-dark.webp" width="420" height="116" alt="Dakpion IMC"></a>
@@ -67,35 +62,35 @@ setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.class
   <div class="container">
     <div class="filter" role="group" aria-label="Filter work" data-reveal><button data-filter="all" aria-pressed="true" class="active">All work</button><button data-filter="integrated" aria-pressed="false">360° Integrated</button><button data-filter="branding" aria-pressed="false">Branding</button><button data-filter="digital" aria-pressed="false">Digital &amp; Social</button><button data-filter="performance" aria-pressed="false">Performance</button><button data-filter="production" aria-pressed="false">Production</button><button data-filter="activation" aria-pressed="false">Activation</button></div>
     <div class="work-grid">
-      <a class="work-card" href="contact.html" data-cat="integrated activation" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="integrated activation" data-reveal>
         <div class="thumb thumb--1"><div class="tt"><span>FMCG</span></div><div class="kb"><b>+212%</b><small>Retail sell-through in 3 months</small></div></div>
         <div class="work-info"><span class="m">360° Launch</span><h3>Beverage brand national launch</h3><p>TVC, OOH, social and 400+ retail activations rolled out as one campaign.</p><div class="tags"><span class="tag">TVC</span><span class="tag">OOH</span><span class="tag">BTL</span><span class="tag">Social</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="digital performance" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="digital performance" data-reveal>
         <div class="thumb thumb--2"><div class="tt"><span>Healthcare</span></div><div class="kb"><b>4.1x</b><small>More appointment leads</small></div></div>
         <div class="work-info"><span class="m">Digital + Performance</span><h3>Multi-specialty hospital growth</h3><p>New website, doctor branding and always-on Meta &amp; Google campaigns.</p><div class="tags"><span class="tag">Web</span><span class="tag">Ads</span><span class="tag">SEO</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="branding production" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="branding production" data-reveal>
         <div class="thumb thumb--3"><div class="tt"><span>Real Estate</span></div><div class="kb"><b>−46%</b><small>Cost per qualified lead</small></div></div>
         <div class="work-info"><span class="m">Brand + Leads</span><h3>Premium residential launch</h3><p>Brand identity, 3D walkthrough film and a lead-gen funnel with CRM.</p><div class="tags"><span class="tag">Branding</span><span class="tag">CGI</span><span class="tag">CRM</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="performance digital" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="performance digital" data-reveal>
         <div class="thumb thumb--4"><div class="tt"><span>E-commerce</span></div><div class="kb"><b>5.2x</b><small>Return on ad spend</small></div></div>
         <div class="work-info"><span class="m">Performance</span><h3>Fashion D2C scale-up</h3><p>Creative testing system and retention flows that tripled monthly revenue.</p><div class="tags"><span class="tag">Meta Ads</span><span class="tag">TikTok</span><span class="tag">CRO</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="integrated activation" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="integrated activation" data-reveal>
         <div class="thumb thumb--5"><div class="tt"><span>Education</span></div><div class="kb"><b>3,800+</b><small>Admission enquiries</small></div></div>
         <div class="work-info"><span class="m">Admissions</span><h3>University admission season</h3><p>Open-day events, student reels and a counselling CRM across 6 cities.</p><div class="tags"><span class="tag">Events</span><span class="tag">Reels</span><span class="tag">CRM</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="branding" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="branding" data-reveal>
         <div class="thumb thumb--6"><div class="tt"><span>Corporate</span></div><div class="kb"><b>12→1</b><small>Companies, one brand</small></div></div>
         <div class="work-info"><span class="m">Rebrand</span><h3>Group identity refresh</h3><p>New identity system, guidelines and annual report for a diversified group.</p><div class="tags"><span class="tag">Identity</span><span class="tag">Guidelines</span><span class="tag">Print</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="production" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="production" data-reveal>
         <div class="thumb thumb--2"><div class="tt"><span>Healthcare</span></div><div class="kb"><b>2.3M</b><small>Brand film views</small></div></div>
         <div class="work-info"><span class="m">Brand Film</span><h3>Diagnostic centre film</h3><p>Cinematic facility film with CGI equipment sequences for TV and digital.</p><div class="tags"><span class="tag">Film</span><span class="tag">CGI</span><span class="tag">OVC</span></div></div>
       </a>
-      <a class="work-card" href="contact.html" data-cat="activation" data-cursor="View" data-reveal>
+      <a class="work-card" href="contact.html" data-cat="activation" data-reveal>
         <div class="thumb thumb--1"><div class="tt"><span>FMCG</span></div><div class="kb"><b>120K</b><small>Samples distributed</small></div></div>
         <div class="work-info"><span class="m">Sampling</span><h3>Nationwide snack road show</h3><p>Trained teams across 18 districts with real-time dashboard reporting.</p><div class="tags"><span class="tag">Road show</span><span class="tag">Sampling</span></div></div>
       </a>
