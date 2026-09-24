@@ -1,5 +1,5 @@
-/* DAKPION IMC — 360° Marketing Solutions · v6
-   Tiny vanilla JS (no libraries): header, mobile menu, reveals, rotating words, counters, FAQ, filters, forms. */
+/* DAKPION IMC — 360° Marketing Solutions · v8 (Bento)
+   Tiny vanilla JS: mobile menu, tile reveals, counters, FAQ, work filter, forms. */
 (function () {
   "use strict";
 
@@ -14,23 +14,17 @@
     const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
   }
 
-  function initHeader() {
-    const header = $('.site-header');
-    if (!header) return;
-    let ticking = false;
-    const update = () => { header.classList.toggle('is-scrolled', window.scrollY > 40); ticking = false; };
-    update();
-    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-
+  function initMenu() {
     const btn = $('.menu-btn');
+    if (!btn) return;
     const setMenu = open => {
       root.classList.toggle('menu-open', open);
-      btn?.setAttribute('aria-expanded', String(open));
-      document.body.style.overflow = open ? 'hidden' : '';
+      btn.setAttribute('aria-expanded', String(open));
     };
-    btn?.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
+    btn.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-    window.addEventListener('resize', () => { if (window.innerWidth > 960) setMenu(false); });
+    document.addEventListener('click', e => { if (!e.target.closest('.site-header')) setMenu(false); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
     $$('.mobile-nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
   }
 
@@ -45,49 +39,13 @@
     })(t0);
   }
 
-  /* Split headings into words (keeps inline elements such as .mark intact) */
-  function splitWords() {
-    let i = 0;
-    const wrap = node => {
-      const w = document.createElement('span'); w.className = 'w';
-      const inner = document.createElement('span'); inner.style.setProperty('--i', i++);
-      inner.appendChild(node); w.appendChild(inner); return w;
-    };
-    $$('.sec-head h2, .why h2, .faq h2, .about-split h2, .audit h2, .page-hero h1').forEach(h => {
-      if (h.closest('.words')) return;
-      i = 0;
-      const frag = document.createDocumentFragment();
-      Array.from(h.childNodes).forEach(n => {
-        if (n.nodeType === 3) {
-          n.textContent.split(/(\s+)/).forEach(part => {
-            if (!part) return;
-            frag.appendChild(/^\s+$/.test(part) ? document.createTextNode(' ') : wrap(document.createTextNode(part)));
-          });
-        } else frag.appendChild(wrap(n));
-      });
-      h.textContent = ''; h.appendChild(frag); h.classList.add('words');
-    });
-  }
-
-  /* Desktop sticky CTA: shown once the hero is out of view, hidden near forms and the footer */
-  function initStickyCta() {
-    const cta = $('.sticky-cta'), hero = $('.hero, .page-hero');
-    if (!cta || !hero || !('IntersectionObserver' in window)) return;
-    let heroVisible = true;
-    const blockers = new Set();
-    const sync = () => cta.classList.toggle('show', !heroVisible && blockers.size === 0);
-    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; sync(); }).observe(hero);
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) blockers.add(e.target); else blockers.delete(e.target); });
-      sync();
-    });
-    $$('.site-footer, .lead-card, .form-card, .cta, .audit').forEach(el => io.observe(el));
-  }
-
+  /* Stagger tiles within each grid so they rise one after another */
   function initReveal() {
-    if (!reduced) splitWords();
-    else root.classList.add('no-split');
-    const els = $$('.reveal, .reveal-l, .reveal-r, .reveal-s, .reveal-pop, .words, .case, .cmp, .track, .audit'), counters = $$('[data-count]');
+    $$('.bento').forEach(grid => {
+      let k = 0;
+      $$(':scope > .reveal', grid).forEach(t => t.style.setProperty('--d', (k++ % 6) * 0.06 + 's'));
+    });
+    const els = $$('.reveal, .mini-bars'), counters = $$('[data-count]');
     if (reduced || !('IntersectionObserver' in window)) {
       els.forEach(e => e.classList.add('in'));
       counters.forEach(countUp);
@@ -98,9 +56,9 @@
       en.target.classList.add('in');
       if (en.target.dataset.count) countUp(en.target);
       io.unobserve(en.target);
-    }), { rootMargin: '0px 0px -10% 0px', threshold: .12 });
+    }), { rootMargin: '0px 0px -8% 0px', threshold: .12 });
     els.forEach(e => io.observe(e));
-    counters.forEach(e => { if (!e.classList.contains('reveal')) io.observe(e); });
+    counters.forEach(e => io.observe(e));
   }
 
   function initFaq() {
@@ -142,31 +100,10 @@
     }));
   }
 
-  function initRotator() {
-    $$('.rotator').forEach(r => {
-      const words = $$('span', r);
-      if (words.length < 2) return;
-      r.classList.add('ready');
-      let i = 0;
-      words[0].classList.add('is-on');
-      if (reduced) return;
-      setInterval(() => {
-        if (document.hidden) return;
-        const cur = words[i];
-        i = (i + 1) % words.length;
-        cur.classList.replace('is-on', 'is-out');
-        words[i].classList.remove('is-out'); words[i].classList.add('is-on');
-        setTimeout(() => cur.classList.remove('is-out'), 650);
-      }, 2200);
-    });
-  }
-
   function boot() {
     setActiveNav();
-    initHeader();
+    initMenu();
     initReveal();
-    initRotator();
-    initStickyCta();
     initFaq();
     initFilter();
     initForms();
