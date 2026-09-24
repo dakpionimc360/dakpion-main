@@ -45,8 +45,49 @@
     })(t0);
   }
 
+  /* Split headings into words (keeps inline elements such as .mark intact) */
+  function splitWords() {
+    let i = 0;
+    const wrap = node => {
+      const w = document.createElement('span'); w.className = 'w';
+      const inner = document.createElement('span'); inner.style.setProperty('--i', i++);
+      inner.appendChild(node); w.appendChild(inner); return w;
+    };
+    $$('.sec-head h2, .why h2, .faq h2, .about-split h2, .audit h2, .page-hero h1').forEach(h => {
+      if (h.closest('.words')) return;
+      i = 0;
+      const frag = document.createDocumentFragment();
+      Array.from(h.childNodes).forEach(n => {
+        if (n.nodeType === 3) {
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            frag.appendChild(/^\s+$/.test(part) ? document.createTextNode(' ') : wrap(document.createTextNode(part)));
+          });
+        } else frag.appendChild(wrap(n));
+      });
+      h.textContent = ''; h.appendChild(frag); h.classList.add('words');
+    });
+  }
+
+  /* Desktop sticky CTA: shown once the hero is out of view, hidden near forms and the footer */
+  function initStickyCta() {
+    const cta = $('.sticky-cta'), hero = $('.hero, .page-hero');
+    if (!cta || !hero || !('IntersectionObserver' in window)) return;
+    let heroVisible = true;
+    const blockers = new Set();
+    const sync = () => cta.classList.toggle('show', !heroVisible && blockers.size === 0);
+    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; sync(); }).observe(hero);
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) blockers.add(e.target); else blockers.delete(e.target); });
+      sync();
+    });
+    $$('.site-footer, .lead-card, .form-card, .cta, .audit').forEach(el => io.observe(el));
+  }
+
   function initReveal() {
-    const els = $$('.reveal, .reveal-l, .reveal-r, .reveal-s'), counters = $$('[data-count]');
+    if (!reduced) splitWords();
+    else root.classList.add('no-split');
+    const els = $$('.reveal, .reveal-l, .reveal-r, .reveal-s, .reveal-pop, .words, .case, .cmp, .track, .audit'), counters = $$('[data-count]');
     if (reduced || !('IntersectionObserver' in window)) {
       els.forEach(e => e.classList.add('in'));
       counters.forEach(countUp);
@@ -57,7 +98,7 @@
       en.target.classList.add('in');
       if (en.target.dataset.count) countUp(en.target);
       io.unobserve(en.target);
-    }), { rootMargin: '0px 0px -8% 0px', threshold: .1 });
+    }), { rootMargin: '0px 0px -10% 0px', threshold: .12 });
     els.forEach(e => io.observe(e));
     counters.forEach(e => { if (!e.classList.contains('reveal')) io.observe(e); });
   }
@@ -125,6 +166,7 @@
     initHeader();
     initReveal();
     initRotator();
+    initStickyCta();
     initFaq();
     initFilter();
     initForms();
