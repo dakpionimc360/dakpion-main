@@ -4,342 +4,384 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dakpion IMC — 360° Marketing Solutions Agency in Bangladesh</title>
-<meta name="description" content="Dakpion IMC is a 360° integrated marketing agency in Bangladesh — brand strategy, creative, digital & social media, performance ads, video production, ATL, BTL and activation under one roof.">
-<link rel="icon" href="assets/images/logo.png">
+<meta name="description" content="Dakpion IMC is a 360° marketing agency in Dhaka — brand strategy, creative, social media, performance ads, SEO, video production, ATL media, PR and BTL activation under one roof.">
+<meta name="theme-color" content="#9BCB3C">
+<meta property="og:title" content="Dakpion IMC — 360° Marketing Solutions Agency in Bangladesh">
+<meta property="og:description" content="Dakpion IMC is a 360° marketing agency in Dhaka — brand strategy, creative, social media, performance ads, SEO, video production, ATL media, PR and BTL activation under one roof.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/images/logo-dark.webp">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+(function(r){r.classList.add('js');try{if(!sessionStorage.getItem('dk-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('show-loader');if(sessionStorage.getItem('dk-pt'))r.classList.add('pt-enter');}catch(e){}
+setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.classList.remove('show-loader','pt-enter');}},3500);})(document.documentElement);
+</script>
+<script src="assets/js/vendor/gsap.min.js" defer></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/js/vendor/SplitText.min.js" defer></script>
+<script src="assets/js/vendor/lenis.min.js" defer></script>
+<script src="assets/js/main.js" defer></script>
 </head>
 <body data-page="home">
-
-<div data-include="partials/header.html"></div>
+<!-- @header -->
+<div class="progress" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span></span></div><div class="cursor-dot" aria-hidden="true"></div>
+<div class="loader" aria-hidden="true"><span>Dakpion IMC — 360° Marketing</span><b>0°</b></div>
+<div class="pt" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand" aria-label="Dakpion IMC home"><img src="assets/images/logo-dark.webp" width="420" height="116" alt="Dakpion IMC"></a>
+    <nav aria-label="Main"><ul class="nav"><li><a href="index.html" data-nav="home" data-text="Home"><span>Home</span></a></li><li><a href="services.html" data-nav="services" data-text="Services"><span>Services</span></a></li><li><a href="industries.html" data-nav="industries" data-text="Industries"><span>Industries</span></a></li><li><a href="portfolio.html" data-nav="work" data-text="Work"><span>Work</span></a></li><li><a href="about.html" data-nav="about" data-text="About"><span>About</span></a></li><li><a href="contact.html" data-nav="contact" data-text="Contact"><span>Contact</span></a></li></ul></nav>
+    <div class="header-right">
+      <a href="contact.html" class="btn btn--grey" data-magnetic=".2">Let's talk <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="menu"><span>Menu</span><i><b></b><b></b></i></button>
+    </div>
+  </div>
+</header>
+<div class="menu" id="menu">
+  <ul><li><a href="index.html" style="--i:0">Home</a></li><li><a href="services.html" style="--i:1">Services</a></li><li><a href="industries.html" style="--i:2">Industries</a></li><li><a href="portfolio.html" style="--i:3">Work</a></li><li><a href="about.html" style="--i:4">About</a></li><li><a href="contact.html" style="--i:5">Contact</a></li></ul>
+  <div class="menu-foot"><a href="mailto:hello@dakpionimc.com">hello@dakpionimc.com</a><span>+880 1XXX-XXXXXX · Dhanmondi, Dhaka</span></div>
+</div>
+<!-- /@header -->
 
 <main>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="container hero-grid">
-    <div>
-      <div class="hero-pill reveal"><b>360°</b> Integrated Marketing Communications · Dhaka</div>
-      <h1 class="reveal" style="--d:.05s">One agency.<br>Every touchpoint.<br><em>Real growth.</em></h1>
-      <p class="hero-lead reveal" style="--d:.1s">Dakpion IMC plans, creates and runs your entire marketing — from brand strategy and creative to social media, performance ads, TVC, billboards and on-ground activations. One team, one plan, one set of numbers.</p>
-      <div class="hero-actions reveal" style="--d:.15s">
-        <a href="contact.html" class="btn btn--primary btn--lg">Get a Free Marketing Audit <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-        <a href="services.html" class="btn btn--outline btn--lg">Explore Services</a>
-      </div>
-      <div class="hero-proof reveal" style="--d:.2s">
-        <div><b data-count="9" data-suffix="+">9+</b><span>Years in the market</span></div>
-        <div><b data-count="120" data-suffix="+">120+</b><span>Campaigns delivered</span></div>
-        <div><b data-count="60" data-suffix="+">60+</b><span>Brands served</span></div>
-      </div>
-    </div>
-
-    <div class="orbit-wrap reveal" style="--d:.2s" aria-label="The Dakpion 360° marketing model">
-      <div class="orbit-ring orbit-ring--1"></div>
-      <div class="orbit-ring orbit-ring--2"></div>
-      <div class="orbit-ring orbit-ring--3"></div>
-      <div class="orbit-core"><div><b>360<sup>°</sup></b><span>Marketing</span></div></div>
-      <div class="orbit-spin">
-        <div class="orbit-node" style="--i:0"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-target"/></svg></i>Strategy</span></div></div>
-        <div class="orbit-node" style="--i:1"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-brand"/></svg></i>Branding</span></div></div>
-        <div class="orbit-node" style="--i:2"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-social"/></svg></i>Social</span></div></div>
-        <div class="orbit-node" style="--i:3"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-ads"/></svg></i>Performance</span></div></div>
-        <div class="orbit-node" style="--i:4"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-video"/></svg></i>Production</span></div></div>
-        <div class="orbit-node" style="--i:5"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-web"/></svg></i>Web &amp; Tech</span></div></div>
-        <div class="orbit-node" style="--i:6"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-tv"/></svg></i>ATL Media</span></div></div>
-        <div class="orbit-node" style="--i:7"><div><span class="chip"><i><svg class="icon"><use href="assets/icons/sprite.svg#i-flag"/></svg></i>Activation</span></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-band" aria-hidden="true">
-  <div class="marquee">
-    <div class="marquee-track">
-      <span>Brand Strategy</span><span>Social Media</span><span>Performance Ads</span><span>SEO</span><span>TVC &amp; OVC</span><span>OOH &amp; Billboards</span><span>Influencer Marketing</span><span>Events &amp; Activation</span><span>Web &amp; E-commerce</span>
-    </div>
-    <div class="marquee-track">
-      <span>Brand Strategy</span><span>Social Media</span><span>Performance Ads</span><span>SEO</span><span>TVC &amp; OVC</span><span>OOH &amp; Billboards</span><span>Influencer Marketing</span><span>Events &amp; Activation</span><span>Web &amp; E-commerce</span>
-    </div>
-  </div>
+  <div class="hero-bg"><div class="blob blob--1"></div><div class="blob blob--2"></div></div>
+  <div class="ring" aria-hidden="true">
+  <svg viewBox="0 0 200 200"><defs><path id="rp-hero" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs><text><textPath href="#rp-hero" textLength="524">Strategy ✺ Creative ✺ Digital ✺ Media ✺ Activation ✺ </textPath></text></svg>
+  <div class="ring-core"><b>360<sup>°</sup></b></div>
 </div>
-
-<!-- SERVICES -->
-<section class="section" id="services">
   <div class="container">
-    <div class="section-head section-head--split">
-      <div>
-        <div class="eyebrow reveal">What we do</div>
-        <h2 class="reveal">Eight disciplines. <em>One integrated</em> marketing engine.</h2>
+    <h1 class="hero-title">
+      <span class="ln"><span class="lni">We make</span></span>
+      <span class="ln ln--2"><span class="lni">brands
+        <span class="hero-badge" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="rp-badge" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs><text><textPath href="#rp-badge" textLength="224">360° marketing ✺ 360° marketing ✺ </textPath></text></svg><b>IMC</b></span></span></span>
+      <span class="ln"><span class="lni"><span class="rotator"><span>iconic.</span><span>loved.</span><span>famous.</span><span>grow.</span></span></span></span>
+      <span class="sr-only">Dakpion IMC — a 360° marketing solutions agency.</span>
+    </h1>
+    <div class="hero-foot">
+      <p><b>Dakpion IMC</b> is a 360° marketing agency from Dhaka. Strategy, creative, social, performance, production, media and activation — one team, one plan, one set of numbers.</p>
+      <div class="hero-cta">
+        <a href="contact.html" class="btn btn--lime btn--lg" data-magnetic=".25">Start a project <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+        <a href="services.html" class="btn btn--line btn--lg">Our services</a>
       </div>
-      <a href="services.html" class="btn btn--outline reveal">All services <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+      <div class="scroll-hint"><i></i>Scroll</div>
     </div>
+  </div>
+</section>
 
-    <div class="svc-grid reveal">
-      <a class="svc-card" href="services.html#strategy">
-        <span class="num">01</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-target"/></svg></span>
+<section class="tapes" aria-hidden="true">
+  <div class="tape tape--a"><div class="tape-track"><span>Strategy</span><span>Branding</span><span>Social Media</span><span>Performance</span><span>SEO</span><span>TVC &amp; OVC</span><span>Billboards</span><span>Activation</span></div><div class="tape-track"><span>Strategy</span><span>Branding</span><span>Social Media</span><span>Performance</span><span>SEO</span><span>TVC &amp; OVC</span><span>Billboards</span><span>Activation</span></div></div>
+  <div class="tape tape--b"><div class="tape-track"><span>Think 360°</span><span>Create</span><span>Engage</span><span>Measure</span><span>Grow</span><span>Repeat</span><span>Think 360°</span><span>Create</span><span>Engage</span><span>Measure</span><span>Grow</span><span>Repeat</span></div><div class="tape-track"><span>Think 360°</span><span>Create</span><span>Engage</span><span>Measure</span><span>Grow</span><span>Repeat</span><span>Think 360°</span><span>Create</span><span>Engage</span><span>Measure</span><span>Grow</span><span>Repeat</span></div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="label" data-reveal>Who we are</div>
+    <p class="manifesto">We’re Dakpion — a 360° marketing agency from Dhaka. We don’t sell channels. We build brands that show up everywhere your customer looks — on screens, streets, shelves and feeds — with <em>one idea, one voice and one goal: growth.</em></p>
+    <div class="manifesto-foot">
+      <p data-reveal>Strategists, designers, writers, filmmakers, media planners, developers and activation crews — under one roof, working from one plan.</p>
+      <a href="about.html" class="btn-orb" data-magnetic=".4" data-reveal><span>Meet<br>Dakpion<svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="hs" id="services">
+  <div class="hs-pin">
+    <div class="hs-track">
+      <div class="hs-intro">
+        <div class="label">What we do</div>
+        <h2 data-split>Eight ways<br>we grow <span class="hl">brands.</span></h2>
+        <p class="lead">Use one, or plug them all together. Every service is built to work as part of a single 360° plan.</p>
+      </div>
+      <a class="svc" href="services.html#strategy" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">01</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-target"/></svg></span>
         <h3>Strategy &amp; Research</h3>
-        <p>Consumer insight, competitor mapping, positioning and a full-funnel media plan before a single taka is spent.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>Insight, positioning and a full-funnel plan before a single taka is spent.</p>
+        <div class="tags"><span class="tag">Research</span><span class="tag">Positioning</span><span class="tag">Media plan</span></div>
       </a>
-      <a class="svc-card" href="services.html#branding">
-        <span class="num">02</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-brand"/></svg></span>
+      <a class="svc" href="services.html#branding" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">02</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-brand"/></svg></span>
         <h3>Branding &amp; Creative</h3>
-        <p>Logos, identity systems, packaging and big campaign ideas that make your brand impossible to ignore.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>Identities and big ideas that make your brand impossible to ignore.</p>
+        <div class="tags"><span class="tag">Identity</span><span class="tag">Packaging</span><span class="tag">Campaigns</span></div>
       </a>
-      <a class="svc-card" href="services.html#digital">
-        <span class="num">03</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-social"/></svg></span>
+      <a class="svc" href="services.html#digital" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">03</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-social"/></svg></span>
         <h3>Digital &amp; Social Media</h3>
-        <p>Always-on content, community management and influencer programs across Facebook, Instagram, TikTok, YouTube and LinkedIn.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>Always-on content, community and creators across every platform.</p>
+        <div class="tags"><span class="tag">Content</span><span class="tag">Community</span><span class="tag">Influencers</span></div>
       </a>
-      <a class="svc-card" href="services.html#performance">
-        <span class="num">04</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-ads"/></svg></span>
+      <a class="svc" href="services.html#performance" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">04</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ads"/></svg></span>
         <h3>Performance &amp; SEO</h3>
-        <p>Meta, Google and TikTok ads plus SEO — optimised daily against leads, sales and cost per acquisition.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>Meta, Google and TikTok ads plus SEO — optimised daily for sales.</p>
+        <div class="tags"><span class="tag">Meta Ads</span><span class="tag">Google Ads</span><span class="tag">SEO</span></div>
       </a>
-      <a class="svc-card" href="services.html#production">
-        <span class="num">05</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-video"/></svg></span>
+      <a class="svc" href="services.html#production" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">05</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-video"/></svg></span>
         <h3>Video &amp; Production</h3>
-        <p>TVCs, OVCs, reels, product shoots, 3D and CGI — produced in-house from script to final cut.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>TVC, OVC, reels, 3D and CGI — produced in-house, script to screen.</p>
+        <div class="tags"><span class="tag">TVC</span><span class="tag">Reels</span><span class="tag">3D &amp; CGI</span></div>
       </a>
-      <a class="svc-card" href="services.html#tech">
-        <span class="num">06</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-web"/></svg></span>
+      <a class="svc" href="services.html#tech" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">06</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-web"/></svg></span>
         <h3>Web &amp; MarTech</h3>
-        <p>High-converting websites, landing pages, e-commerce, CRM, tracking and marketing automation.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>Websites, e-commerce, CRM and automation built to convert.</p>
+        <div class="tags"><span class="tag">Websites</span><span class="tag">E-commerce</span><span class="tag">CRM</span></div>
       </a>
-      <a class="svc-card" href="services.html#atl">
-        <span class="num">07</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-tv"/></svg></span>
+      <a class="svc" href="services.html#atl" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">07</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-tv"/></svg></span>
         <h3>ATL Media &amp; PR</h3>
-        <p>TV, radio, newspaper and OOH planning and buying, plus press relations that build credibility at scale.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>TV, radio, print, billboards and press — mass reach, measured.</p>
+        <div class="tags"><span class="tag">TV &amp; Radio</span><span class="tag">OOH</span><span class="tag">PR</span></div>
       </a>
-      <a class="svc-card" href="services.html#btl">
-        <span class="num">08</span>
-        <span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-flag"/></svg></span>
+      <a class="svc" href="services.html#btl" data-cursor="Explore">
+        <span class="go"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <span class="n">08</span>
+        <span class="ic"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-flag"/></svg></span>
         <h3>BTL &amp; Activation</h3>
-        <p>Events, launches, sampling, retail branding and trade programs that put your brand in people's hands.</p>
-        <span class="link-arrow">Learn more <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span>
+        <p>Launches, events, sampling and retail — brands people can touch.</p>
+        <div class="tags"><span class="tag">Events</span><span class="tag">Sampling</span><span class="tag">Retail</span></div>
       </a>
+      <div class="hs-end"><a href="services.html" class="btn-orb" data-magnetic=".45"><span>All<br>services<svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></a></div>
     </div>
   </div>
 </section>
 
-<!-- 360 MODEL -->
-<section class="section dark">
-  <div class="container">
-    <div class="model-grid">
-      <div>
-        <div class="eyebrow reveal">Why 360°</div>
-        <h2 class="reveal">Your customer sees <em>one brand.</em> So should your marketing.</h2>
-        <p class="reveal" style="font-size:17px;">When strategy, creative, digital and media sit with different vendors, the message breaks and budgets leak. We connect every channel to one plan and one dashboard — so each taka works harder.</p>
-        <a href="about.html" class="btn btn--primary reveal" style="margin-top:16px;">How we work <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-      </div>
-      <div class="pillars">
-        <div class="pillar reveal"><span class="k">01 · Think</span><h4>Insight-led strategy</h4><p>Research, audience personas and a channel plan tied to business goals.</p></div>
-        <div class="pillar reveal" style="--d:.08s"><span class="k">02 · Create</span><h4>Ideas that travel</h4><p>One big idea adapted for TV, social, print, OOH and retail.</p></div>
-        <div class="pillar reveal" style="--d:.16s"><span class="k">03 · Engage</span><h4>Online + offline</h4><p>Digital, ATL and BTL working together, not in silos.</p></div>
-        <div class="pillar reveal" style="--d:.24s"><span class="k">04 · Measure</span><h4>One source of truth</h4><p>Unified reporting on reach, leads, sales and ROI every month.</p></div>
-      </div>
-    </div>
-
-    <div class="stat-row">
-      <div class="stat reveal"><b><span data-count="120">120</span><small>+</small></b><span>Integrated campaigns launched</span></div>
-      <div class="stat reveal" style="--d:.08s"><b><span data-count="35">35</span><small>M+</small></b><span>People reached across channels</span></div>
-      <div class="stat reveal" style="--d:.16s"><b><span data-count="3">3</span><small>.4x</small></b><span>Average return on ad spend</span></div>
-      <div class="stat reveal" style="--d:.24s"><b><span data-count="92">92</span><small>%</small></b><span>Client retention rate</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
 <section class="section">
   <div class="container">
-    <div class="section-head center">
-      <div class="eyebrow reveal">Our process</div>
-      <h2 class="reveal">From brief to <em>results</em> in five steps</h2>
-      <p class="reveal">A clear, accountable process — so you always know what is happening, why, and what it is delivering.</p>
+    <div class="head">
+      <div><div class="label" data-reveal>Selected work</div><h2 data-split>Campaigns that<br><span class="hl">moved</span> numbers.</h2></div>
+      <a href="portfolio.html" class="btn btn--line" data-reveal>All work <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
     </div>
-    <div class="process">
-      <div class="step reveal"><span class="n">01</span><h4>Discover</h4><p>Audit your brand, market, competitors and current marketing performance.</p><span class="wk">Week 1</span></div>
-      <div class="step reveal" style="--d:.06s"><span class="n">02</span><h4>Strategise</h4><p>Define positioning, audiences, the big idea and a channel-by-channel plan.</p><span class="wk">Week 2</span></div>
-      <div class="step reveal" style="--d:.12s"><span class="n">03</span><h4>Create</h4><p>Produce the campaign — design, copy, video, web and media assets.</p><span class="wk">Week 3–5</span></div>
-      <div class="step reveal" style="--d:.18s"><span class="n">04</span><h4>Launch</h4><p>Go live across digital, ATL and BTL in a coordinated rollout.</p><span class="wk">Week 6</span></div>
-      <div class="step reveal" style="--d:.24s"><span class="n">05</span><h4>Optimise</h4><p>Track, test and scale what works with monthly reporting.</p><span class="wk">Ongoing</span></div>
+    <div class="wl" data-cursor="View">
+      <a class="wl-row" href="portfolio.html">
+        <span class="i">01</span>
+        <h3>Beverage brand national launch</h3>
+        <span class="meta">FMCG · 360° Launch</span>
+        <span class="kpi">+212%<small>Retail sell-through in 3 months</small></span>
+      </a>
+      <a class="wl-row" href="portfolio.html">
+        <span class="i">02</span>
+        <h3>Multi-specialty hospital growth</h3>
+        <span class="meta">Healthcare · Digital + Performance</span>
+        <span class="kpi">4.1x<small>More appointment leads</small></span>
+      </a>
+      <a class="wl-row" href="portfolio.html">
+        <span class="i">03</span>
+        <h3>Premium residential launch</h3>
+        <span class="meta">Real Estate · Brand + Leads</span>
+        <span class="kpi">−46%<small>Cost per qualified lead</small></span>
+      </a>
+      <a class="wl-row" href="portfolio.html">
+        <span class="i">04</span>
+        <h3>Fashion D2C scale-up</h3>
+        <span class="meta">E-commerce · Performance</span>
+        <span class="kpi">5.2x<small>Return on ad spend</small></span>
+      </a>
+      <a class="wl-row" href="portfolio.html">
+        <span class="i">05</span>
+        <h3>University admission season</h3>
+        <span class="meta">Education · Admissions</span>
+        <span class="kpi">3,800+<small>Admission enquiries</small></span>
+      </a>
+    </div>
+    <div class="preview" aria-hidden="true"><div class="thumb thumb--1"><div class="tt"><span>FMCG</span></div><div class="kb"><b>+212%</b><small>Retail sell-through in 3 months</small></div></div><div class="thumb thumb--2"><div class="tt"><span>Healthcare</span></div><div class="kb"><b>4.1x</b><small>More appointment leads</small></div></div><div class="thumb thumb--3"><div class="tt"><span>Real Estate</span></div><div class="kb"><b>−46%</b><small>Cost per qualified lead</small></div></div><div class="thumb thumb--4"><div class="tt"><span>E-commerce</span></div><div class="kb"><b>5.2x</b><small>Return on ad spend</small></div></div><div class="thumb thumb--5"><div class="tt"><span>Education</span></div><div class="kb"><b>3,800+</b><small>Admission enquiries</small></div></div></div>
+  </div>
+</section>
+
+<section class="section section--lime round" style="margin:0 clamp(8px,1.4vw,20px);overflow:hidden">
+  <div class="big-360" aria-hidden="true">360°</div>
+  <div class="container" style="position:relative">
+    <div class="head">
+      <div><div class="label" data-reveal>By the numbers</div><h2 data-split>Small team energy.<br>Big brand results.</h2></div>
+    </div>
+    <div class="stats">
+      <div class="stat" data-reveal><b data-count="9" data-suffix="+">9+</b><span>Years building brands in Bangladesh</span></div>
+      <div class="stat" data-reveal><b data-count="120" data-suffix="+">120+</b><span>Integrated campaigns launched</span></div>
+      <div class="stat" data-reveal><b data-count="60" data-suffix="+">60+</b><span>Brands across 8 industries</span></div>
+      <div class="stat" data-reveal><b data-count="92" data-suffix="%">92%</b><span>Clients who stay year after year</span></div>
     </div>
   </div>
 </section>
 
-<!-- WORK -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="section-head section-head--split">
-      <div>
-        <div class="eyebrow reveal">Selected work</div>
-        <h2 class="reveal">Campaigns that <em>moved the numbers</em></h2>
-      </div>
-      <a href="portfolio.html" class="btn btn--outline reveal">View all work <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-    </div>
-    <div class="work-grid">
-      <a class="work-card reveal" href="portfolio.html">
-        <div class="work-thumb work-thumb--a">
-          <div class="wt-top"><span class="tag">FMCG</span><span class="wt-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></div>
-          <div class="wt-kpi"><b>+212%</b><span>Retail sell-through in 3 months</span></div>
-        </div>
-        <div class="work-body">
-          <span class="meta">360° Launch</span>
-          <h3>Beverage brand national launch</h3>
-          <p>TVC, OOH, social and 400+ retail activations rolled out as one campaign.</p>
-          <div class="tags"><span class="tag">TVC</span><span class="tag">OOH</span><span class="tag">BTL</span><span class="tag">Social</span></div>
-        </div>
-      </a>
-      <a class="work-card reveal" style="--d:.08s" href="portfolio.html">
-        <div class="work-thumb work-thumb--b">
-          <div class="wt-top"><span class="tag">Healthcare</span><span class="wt-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></div>
-          <div class="wt-kpi"><b>4.1x</b><span>More appointment leads</span></div>
-        </div>
-        <div class="work-body">
-          <span class="meta">Digital + Performance</span>
-          <h3>Multi-specialty hospital growth</h3>
-          <p>New website, doctor branding and always-on Meta &amp; Google campaigns.</p>
-          <div class="tags"><span class="tag">Web</span><span class="tag">Ads</span><span class="tag">SEO</span></div>
-        </div>
-      </a>
-      <a class="work-card reveal" style="--d:.16s" href="portfolio.html">
-        <div class="work-thumb work-thumb--c">
-          <div class="wt-top"><span class="tag">Real Estate</span><span class="wt-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></div>
-          <div class="wt-kpi"><b>-46%</b><span>Cost per qualified lead</span></div>
-        </div>
-        <div class="work-body">
-          <span class="meta">Brand + Leads</span>
-          <h3>Premium residential project</h3>
-          <p>Brand identity, 3D walkthrough film and a lead-gen funnel with CRM.</p>
-          <div class="tags"><span class="tag">Branding</span><span class="tag">CGI</span><span class="tag">CRM</span></div>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- INDUSTRIES -->
 <section class="section">
   <div class="container">
-    <div class="section-head section-head--split">
-      <div>
-        <div class="eyebrow reveal">Industries</div>
-        <h2 class="reveal">Sector know-how, <em>built in</em></h2>
+    <div class="head">
+      <div><div class="label" data-reveal>How we work</div><h2 data-split>Brief to<br>results in five.</h2></div>
+      <p class="lead" data-reveal>A clear, accountable process — you always know what's happening, why, and what it's delivering.</p>
+    </div>
+    <div class="stack">
+      <div class="stack-card" style="--i:0">
+        <span class="sn">01</span>
+        <h3>Discover</h3>
+        <div><p>We audit your brand, market, competitors and current marketing — and find where the real growth is hiding.</p><div class="tags"><span class="tag">Brand audit</span><span class="tag">Market research</span><span class="tag">Week 1</span></div></div>
       </div>
-      <a href="industries.html" class="btn btn--outline reveal">All industries <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-    </div>
-    <div class="ind-grid">
-      <a class="ind-card reveal" href="industries.html#healthcare"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-health"/></svg></span><h4>Healthcare</h4><p>Hospitals, clinics, diagnostics &amp; doctors.</p></a>
-      <a class="ind-card reveal" style="--d:.05s" href="industries.html#fmcg"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-bag"/></svg></span><h4>FMCG &amp; Retail</h4><p>Launches, trade marketing &amp; shopper activation.</p></a>
-      <a class="ind-card reveal" style="--d:.1s" href="industries.html#realestate"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-building"/></svg></span><h4>Real Estate</h4><p>Project branding &amp; lead generation.</p></a>
-      <a class="ind-card reveal" style="--d:.15s" href="industries.html#ecommerce"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-cart"/></svg></span><h4>E-commerce &amp; D2C</h4><p>Performance growth &amp; retention.</p></a>
-      <a class="ind-card reveal" href="industries.html#education"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-edu"/></svg></span><h4>Education</h4><p>Admissions campaigns for schools &amp; universities.</p></a>
-      <a class="ind-card reveal" style="--d:.05s" href="industries.html#corporate"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-briefcase"/></svg></span><h4>Corporate &amp; B2B</h4><p>Reputation, PR &amp; LinkedIn thought leadership.</p></a>
-      <a class="ind-card reveal" style="--d:.1s" href="industries.html#hospitality"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-food"/></svg></span><h4>Food &amp; Hospitality</h4><p>Restaurants, hotels &amp; F&amp;B brands.</p></a>
-      <a class="ind-card reveal" style="--d:.15s" href="industries.html#fashion"><span class="ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-brand"/></svg></span><h4>Fashion &amp; Lifestyle</h4><p>Content-first brand building &amp; influencers.</p></a>
+      <div class="stack-card" style="--i:1">
+        <span class="sn">02</span>
+        <h3>Strategise</h3>
+        <div><p>Positioning, audiences, the big idea and a channel-by-channel plan with KPIs and budget.</p><div class="tags"><span class="tag">Big idea</span><span class="tag">Media plan</span><span class="tag">Week 2</span></div></div>
+      </div>
+      <div class="stack-card" style="--i:2">
+        <span class="sn">03</span>
+        <h3>Create</h3>
+        <div><p>Design, copy, video, web and media assets — produced in-house so everything looks and sounds like one brand.</p><div class="tags"><span class="tag">Production</span><span class="tag">Week 3–5</span></div></div>
+      </div>
+      <div class="stack-card" style="--i:3">
+        <span class="sn">04</span>
+        <h3>Launch</h3>
+        <div><p>Go live across digital, ATL and BTL in one coordinated rollout, with tracking from day one.</p><div class="tags"><span class="tag">Rollout</span><span class="tag">Week 6</span></div></div>
+      </div>
+      <div class="stack-card" style="--i:4">
+        <span class="sn">05</span>
+        <h3>Optimise</h3>
+        <div><p>Weekly optimisation, monthly reports and quarterly reviews — we scale what works and cut what doesn’t.</p><div class="tags"><span class="tag">Reporting</span><span class="tag">Ongoing</span></div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="section section--alt">
+<section class="section section--paper round" style="margin:0 clamp(8px,1.4vw,20px)">
   <div class="container">
-    <div class="section-head center">
-      <div class="eyebrow reveal">Client voices</div>
-      <h2 class="reveal">Brands that grow <em>with us</em></h2>
+    <div class="head">
+      <div><div class="label" data-reveal>The crew</div><h2 data-split>People behind<br>the <span class="hl">360°.</span></h2></div>
+      <a href="about.html#team" class="btn btn--line" data-reveal>Meet the full team <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
     </div>
-    <div class="testi-grid">
-      <figure class="testi reveal" style="margin:0">
-        <div class="stars"><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg></div>
-        <blockquote>"We used to manage four agencies. Dakpion replaced all of them with one plan and one report — and our launch hit its targets a month early."</blockquote>
-        <figcaption class="who"><span class="av">MK</span><div><b>Placeholder Name</b><span>Head of Marketing, FMCG Brand</span></div></figcaption>
-      </figure>
-      <figure class="testi reveal" style="margin:0;--d:.08s">
-        <div class="stars"><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg></div>
-        <blockquote>"Their team understood healthcare audiences from day one. Patient enquiries grew every single month after the new campaign went live."</blockquote>
-        <figcaption class="who"><span class="av">DR</span><div><b>Placeholder Name</b><span>Director, Multi-specialty Hospital</span></div></figcaption>
-      </figure>
-      <figure class="testi reveal" style="margin:0;--d:.16s">
-        <div class="stars"><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg><svg class="icon"><use href="assets/icons/sprite.svg#i-star"/></svg></div>
-        <blockquote>"From the 3D walkthrough to the billboards and the Facebook funnel, everything felt like one brand. Our sales team noticed the lead quality immediately."</blockquote>
-        <figcaption class="who"><span class="av">SA</span><div><b>Placeholder Name</b><span>CEO, Real Estate Developer</span></div></figcaption>
-      </figure>
-    </div>
-    <p class="note">Client names, quotes and campaign figures are placeholders — to be replaced with verified case-study data.</p>
+    <div class="team-grid"><div class="member m1" data-tilt data-reveal style="transition-delay:0.00s">
+        <div class="card">
+          <div class="art"><span class="ini">CEO</span><!-- replace with <img src="assets/images/team/NAME.webp" alt="NAME"> --></div>
+          <div class="who"><div><b>Founder &amp; CEO</b><span>Leadership</span></div><div class="soc"><a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-in"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ig"/></svg></a></div></div>
+        </div>
+      </div><div class="member m2" data-tilt data-reveal style="transition-delay:0.05s">
+        <div class="card">
+          <div class="art"><span class="ini">STR</span><!-- replace with <img src="assets/images/team/NAME.webp" alt="NAME"> --></div>
+          <div class="who"><div><b>Head of Strategy</b><span>Strategy &amp; Planning</span></div><div class="soc"><a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-in"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ig"/></svg></a></div></div>
+        </div>
+      </div><div class="member m3" data-tilt data-reveal style="transition-delay:0.10s">
+        <div class="card">
+          <div class="art"><span class="ini">CD</span><!-- replace with <img src="assets/images/team/NAME.webp" alt="NAME"> --></div>
+          <div class="who"><div><b>Creative Director</b><span>Creative &amp; Design</span></div><div class="soc"><a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-in"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ig"/></svg></a></div></div>
+        </div>
+      </div><div class="member m4" data-tilt data-reveal style="transition-delay:0.15s">
+        <div class="card">
+          <div class="art"><span class="ini">DIG</span><!-- replace with <img src="assets/images/team/NAME.webp" alt="NAME"> --></div>
+          <div class="who"><div><b>Head of Digital</b><span>Social &amp; Content</span></div><div class="soc"><a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-in"/></svg></a><a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ig"/></svg></a></div></div>
+        </div>
+      </div></div>
   </div>
 </section>
 
-<!-- FAQ -->
 <section class="section">
-  <div class="container faq-grid">
+  <div class="container">
+    <div class="head">
+      <div><div class="label" data-reveal>Client love</div><h2 data-split>Don't take<br>our word for it.</h2></div>
+    </div>
+  </div>
+  <div class="tm" data-reveal><div class="tm-track"><figure class="quote"><div class="qm">“</div><blockquote>We used to juggle four agencies. Dakpion replaced all of them with one plan and one report — and our launch hit its targets a month early.</blockquote><figcaption class="by"><span class="av">MK</span><div><b>Client name</b><span>Head of Marketing, FMCG brand</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>They understood healthcare audiences from day one. Patient enquiries grew every single month after the campaign went live.</blockquote><figcaption class="by"><span class="av">DR</span><div><b>Client name</b><span>Director, Multi-specialty hospital</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>From the 3D film to the billboards and the Facebook funnel, everything felt like one brand. Our sales team noticed the lead quality immediately.</blockquote><figcaption class="by"><span class="av">SA</span><div><b>Client name</b><span>CEO, Real estate developer</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>The creative testing system changed our business. We finally know which ads make money — and we scale them with confidence.</blockquote><figcaption class="by"><span class="av">NH</span><div><b>Client name</b><span>Founder, D2C fashion label</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>Open days were packed and our counsellors had a CRM full of warm leads. Best admission season we have had.</blockquote><figcaption class="by"><span class="av">TR</span><div><b>Client name</b><span>Registrar, Private university</span></div></figcaption></figure></div><div class="tm-track" aria-hidden="true"><figure class="quote"><div class="qm">“</div><blockquote>We used to juggle four agencies. Dakpion replaced all of them with one plan and one report — and our launch hit its targets a month early.</blockquote><figcaption class="by"><span class="av">MK</span><div><b>Client name</b><span>Head of Marketing, FMCG brand</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>They understood healthcare audiences from day one. Patient enquiries grew every single month after the campaign went live.</blockquote><figcaption class="by"><span class="av">DR</span><div><b>Client name</b><span>Director, Multi-specialty hospital</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>From the 3D film to the billboards and the Facebook funnel, everything felt like one brand. Our sales team noticed the lead quality immediately.</blockquote><figcaption class="by"><span class="av">SA</span><div><b>Client name</b><span>CEO, Real estate developer</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>The creative testing system changed our business. We finally know which ads make money — and we scale them with confidence.</blockquote><figcaption class="by"><span class="av">NH</span><div><b>Client name</b><span>Founder, D2C fashion label</span></div></figcaption></figure><figure class="quote"><div class="qm">“</div><blockquote>Open days were packed and our counsellors had a CRM full of warm leads. Best admission season we have had.</blockquote><figcaption class="by"><span class="av">TR</span><div><b>Client name</b><span>Registrar, Private university</span></div></figcaption></figure></div></div>
+  <p class="note">Client names, quotes and campaign figures are placeholders — to be replaced with verified case studies.</p>
+</section>
+
+<section class="section">
+  <div class="container faq">
     <div>
-      <div class="eyebrow reveal">FAQ</div>
-      <h2 class="reveal">Questions we <em>often</em> hear</h2>
-      <p class="reveal">Can't find your answer? Talk to us — the first consultation is free.</p>
-      <a href="contact.html" class="btn btn--dark reveal" style="margin-top:8px;">Ask a question <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+      <div class="label" data-reveal>FAQ</div>
+      <h2 data-split>Good<br>questions.</h2>
+      <p class="lead" data-reveal>Can't find your answer? The first consultation is free.</p>
     </div>
-    <div class="reveal">
-      <div class="faq-item open">
-        <button class="faq-q" aria-expanded="true">What does "360° marketing" actually mean?<span class="pm"><svg class="icon"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button>
-        <div class="faq-a"><div><p>It means every channel your customer meets — social media, search, TV, radio, billboards, retail shelves, events and your website — is planned and run as one connected campaign, with one message and one set of goals.</p></div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Can I hire you for just one service?<span class="pm"><svg class="icon"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button>
-        <div class="faq-a"><div><p>Yes. Many clients start with one service — like social media or a website — and expand as they see results. Everything we build is designed to plug into a wider 360° plan later.</p></div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">How do you measure results?<span class="pm"><svg class="icon"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button>
-        <div class="faq-a"><div><p>We agree KPIs up front — reach, leads, sales, cost per acquisition, brand lift — set up tracking across channels, and share a clear monthly report with recommendations for the next month.</p></div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What budgets do you work with?<span class="pm"><svg class="icon"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button>
-        <div class="faq-a"><div><p>We work with growing SMEs and large enterprises alike. We'll recommend the channel mix that makes the most of your budget — whether that is digital-first or a full ATL + BTL rollout.</p></div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">How quickly can a campaign go live?<span class="pm"><svg class="icon"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button>
-        <div class="faq-a"><div><p>Digital campaigns can launch in 2–3 weeks. Integrated campaigns with production, TVC or on-ground activation typically take 5–8 weeks from brief to launch.</p></div></div>
-      </div>
-    </div>
+    <div data-reveal><div class="faq-item open"><button class="faq-q" aria-expanded="true">What does “360° marketing” actually mean?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Every channel your customer meets — social, search, TV, radio, billboards, shelves, events and your website — is planned and run as one connected campaign, with one message and one set of goals.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">Can I hire you for just one service?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Yes. Many clients start with one service — like social media or a website — and expand as they see results. Everything we build plugs into a wider 360° plan later.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">How do you measure results?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>We agree KPIs up front — reach, leads, sales, cost per acquisition, brand lift — set up tracking across channels, and share a clear monthly report with next-step recommendations.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">What budgets do you work with?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Growing SMEs and large enterprises alike. We recommend the channel mix that makes the most of your budget — digital-first or a full ATL + BTL rollout.</p></div></div></div><div class="faq-item"><button class="faq-q" aria-expanded="false">How quickly can a campaign go live?<span class="pm"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-plus"/></svg></span></button><div class="faq-a"><div><p>Digital campaigns can launch in 2–3 weeks. Integrated campaigns with production, TVC or on-ground activation usually take 5–8 weeks from brief to launch.</p></div></div></div></div>
   </div>
 </section>
 
-<!-- CTA -->
-<section>
-  <div class="container">
-    <div class="cta reveal">
-      <div>
-        <h2>Ready to take your brand <em>full circle?</em></h2>
-        <p>Book a free marketing audit. We'll review your brand, channels and numbers — and show you exactly where the growth is.</p>
-      </div>
-      <div class="cta-actions">
-        <a href="contact.html" class="btn btn--primary btn--lg">Book Free Audit <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-        <a href="portfolio.html" class="btn btn--light btn--lg">See Our Work</a>
-      </div>
+
+<section class="section cta">
+  <div class="ring" aria-hidden="true">
+  <svg viewBox="0 0 200 200"><defs><path id="rp-cta" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs><text><textPath href="#rp-cta" textLength="524">Let’s talk ✺ Let’s create ✺ Let’s grow ✺ </textPath></text></svg>
+  
+</div>
+  <div class="container cta-inner">
+    <div>
+      <div class="label" data-reveal>Next step</div>
+      <h2 data-split>Let’s make<br>some <span class="hl">noise.</span></h2>
+      <p data-reveal>Book a free marketing audit. We’ll review your brand, channels and numbers — and show you exactly where the growth is.</p>
     </div>
+    <a href="contact.html" class="btn-orb" data-magnetic=".45" data-reveal><span>Start a<br>project<svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></a>
   </div>
 </section>
+
 
 </main>
 
-<div data-include="partials/footer.html"></div>
+<!-- @footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="f-top">
+      <div>
+        <h2>Got a brand<br>to grow?</h2>
+        <a href="contact.html" class="btn btn--grey btn--lg" data-magnetic=".25">Start a project <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-fb"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ig"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-in"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-yt"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <ul>
+          <li><a class="link" href="services.html#strategy">Strategy &amp; Research</a></li>
+          <li><a class="link" href="services.html#branding">Branding &amp; Creative</a></li>
+          <li><a class="link" href="services.html#digital">Digital &amp; Social</a></li>
+          <li><a class="link" href="services.html#performance">Performance &amp; SEO</a></li>
+          <li><a class="link" href="services.html#production">Video &amp; Production</a></li>
+          <li><a class="link" href="services.html#atl">ATL, BTL &amp; PR</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a class="link" href="about.html">About us</a></li>
+          <li><a class="link" href="about.html#team">Our team</a></li>
+          <li><a class="link" href="industries.html">Industries</a></li>
+          <li><a class="link" href="portfolio.html">Work</a></li>
+          <li><a class="link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Say hello</h5>
+        <ul class="f-contact">
+          <li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-mail"/></svg><a class="link" href="mailto:hello@dakpionimc.com">hello@dakpionimc.com</a></li>
+          <li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-phone"/></svg><span>+880 1XXX-XXXXXX</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-pin"/></svg><span>House 12, Road 5, Dhanmondi, Dhaka 1209</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-word" aria-hidden="true"><span>D</span><span>A</span><span>K</span><span>P</span><span>I</span><span>O</span><span>N</span></div>
+    <div class="f-bottom">
+      <span>&copy; <span id="year">2026</span> Dakpion IMC — Cultivating Ideas, Crafting Success.</span>
+      <div class="links"><a class="link" href="#">Privacy</a><a class="link" href="#">Terms</a><a href="#" class="to-top">Back to top <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a></div>
+    </div>
+  </div>
+</footer>
+<!-- /@footer -->
 
-<script src="assets/js/main.js" defer></script>
 </body>
 </html>

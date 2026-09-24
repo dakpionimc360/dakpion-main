@@ -5,191 +5,258 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Services — 360° Marketing Solutions | Dakpion IMC</title>
 <meta name="description" content="Brand strategy, creative, social media, performance marketing, SEO, video production, web, ATL media, PR and BTL activation — integrated marketing services by Dakpion IMC.">
-<link rel="icon" href="assets/images/logo.png">
+<meta name="theme-color" content="#9BCB3C">
+<meta property="og:title" content="Services — 360° Marketing Solutions | Dakpion IMC">
+<meta property="og:description" content="Brand strategy, creative, social media, performance marketing, SEO, video production, web, ATL media, PR and BTL activation — integrated marketing services by Dakpion IMC.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/images/logo-dark.webp">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+(function(r){r.classList.add('js');try{if(!sessionStorage.getItem('dk-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('show-loader');if(sessionStorage.getItem('dk-pt'))r.classList.add('pt-enter');}catch(e){}
+setTimeout(function(){if(!window.__animReady){r.classList.add('no-anim');r.classList.remove('show-loader','pt-enter');}},3500);})(document.documentElement);
+</script>
+<script src="assets/js/vendor/gsap.min.js" defer></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/js/vendor/SplitText.min.js" defer></script>
+<script src="assets/js/vendor/lenis.min.js" defer></script>
+<script src="assets/js/main.js" defer></script>
 </head>
 <body data-page="services">
-
-<div data-include="partials/header.html"></div>
+<!-- @header -->
+<div class="progress" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"><span></span></div><div class="cursor-dot" aria-hidden="true"></div>
+<div class="loader" aria-hidden="true"><span>Dakpion IMC — 360° Marketing</span><b>0°</b></div>
+<div class="pt" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand" aria-label="Dakpion IMC home"><img src="assets/images/logo-dark.webp" width="420" height="116" alt="Dakpion IMC"></a>
+    <nav aria-label="Main"><ul class="nav"><li><a href="index.html" data-nav="home" data-text="Home"><span>Home</span></a></li><li><a href="services.html" data-nav="services" data-text="Services"><span>Services</span></a></li><li><a href="industries.html" data-nav="industries" data-text="Industries"><span>Industries</span></a></li><li><a href="portfolio.html" data-nav="work" data-text="Work"><span>Work</span></a></li><li><a href="about.html" data-nav="about" data-text="About"><span>About</span></a></li><li><a href="contact.html" data-nav="contact" data-text="Contact"><span>Contact</span></a></li></ul></nav>
+    <div class="header-right">
+      <a href="contact.html" class="btn btn--grey" data-magnetic=".2">Let's talk <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="menu"><span>Menu</span><i><b></b><b></b></i></button>
+    </div>
+  </div>
+</header>
+<div class="menu" id="menu">
+  <ul><li><a href="index.html" style="--i:0">Home</a></li><li><a href="services.html" style="--i:1">Services</a></li><li><a href="industries.html" style="--i:2">Industries</a></li><li><a href="portfolio.html" style="--i:3">Work</a></li><li><a href="about.html" style="--i:4">About</a></li><li><a href="contact.html" style="--i:5">Contact</a></li></ul>
+  <div class="menu-foot"><a href="mailto:hello@dakpionimc.com">hello@dakpionimc.com</a><span>+880 1XXX-XXXXXX · Dhanmondi, Dhaka</span></div>
+</div>
+<!-- /@header -->
 
 <main>
 
 <section class="page-hero">
+  <div class="hero-bg"><div class="blob blob--1"></div></div>
+  <div class="ring" aria-hidden="true">
+  <svg viewBox="0 0 200 200"><defs><path id="rp-page" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs><text><textPath href="#rp-page" textLength="524">Strategy ✺ Creative ✺ Digital ✺ Media ✺ Activation ✺ </textPath></text></svg>
+  <div class="ring-core"><b>360<sup>°</sup></b></div>
+</div>
   <div class="container">
-    <div class="crumbs reveal"><a href="index.html">Home</a> / <span>Services</span></div>
-    <div class="eyebrow reveal">Services</div>
-    <h1 class="reveal">Full-funnel marketing, <em>fully integrated</em></h1>
-    <p class="lead reveal">Strategy, creative, digital, production, media and activation — eight disciplines working as one team, so your brand speaks with one voice everywhere.</p>
-    <div class="jump reveal"><a href="#strategy">Strategy &amp; Research</a><a href="#branding">Branding &amp; Creative</a><a href="#digital">Digital &amp; Social Media</a><a href="#performance">Performance Marketing &amp; SEO</a><a href="#production">Video &amp; Content Production</a><a href="#tech">Web &amp; MarTech</a><a href="#atl">ATL Media &amp; PR</a><a href="#btl">BTL &amp; Brand Activation</a></div>
+    <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span><span>Services</span></div>
+    <div class="label" data-reveal>Services</div>
+    <h1 data-split>Every channel.<br>One <span class="hl">plan.</span></h1>
+    <p class="lead" data-reveal>Strategy, creative, digital, production, media and activation — eight disciplines working as one team, so your brand speaks with one voice everywhere.</p>
+    <div class="jump" data-reveal><a href="#strategy">Strategy &amp; Research</a><a href="#branding">Branding &amp; Creative</a><a href="#digital">Digital &amp; Social Media</a><a href="#performance">Performance &amp; SEO</a><a href="#production">Video &amp; Production</a><a href="#tech">Web &amp; MarTech</a><a href="#atl">ATL Media &amp; PR</a><a href="#btl">BTL &amp; Activation</a></div>
   </div>
 </section>
 
-<section class="section" style="padding-top:clamp(24px,4vw,48px)">
+<section class="section" style="padding-top:0">
   <div class="container">
-    <div class="svc-detail" id="strategy">
-      <div>
-        <span class="kicker reveal">01 — Strategy &amp; Research</span>
-        <h2 class="reveal">Know exactly where to play — and how to win</h2>
-        <p class="lead reveal">Every great campaign starts with a sharp insight. We study your market, customers and competitors, then build a positioning and full-funnel plan that tells every channel what to do.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Market &amp; consumer research</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Competitor &amp; category audit</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Brand positioning &amp; messaging</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Audience personas &amp; journeys</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Integrated media planning</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>KPI &amp; budget frameworks</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+    <div class="srow" id="strategy">
+      <div class="srow-l">
+        <span class="n">01</span>
+        <h2 data-split>Strategy &amp; Research</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-target"/></svg></span>
       </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-target"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>Market research</span><em>Insight</em></div><div class="sv-row"><span>Positioning</span><em>Clarity</em></div><div class="sv-row"><span>Media plan</span><em>Focus</em></div></div>
-      </div>
-    </div>
-    <div class="svc-detail rev" id="branding">
-      <div>
-        <span class="kicker reveal">02 — Branding &amp; Creative</span>
-        <h2 class="reveal">Brands people remember and choose</h2>
-        <p class="lead reveal">From naming and logos to packaging and full campaign concepts — we create identities and ideas that look premium, feel consistent and work across every touchpoint.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Logo &amp; visual identity</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Brand guidelines &amp; tone of voice</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Packaging &amp; label design</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Campaign concepts &amp; key visuals</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Copywriting (Bangla &amp; English)</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Print, POSM &amp; collateral</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-      </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-brand"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>Identity system</span><em>Distinct</em></div><div class="sv-row"><span>Key visual</span><em>Memorable</em></div><div class="sv-row"><span>Guidelines</span><em>Consistent</em></div></div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>Every great campaign starts with a sharp insight. We study your market, customers and competitors, then build a positioning and full-funnel plan that tells every channel what to do.</p>
+        <ul class="dlist" data-reveal><li>Market &amp; consumer research</li><li>Competitor &amp; category audit</li><li>Brand positioning &amp; messaging</li><li>Audience personas &amp; journeys</li><li>Integrated media planning</li><li>KPI &amp; budget frameworks</li></ul>
+        <div class="kpis" data-reveal><div><b>Clarity</b><span>One plan for every channel</span></div><div><b>Focus</b><span>Budget on what works</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss strategy <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
       </div>
     </div>
-    <div class="svc-detail" id="digital">
-      <div>
-        <span class="kicker reveal">03 — Digital &amp; Social Media</span>
-        <h2 class="reveal">Always-on content that builds community</h2>
-        <p class="lead reveal">We plan, create and manage your social presence every day — content calendars, reels, community replies and influencer collaborations that keep your brand in the feed and in the conversation.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Social media strategy &amp; calendars</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Content, reels &amp; motion graphics</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Community &amp; inbox management</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Influencer &amp; KOL marketing</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Social listening &amp; reputation</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Monthly analytics reports</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+    <div class="srow" id="branding">
+      <div class="srow-l">
+        <span class="n">02</span>
+        <h2 data-split>Branding &amp; Creative</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-brand"/></svg></span>
       </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-social"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>Facebook &amp; Instagram</span><em>Daily</em></div><div class="sv-row"><span>TikTok &amp; YouTube</span><em>Weekly</em></div><div class="sv-row"><span>LinkedIn</span><em>B2B</em></div></div>
-      </div>
-    </div>
-    <div class="svc-detail rev" id="performance">
-      <div>
-        <span class="kicker reveal">04 — Performance Marketing &amp; SEO</span>
-        <h2 class="reveal">Ads and search that pay for themselves</h2>
-        <p class="lead reveal">Data-driven campaigns on Meta, Google, YouTube and TikTok, plus SEO that compounds over time. We optimise daily against the numbers that matter — leads, sales and cost per acquisition.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Meta, Google &amp; TikTok ads</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Lead generation funnels</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Search engine optimisation</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Landing page &amp; CRO testing</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Pixel, GA4 &amp; conversion tracking</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Remarketing &amp; retention</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-      </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-ads"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>ROAS</span><em>3.4x avg</em></div><div class="sv-row"><span>Cost per lead</span><em>−38%</em></div><div class="sv-row"><span>Organic traffic</span><em>+160%</em></div></div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>From naming and logos to packaging and campaign concepts — identities and ideas that look premium, feel consistent and work across every touchpoint.</p>
+        <ul class="dlist" data-reveal><li>Logo &amp; visual identity</li><li>Brand guidelines &amp; tone of voice</li><li>Packaging &amp; label design</li><li>Campaign concepts &amp; key visuals</li><li>Copywriting in Bangla &amp; English</li><li>Print, POSM &amp; collateral</li></ul>
+        <div class="kpis" data-reveal><div><b>Distinct</b><span>Stand out on every shelf &amp; feed</span></div><div><b>Consistent</b><span>One look, everywhere</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss branding <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
       </div>
     </div>
-    <div class="svc-detail" id="production">
-      <div>
-        <span class="kicker reveal">05 — Video &amp; Content Production</span>
-        <h2 class="reveal">Stories told on screen, beautifully</h2>
-        <p class="lead reveal">Our in-house production team handles concept, script, shoot and post — from 15-second reels to full TVCs, product photography, 3D animation and architectural CGI.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>TVC &amp; OVC production</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Reels &amp; short-form video</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Corporate &amp; brand films</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Product &amp; lifestyle photography</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>3D animation &amp; CGI</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Motion graphics &amp; explainers</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+    <div class="srow" id="digital">
+      <div class="srow-l">
+        <span class="n">03</span>
+        <h2 data-split>Digital &amp; Social Media</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-social"/></svg></span>
       </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-video"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>Script → Shoot → Edit</span><em>In-house</em></div><div class="sv-row"><span>Formats</span><em>16:9 · 9:16 · 1:1</em></div><div class="sv-row"><span>Turnaround</span><em>Fast</em></div></div>
-      </div>
-    </div>
-    <div class="svc-detail rev" id="tech">
-      <div>
-        <span class="kicker reveal">06 — Web &amp; MarTech</span>
-        <h2 class="reveal">Digital platforms built to convert</h2>
-        <p class="lead reveal">Fast, mobile-first websites, landing pages and e-commerce stores — connected to the CRM, automation and analytics you need to turn traffic into revenue.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Corporate &amp; brand websites</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>E-commerce stores</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Landing pages &amp; microsites</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>CRM &amp; lead management</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Email, SMS &amp; WhatsApp automation</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Dashboards &amp; reporting</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-      </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-web"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>Page speed</span><em>&lt; 2s</em></div><div class="sv-row"><span>Mobile-first</span><em>100%</em></div><div class="sv-row"><span>Tracking</span><em>End-to-end</em></div></div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>We plan, create and manage your social presence every day — content calendars, reels, community replies and influencer collaborations that keep your brand in the conversation.</p>
+        <ul class="dlist" data-reveal><li>Social strategy &amp; calendars</li><li>Reels, motion &amp; static content</li><li>Community &amp; inbox management</li><li>Influencer &amp; KOL programs</li><li>Social listening &amp; reputation</li><li>Monthly analytics reports</li></ul>
+        <div class="kpis" data-reveal><div><b>Daily</b><span>Facebook, Instagram &amp; TikTok</span></div><div><b>Weekly</b><span>YouTube &amp; LinkedIn</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss digital <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
       </div>
     </div>
-    <div class="svc-detail" id="atl">
-      <div>
-        <span class="kicker reveal">07 — ATL Media &amp; PR</span>
-        <h2 class="reveal">Mass reach with measurable impact</h2>
-        <p class="lead reveal">We plan and buy TV, radio, newspaper and outdoor media at the right rates, and manage press relations that give your brand authority and earned coverage.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>TV &amp; radio planning and buying</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Newspaper &amp; magazine ads</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Billboards &amp; OOH</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Press releases &amp; media relations</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Crisis &amp; reputation management</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Post-campaign reach reports</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+    <div class="srow" id="performance">
+      <div class="srow-l">
+        <span class="n">04</span>
+        <h2 data-split>Performance &amp; SEO</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ads"/></svg></span>
       </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-tv"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>TV &amp; Radio</span><em>National</em></div><div class="sv-row"><span>OOH &amp; Billboards</span><em>City-wide</em></div><div class="sv-row"><span>PR</span><em>Earned media</em></div></div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>Data-driven campaigns on Meta, Google, YouTube and TikTok, plus SEO that compounds over time. We optimise against the numbers that matter — leads, sales and cost per acquisition.</p>
+        <ul class="dlist" data-reveal><li>Meta, Google &amp; TikTok ads</li><li>Lead generation funnels</li><li>Search engine optimisation</li><li>Landing pages &amp; CRO</li><li>Pixel, GA4 &amp; conversion tracking</li><li>Remarketing &amp; retention</li></ul>
+        <div class="kpis" data-reveal><div><b>3.4x</b><span>Average ROAS*</span></div><div><b>−38%</b><span>Cost per lead*</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss performance <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
       </div>
     </div>
-    <div class="svc-detail rev" id="btl">
-      <div>
-        <span class="kicker reveal">08 — BTL &amp; Brand Activation</span>
-        <h2 class="reveal">Experiences people can touch</h2>
-        <p class="lead reveal">Launch events, road shows, sampling, in-store branding and trade programs — executed on the ground with trained teams and reported with real-time data.</p>
-        <div class="reveal"><ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Product launches &amp; events</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Sampling &amp; road shows</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Retail &amp; in-store branding</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Trade &amp; channel programs</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Exhibitions &amp; stalls</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Corporate events &amp; conferences</li></ul></div>
-        <a href="contact.html" class="btn btn--dark reveal">Discuss this service <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
+    <div class="srow" id="production">
+      <div class="srow-l">
+        <span class="n">05</span>
+        <h2 data-split>Video &amp; Production</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-video"/></svg></span>
       </div>
-      <div class="svc-visual reveal" style="--d:.1s">
-        <span class="big-ic"><svg class="icon"><use href="assets/icons/sprite.svg#i-flag"/></svg></span>
-        <div class="sv-list"><div class="sv-row"><span>Activations</span><em>Nationwide</em></div><div class="sv-row"><span>Retail points</span><em>400+</em></div><div class="sv-row"><span>Reporting</span><em>Real-time</em></div></div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>Our in-house production team handles concept, script, shoot and post — from 15-second reels to full TVCs, product photography, 3D animation and architectural CGI.</p>
+        <ul class="dlist" data-reveal><li>TVC &amp; OVC production</li><li>Reels &amp; short-form video</li><li>Corporate &amp; brand films</li><li>Product &amp; lifestyle photography</li><li>3D animation &amp; CGI</li><li>Motion graphics &amp; explainers</li></ul>
+        <div class="kpis" data-reveal><div><b>In-house</b><span>Script → shoot → edit</span></div><div><b>Every format</b><span>16:9 · 9:16 · 1:1</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss video <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+      </div>
+    </div>
+    <div class="srow" id="tech">
+      <div class="srow-l">
+        <span class="n">06</span>
+        <h2 data-split>Web &amp; MarTech</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-web"/></svg></span>
+      </div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>Fast, mobile-first websites, landing pages and online stores — connected to the CRM, automation and analytics you need to turn traffic into revenue.</p>
+        <ul class="dlist" data-reveal><li>Corporate &amp; brand websites</li><li>E-commerce stores</li><li>Landing pages &amp; microsites</li><li>CRM &amp; lead management</li><li>Email, SMS &amp; WhatsApp automation</li><li>Dashboards &amp; reporting</li></ul>
+        <div class="kpis" data-reveal><div><b>&lt; 2s</b><span>Page load target</span></div><div><b>100%</b><span>Mobile-first builds</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss web <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+      </div>
+    </div>
+    <div class="srow" id="atl">
+      <div class="srow-l">
+        <span class="n">07</span>
+        <h2 data-split>ATL Media &amp; PR</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-tv"/></svg></span>
+      </div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>We plan and buy TV, radio, newspaper and outdoor media at the right rates, and run press relations that give your brand authority and earned coverage.</p>
+        <ul class="dlist" data-reveal><li>TV &amp; radio planning and buying</li><li>Newspaper &amp; magazine ads</li><li>Billboards &amp; OOH</li><li>Press releases &amp; media relations</li><li>Crisis &amp; reputation management</li><li>Post-campaign reach reports</li></ul>
+        <div class="kpis" data-reveal><div><b>National</b><span>TV &amp; radio reach</span></div><div><b>City-wide</b><span>OOH networks</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss atl media <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+      </div>
+    </div>
+    <div class="srow" id="btl">
+      <div class="srow-l">
+        <span class="n">08</span>
+        <h2 data-split>BTL &amp; Activation</h2>
+        <span class="ic" data-reveal><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-flag"/></svg></span>
+      </div>
+      <div class="srow-r">
+        <p class="lead" data-reveal>Launch events, road shows, sampling, in-store branding and trade programs — executed on the ground with trained teams and reported with real-time data.</p>
+        <ul class="dlist" data-reveal><li>Product launches &amp; events</li><li>Sampling &amp; road shows</li><li>Retail &amp; in-store branding</li><li>Trade &amp; channel programs</li><li>Exhibitions &amp; stalls</li><li>Corporate events &amp; conferences</li></ul>
+        <div class="kpis" data-reveal><div><b>Nationwide</b><span>Activation teams</span></div><div><b>Real-time</b><span>Field reporting</span></div></div>
+        <a href="contact.html" class="btn btn--grey" data-reveal data-magnetic=".2">Discuss btl <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section section--alt" id="packages">
+<section class="section section--paper round" id="packages" style="margin:0 clamp(8px,1.4vw,20px)">
   <div class="container">
-    <div class="section-head center">
-      <div class="eyebrow reveal">Engagement models</div>
-      <h2 class="reveal">Pick a starting point. <em>Scale</em> when ready.</h2>
-      <p class="reveal">Every package is tailored after a free discovery call — these are the most common ways brands start with us.</p>
+    <div class="head">
+      <div><div class="label" data-reveal>Engagement models</div><h2 data-split>Start small.<br>Go <span class="hl">360°.</span></h2></div>
+      <p class="lead" data-reveal>Every package is tailored after a free discovery call — these are the most common ways brands start with us.</p>
     </div>
     <div class="pkg-grid">
-      <div class="pkg reveal">
-        <h3>Digital Growth</h3>
-        <p>For brands that want a strong, always-on digital presence.</p>
-        <div class="price">Monthly retainer</div>
-        <ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Social media management</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Monthly content &amp; reels</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Meta &amp; Google ads</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Monthly performance report</li></ul>
-        <a href="contact.html" class="btn btn--outline btn--block">Get a quote</a>
-      </div>
-      <div class="pkg pkg--featured reveal" style="--d:.08s">
-        <span class="badge">Most popular</span>
-        <h3>360° Brand Partner</h3>
-        <p>Your full marketing department — strategy to activation.</p>
-        <div class="price">Annual partnership</div>
-        <ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Dedicated account &amp; strategy team</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Branding, creative &amp; production</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Digital, performance &amp; SEO</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>ATL media buying &amp; PR</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>BTL activations &amp; events</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Quarterly business reviews</li></ul>
-        <a href="contact.html" class="btn btn--primary btn--block">Book discovery call <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-      </div>
-      <div class="pkg reveal" style="--d:.16s">
-        <h3>Campaign Launch</h3>
-        <p>For a product launch, rebrand or seasonal push.</p>
-        <div class="price">Project based</div>
-        <ul class="checks"><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Campaign strategy &amp; big idea</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Key visual &amp; TVC/OVC</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Integrated media plan</li><li><svg class="icon"><use href="assets/icons/sprite.svg#i-check"/></svg>Launch event or activation</li></ul>
-        <a href="contact.html" class="btn btn--outline btn--block">Plan a launch</a>
-      </div>
+      <div class="pkg" data-reveal><h3>Digital Growth</h3><p>An always-on digital presence that performs.</p><div class="price">Monthly retainer</div><ul><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Social media management</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Monthly content &amp; reels</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Meta &amp; Google ads</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Monthly performance report</li></ul><a href="contact.html" class="btn btn--line">Get a quote <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a></div>
+      <div class="pkg pkg--hot" data-reveal><span class="badge">Most popular</span><h3>360° Brand Partner</h3><p>Your full marketing department — strategy to activation.</p><div class="price">Annual partnership</div><ul><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Dedicated strategy &amp; account team</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Branding, creative &amp; production</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Digital, performance &amp; SEO</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>ATL media buying &amp; PR</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>BTL activations &amp; events</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Quarterly business reviews</li></ul><a href="contact.html" class="btn btn--grey">Book discovery call <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a></div>
+      <div class="pkg" data-reveal><h3>Campaign Launch</h3><p>For a launch, rebrand or seasonal push.</p><div class="price">Project based</div><ul><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Campaign strategy &amp; big idea</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Key visual &amp; TVC / OVC</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Integrated media plan</li><li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-check"/></svg>Launch event or activation</li></ul><a href="contact.html" class="btn btn--line">Plan a launch <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a></div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <div class="cta reveal">
-      <div>
-        <h2>Not sure which services you need?</h2>
-        <p>Tell us your goal. We will recommend the right channel mix and a realistic plan for your budget — free.</p>
-      </div>
-      <div class="cta-actions">
-        <a href="contact.html" class="btn btn--primary btn--lg">Talk to a Strategist <svg class="icon"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a>
-        <a href="portfolio.html" class="btn btn--light btn--lg">See Our Work</a>
-      </div>
+<section class="section cta">
+  <div class="ring" aria-hidden="true">
+  <svg viewBox="0 0 200 200"><defs><path id="rp-cta" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs><text><textPath href="#rp-cta" textLength="524">Let’s talk ✺ Let’s create ✺ Let’s grow ✺ </textPath></text></svg>
+  
+</div>
+  <div class="container cta-inner">
+    <div>
+      <div class="label" data-reveal>Next step</div>
+      <h2 data-split>Not sure<br>where to <span class="hl">start?</span></h2>
+      <p data-reveal>Tell us your goal. We’ll recommend the right channel mix and a realistic plan for your budget — free.</p>
     </div>
+    <a href="contact.html" class="btn-orb" data-magnetic=".45" data-reveal><span>Talk to a<br>strategist<svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></span></a>
   </div>
 </section>
+
 
 </main>
 
-<div data-include="partials/footer.html"></div>
+<!-- @footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="f-top">
+      <div>
+        <h2>Got a brand<br>to grow?</h2>
+        <a href="contact.html" class="btn btn--grey btn--lg" data-magnetic=".25">Start a project <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow-ur"/></svg></a>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-fb"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-ig"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-in"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-yt"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <ul>
+          <li><a class="link" href="services.html#strategy">Strategy &amp; Research</a></li>
+          <li><a class="link" href="services.html#branding">Branding &amp; Creative</a></li>
+          <li><a class="link" href="services.html#digital">Digital &amp; Social</a></li>
+          <li><a class="link" href="services.html#performance">Performance &amp; SEO</a></li>
+          <li><a class="link" href="services.html#production">Video &amp; Production</a></li>
+          <li><a class="link" href="services.html#atl">ATL, BTL &amp; PR</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a class="link" href="about.html">About us</a></li>
+          <li><a class="link" href="about.html#team">Our team</a></li>
+          <li><a class="link" href="industries.html">Industries</a></li>
+          <li><a class="link" href="portfolio.html">Work</a></li>
+          <li><a class="link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Say hello</h5>
+        <ul class="f-contact">
+          <li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-mail"/></svg><a class="link" href="mailto:hello@dakpionimc.com">hello@dakpionimc.com</a></li>
+          <li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-phone"/></svg><span>+880 1XXX-XXXXXX</span></li>
+          <li><svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-pin"/></svg><span>House 12, Road 5, Dhanmondi, Dhaka 1209</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-word" aria-hidden="true"><span>D</span><span>A</span><span>K</span><span>P</span><span>I</span><span>O</span><span>N</span></div>
+    <div class="f-bottom">
+      <span>&copy; <span id="year">2026</span> Dakpion IMC — Cultivating Ideas, Crafting Success.</span>
+      <div class="links"><a class="link" href="#">Privacy</a><a class="link" href="#">Terms</a><a href="#" class="to-top">Back to top <svg class="icon" aria-hidden="true"><use href="assets/icons/sprite.svg#i-arrow"/></svg></a></div>
+    </div>
+  </div>
+</footer>
+<!-- /@footer -->
 
-<script src="assets/js/main.js" defer></script>
 </body>
 </html>
