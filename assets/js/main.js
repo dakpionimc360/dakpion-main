@@ -104,7 +104,9 @@
       words[0].classList.add('is-on');
       if (reduced) return;
       setInterval(() => {
-        const cur = words[i];
+        if (document.hidden || r.dataset.manual) return;
+        const cur = words.find(w => w.classList.contains('is-on')) || words[i];
+        i = words.indexOf(cur);
         i = (i + 1) % words.length;
         cur.classList.remove('is-on'); cur.classList.add('is-out');
         words[i].classList.remove('is-out'); words[i].classList.add('is-on');
@@ -203,13 +205,37 @@
   function initHeroScroll(mm) {
     const pin = $('.hero-pin'), prog = $('.hr-prog'), deg = $('.hero-deg b');
     if (!pin || !prog) return;
+    const rot = $('.hero .rotator'), rwords = rot ? $$('span', rot) : [];
+    const ringWords = $$('.rw');
+    gsap.set(ringWords, { opacity: 0, scale: .5 });
+    let curWord = 0;
+    const showWord = idx => {
+      if (idx === curWord || !rwords[idx]) return;
+      const prev = rwords[curWord];
+      prev.classList.remove('is-on'); prev.classList.add('is-out');
+      setTimeout(() => prev.classList.remove('is-out'), 900);
+      rwords[idx].classList.remove('is-out'); rwords[idx].classList.add('is-on');
+      curWord = idx;
+    };
     const len = 1759.3;
     const counter = { v: 0 };
     const setDeg = () => { if (deg) deg.textContent = Math.round(counter.v); };
     mm.add('(min-width: 981px)', () => {
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: pin, start: 'top top', end: '+=110%', pin: true, scrub: .6 }
+        scrollTrigger: {
+          trigger: pin, start: 'top top', end: '+=160%', pin: true, scrub: .6,
+          onUpdate: self => showWord(Math.min(rwords.length - 1, Math.floor(self.progress * rwords.length * 1.15)))
+        }
+      });
+      if (rot) {
+        rot.dataset.manual = '1';
+        rwords.forEach(w => w.classList.remove('is-on', 'is-out'));
+        if (rwords[0]) rwords[0].classList.add('is-on');
+        curWord = 0;
+      }
+      ringWords.forEach(w => {
+        tl.to(w, { opacity: 1, scale: 1, duration: .06, ease: 'back.out(2)' }, parseFloat(w.dataset.angle) / 360 * .98);
       });
       tl.to(prog, { strokeDashoffset: 0, duration: 1 }, 0)
         .to(counter, { v: 360, duration: 1, onUpdate: setDeg }, 0)
@@ -218,11 +244,12 @@
         .to('.hero-title', { scale: .92, y: -20, duration: .45 }, .5)
         .to(['.hero-sub', '.hero-cta'], { y: -24, opacity: 0, duration: .35, stagger: .05 }, .6)
         .to('.hero-pin .scroll-hint', { opacity: 0, duration: .2 }, 0);
-      return () => { gsap.set(prog, { strokeDashoffset: len }); counter.v = 0; setDeg(); };
+      return () => { gsap.set(prog, { strokeDashoffset: len }); counter.v = 0; setDeg(); if (rot) delete rot.dataset.manual; };
     });
     mm.add('(max-width: 980px)', () => {
       gsap.to(prog, { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut', delay: .4 });
       gsap.to(counter, { v: 360, duration: 2.2, ease: 'power2.inOut', delay: .4, onUpdate: setDeg });
+      ringWords.forEach(w => gsap.to(w, { opacity: 1, scale: 1, duration: .5, ease: 'back.out(2)', delay: .4 + 2.2 * parseFloat(w.dataset.angle) / 360 }));
     });
   }
 
