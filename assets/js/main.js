@@ -185,37 +185,45 @@
   }
 
   function heroIntro() {
-    const copy = $('.hero-copy'), stage = $('.stage');
-    if (copy && stage) {
-      gsap.set([copy, stage, '.hero-title'], { visibility: 'visible' });
+    const center = $('.hero-center');
+    if (center) {
+      gsap.set([center, '.hero-title'], { visibility: 'visible' });
       gsap.timeline({ defaults: { ease: 'expo.out' } })
-        .from('.hero-pill', { y: 20, opacity: 0, duration: .8 })
-        .from('.hero-title .lni', { yPercent: 115, rotate: 4, duration: 1.2, stagger: .1 }, .1)
-        .from('.hero-badge', { scale: 0, rotate: -180, duration: 1.1 }, .4)
-        .from(['.hero-sub', '.hero-cta', '.hero-trust'], { y: 26, opacity: 0, duration: .9, stagger: .08 }, .55)
-        .from('.stage-panel', { scale: .85, opacity: 0, rotate: -4, duration: 1.3 }, .2)
-        .from('.orbit', { scale: .6, rotate: -120, opacity: 0, duration: 1.6 }, .35)
-        .from('.float-card', { y: 50, scale: .8, opacity: 0, duration: 1, stagger: .14, ease: 'back.out(1.6)' }, .8)
-        .from('.hero .scroll-hint', { opacity: 0, duration: .8 }, 1.2);
+        .from('.hero-kicker', { y: 16, opacity: 0, duration: .9 })
+        .from('.hero-title .lni', { yPercent: 110, duration: 1.2, stagger: .12 }, .1)
+        .from(['.hero-sub', '.hero-cta'], { y: 20, opacity: 0, duration: .9, stagger: .08 }, .5)
+        .from(['.hero-deg', '.hero-pin .scroll-hint'], { opacity: 0, duration: .8 }, .9)
+        .from('.hr-track', { scale: .9, opacity: 0, transformOrigin: '50% 50%', duration: 1.4 }, .2);
     }
     const ph = $('.page-hero h1');
     if (ph) splitReveal(ph, true);
   }
 
-  /* Hero stage layers drift with the mouse (desktop only) */
-  function initStageParallax() {
-    const stage = $('.stage');
-    if (!stage) return;
-    const layers = $$('[data-depth]', stage).map(el => ({
-      d: parseFloat(el.dataset.depth),
-      x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }),
-      y: gsap.quickTo(el, 'y', { duration: 1, ease: 'power3' })
-    }));
-    window.addEventListener('mousemove', e => {
-      const dx = e.clientX / innerWidth - .5, dy = e.clientY / innerHeight - .5;
-      layers.forEach(l => { l.x(dx * l.d); l.y(dy * l.d); });
-    }, { passive: true });
-    gsap.to('.stage', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  /* Hero: pin while the 360° ring draws itself and the degree counter runs 0 → 360 */
+  function initHeroScroll(mm) {
+    const pin = $('.hero-pin'), prog = $('.hr-prog'), deg = $('.hero-deg b');
+    if (!pin || !prog) return;
+    const len = 1759.3;
+    const counter = { v: 0 };
+    const setDeg = () => { if (deg) deg.textContent = Math.round(counter.v); };
+    mm.add('(min-width: 981px)', () => {
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: pin, start: 'top top', end: '+=110%', pin: true, scrub: .6 }
+      });
+      tl.to(prog, { strokeDashoffset: 0, duration: 1 }, 0)
+        .to(counter, { v: 360, duration: 1, onUpdate: setDeg }, 0)
+        .to('.hero-ring', { scale: 1.08, duration: 1 }, 0)
+        .to('.hero-kicker', { y: -30, opacity: 0, duration: .35 }, .55)
+        .to('.hero-title', { scale: .92, y: -20, duration: .45 }, .5)
+        .to(['.hero-sub', '.hero-cta'], { y: -24, opacity: 0, duration: .35, stagger: .05 }, .6)
+        .to('.hero-pin .scroll-hint', { opacity: 0, duration: .2 }, 0);
+      return () => { gsap.set(prog, { strokeDashoffset: len }); counter.v = 0; setDeg(); };
+    });
+    mm.add('(max-width: 980px)', () => {
+      gsap.to(prog, { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut', delay: .4 });
+      gsap.to(counter, { v: 360, duration: 2.2, ease: 'power2.inOut', delay: .4, onUpdate: setDeg });
+    });
   }
 
   function splitReveal(el, immediate) {
@@ -458,6 +466,7 @@
     const mm = gsap.matchMedia();
     const start = () => {
       heroIntro();
+      initHeroScroll(mm);
       initReveals();
       initManifesto();
       initTapes();
@@ -466,7 +475,7 @@
       initTimeline();
       initFooterWord();
       initBlobs();
-      if (finePointer) { initCursor(); initMagnetic(); initTilt(); initWorkPreview(); initStageParallax(); }
+      if (finePointer) { initCursor(); initMagnetic(); initTilt(); initWorkPreview(); }
       ScrollTrigger.refresh();
     };
     const fontsReady = document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]) : Promise.resolve();
