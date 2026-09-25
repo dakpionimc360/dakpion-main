@@ -185,21 +185,37 @@
   }
 
   function heroIntro() {
-    const title = $('.hero-title');
-    if (title) {
-      gsap.set(title, { visibility: 'visible' });
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-      tl.from('.hero-title .lni', { yPercent: 115, rotate: 4, duration: 1.3, stagger: .1 })
-        .from('.hero-badge', { scale: 0, rotate: -180, duration: 1.2 }, .35)
-        .from('.hero .ring', { scale: .6, opacity: 0, rotate: -90, duration: 1.6 }, .1);
-      const foot = $('.hero-foot');
-      if (foot) {
-        gsap.set(foot, { visibility: 'visible' });
-        tl.from(foot.children, { y: 30, opacity: 0, duration: 1, stagger: .08 }, .55);
-      }
+    const copy = $('.hero-copy'), stage = $('.stage');
+    if (copy && stage) {
+      gsap.set([copy, stage, '.hero-title'], { visibility: 'visible' });
+      gsap.timeline({ defaults: { ease: 'expo.out' } })
+        .from('.hero-pill', { y: 20, opacity: 0, duration: .8 })
+        .from('.hero-title .lni', { yPercent: 115, rotate: 4, duration: 1.2, stagger: .1 }, .1)
+        .from('.hero-badge', { scale: 0, rotate: -180, duration: 1.1 }, .4)
+        .from(['.hero-sub', '.hero-cta', '.hero-trust'], { y: 26, opacity: 0, duration: .9, stagger: .08 }, .55)
+        .from('.stage-panel', { scale: .85, opacity: 0, rotate: -4, duration: 1.3 }, .2)
+        .from('.orbit', { scale: .6, rotate: -120, opacity: 0, duration: 1.6 }, .35)
+        .from('.float-card', { y: 50, scale: .8, opacity: 0, duration: 1, stagger: .14, ease: 'back.out(1.6)' }, .8)
+        .from('.hero .scroll-hint', { opacity: 0, duration: .8 }, 1.2);
     }
     const ph = $('.page-hero h1');
     if (ph) splitReveal(ph, true);
+  }
+
+  /* Hero stage layers drift with the mouse (desktop only) */
+  function initStageParallax() {
+    const stage = $('.stage');
+    if (!stage) return;
+    const layers = $$('[data-depth]', stage).map(el => ({
+      d: parseFloat(el.dataset.depth),
+      x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3' }),
+      y: gsap.quickTo(el, 'y', { duration: 1, ease: 'power3' })
+    }));
+    window.addEventListener('mousemove', e => {
+      const dx = e.clientX / innerWidth - .5, dy = e.clientY / innerHeight - .5;
+      layers.forEach(l => { l.x(dx * l.d); l.y(dy * l.d); });
+    }, { passive: true });
+    gsap.to('.stage', { yPercent: -8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   }
 
   function splitReveal(el, immediate) {
@@ -450,7 +466,7 @@
       initTimeline();
       initFooterWord();
       initBlobs();
-      if (finePointer) { initCursor(); initMagnetic(); initTilt(); initWorkPreview(); }
+      if (finePointer) { initCursor(); initMagnetic(); initTilt(); initWorkPreview(); initStageParallax(); }
       ScrollTrigger.refresh();
     };
     const fontsReady = document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]) : Promise.resolve();
