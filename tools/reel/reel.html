@@ -58,6 +58,19 @@ svg.draw *{vector-effect:non-scaling-stroke}
 /* motifs */
 .card{position:absolute;border-radius:28px}
 .pill{position:absolute;padding:14px 24px;border-radius:999px;font:700 24px J;white-space:nowrap;box-shadow:0 18px 40px rgba(0,0,0,.12)}
+/* portrait (4:5) cut for phones: reel.html?portrait */
+html.portrait,.portrait body{width:1080px;height:1350px}
+.portrait .scene .brand{left:70px;top:60px;font-size:28px}.portrait .scene .count{right:70px;top:64px}
+.portrait .txt{left:70px;top:150px;width:940px}
+.portrait .num{width:96px;height:96px;border-radius:28px}.portrait .num svg{width:48px;height:48px}
+.portrait .name{font-size:92px;margin-top:22px}
+.portrait .short{font-size:30px;margin-top:22px;max-width:900px}
+.portrait .tags{margin-top:26px}.portrait .tag{font-size:21px;padding:11px 20px}
+.portrait .vis{zoom:.74;left:380px;right:auto;top:960px}
+.portrait .bar8{left:70px;right:70px;bottom:46px}
+.portrait .ring{width:900px;height:900px;margin:-450px 0 0 -450px}
+.portrait .big{font-size:210px}.portrait .line2{font-size:46px}.portrait .ob{font-size:170px !important}
+.portrait .kick{font-size:24px}
 </style></head>
 <body>
 <div id="stage"></div>
@@ -73,6 +86,9 @@ const S = [
  {n:'ATL Media',n2:'& PR',icon:'tv',bg:'dark',short:'TV, radio, print, billboards and press — mass reach, measured.',tags:['TV & Radio','OOH','PR']},
  {n:'BTL &',n2:'Activation',icon:'flag',bg:'lime',short:'Launches, events, sampling and retail — brands people can touch.',tags:['Events','Sampling','Retail']},
 ];
+const P = location.search.includes('portrait');
+if (P) document.documentElement.classList.add('portrait');
+const CX = P ? 540 : 960, CY = P ? 675 : 540, RX = P ? 385 : 600, RY = P ? 560 : 445, ORIGIN = P ? '50% 80%' : '74% 50%';
 const SHORT = ['Strategy','Branding','Digital & Social','Performance','Video','Web & MarTech','ATL & PR','BTL & Activation'];
 const ico = id => `<svg viewBox="0 0 24 24"><use href="../../assets/icons/sprite.svg#i-${id}"/></svg>`;
 const L='#9BCB3C', G='#2C2D2F', W='#fff', D='#557D12';
@@ -167,7 +183,7 @@ S.forEach((s, i) => {
 });
 html += `<section class="scene paper outro">
   <svg class="ring" viewBox="0 0 760 760"><circle cx="380" cy="380" r="370" fill="none" stroke="#E4E5E0" stroke-width="2.5"/><circle class="rp" cx="380" cy="380" r="370" fill="none" stroke="${L}" stroke-width="7" stroke-linecap="round" transform="rotate(-90 380 380)" stroke-dasharray="2325" stroke-dashoffset="0"/></svg>
-  <div class="orbit">${S.map((s,i)=>{const a=(i/8)*Math.PI*2-Math.PI/2;return `<span style="left:${960+Math.cos(a)*600}px;top:${540+Math.sin(a)*445}px">${SHORT[i]}</span>`}).join('')}</div>
+  <div class="orbit">${S.map((s,i)=>{const a=(i/8)*Math.PI*2-Math.PI/2;return `<span style="left:${CX+Math.cos(a)*RX}px;top:${CY+Math.sin(a)*RY}px">${SHORT[i]}</span>`}).join('')}</div>
   <div class="center"><div><div class="kick ok">All under one roof</div><div class="big ob" style="font-size:190px"><span>360</span><sup>°</sup></div><div class="line2 ol">Marketing that <em>moves numbers.</em></div></div></div>
   <div class="url">dakpionimc.com</div>
 </section>`;
@@ -187,7 +203,7 @@ tl.to($('.rp', intro), { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut
 /* services */
 $$('.sv').forEach((sc, i) => {
   const t = INTRO + i * PER;
-  tl.fromTo(sc, { clipPath: 'circle(0% at 74% 50%)' }, { clipPath: 'circle(150% at 74% 50%)', duration: .9, ease: 'power3.inOut' }, t - .45)
+  tl.fromTo(sc, { clipPath: `circle(0% at ${ORIGIN})` }, { clipPath: `circle(150% at ${ORIGIN})`, duration: .9, ease: 'power3.inOut' }, t - .45)
     .from($('.num', sc), { scale: 0, rotate: -90, duration: .8, ease: 'back.out(1.8)' }, t)
     .from($$('.name .ln>span', sc), { yPercent: 110, duration: .9, stagger: .1 }, t + .05)
     .from($('.short', sc), { y: 26, opacity: 0, duration: .8 }, t + .3)

@@ -321,7 +321,7 @@ function render_field(string $name, array $def, ?string $value, string $prefix =
                 . '</div></div>';
             break;
         case 'video':
-            $cur = $v ? media_url($v) : url('assets/video/dakpion-reel-mobile.mp4');
+            $cur = $v ? media_url($v) : url('assets/video/dakpion-reel.mp4');
             $max = ini_get('upload_max_filesize');
             $input = '<div class="vid-field"><video src="' . e($cur) . '"' . ($v ? '' : ' poster="' . url('assets/video/dakpion-reel-poster.jpg') . '"') . ' muted loop playsinline controls preload="metadata"></video><div>'
                 . '<p class="small muted">' . ($v ? 'Apnar upload kora video cholche.' : 'Ekhon amader banano service reel cholche.') . '</p>'

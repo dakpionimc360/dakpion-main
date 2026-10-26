@@ -24,7 +24,7 @@ The database (`data/site.sqlite`) is created automatically on the first visit an
 | --- | --- |
 | Dashboard | Visits and messages per day, conversion rate, pipeline, top pages, follow-ups due, launch checklist |
 | Messages | Leads from the contact form: status (New → Contacted → Proposal → Won/Lost), notes, follow-up date, search, CSV |
-| Pages & SEO | Every page's headings, text and buttons, plus SEO title and description with a Google preview. Home also has the hero showreel: on/off, card label, or upload your own MP4 |
+| Pages & SEO | Every page's headings, text and buttons, plus SEO title and description with a Google preview. The Home hero is a video (our services reel); upload your own MP4 there to replace it |
 | Blog | Write posts in a visual editor (headings, lists, links, images), categories, cover, schedule, SEO |
 | Media library | Drag-and-drop upload, search, copy link, delete (warns where an image is used); every image field can pick from it |
 | Offer bar & popup | Announcement bar on top of every page, and a timed popup with "show again" frequency |

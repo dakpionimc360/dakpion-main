@@ -4,3 +4,5 @@
 /uploads/*
 !/uploads/.htaccess
 /inc/local.php
+/tools/reel/*.woff2
+/frames/

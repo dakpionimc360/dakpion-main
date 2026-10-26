@@ -7,50 +7,23 @@ $quotes = items('testimonials');
 $clients = items('clients');
 $process = items('process');
 $latest = posts(3);
-$words = tags(t('home', 'hero_words')) ?: ['loved'];
-
-// Hero showreel: our default motion reel, or a video uploaded in Admin → Pages → Home
-$reel = t('home', 'reel_on') === '1';
+// Hero: our motion reel of all services, or a video uploaded in Admin → Pages → Home
 $custom = t('home', 'reel_video');
 $reelDesk = $custom ? [[media_url($custom), str_ends_with($custom, '.webm') ? 'video/webm' : 'video/mp4']]
     : [[url('assets/video/dakpion-reel.webm'), 'video/webm'], [url('assets/video/dakpion-reel.mp4'), 'video/mp4']];
-$reelMob = $custom ? $reelDesk : [[url('assets/video/dakpion-reel-mobile.mp4'), 'video/mp4']];
+$reelMob = $custom ? $reelDesk : [[url('assets/video/dakpion-reel-portrait.mp4'), 'video/mp4']]; // 4:5 cut for phones
 $poster = $custom ? '' : url('assets/video/dakpion-reel-poster.jpg');
 $sources = fn(array $list) => e(json_encode($list, JSON_UNESCAPED_SLASHES));
 
 page_start('home');
 ?>
 
-<section class="hero">
-  <div class="hero-pin">
-    <div class="container hero-center">
-  <svg class="hero-ring" viewBox="0 0 600 600" aria-hidden="true"><circle class="hr-track" cx="300" cy="300" r="280"/><circle class="hr-prog" cx="300" cy="300" r="280"/></svg>
-  <div class="ring-words" aria-hidden="true"><span class="rw" data-angle="36" style="left:77.4%;top:12.2%">Strategy</span><span class="rw" data-angle="108" style="left:94.4%;top:64.4%">Creative</span><span class="rw" data-angle="180" style="left:50.0%;top:96.7%">Digital</span><span class="rw" data-angle="252" style="left:5.6%;top:64.4%">Media</span><span class="rw" data-angle="324" style="left:22.6%;top:12.2%">Activation</span></div>
-      <span class="hero-kicker"><?= e(t('home', 'hero_kicker')) ?></span>
-      <h1 class="hero-title">
-        <span class="ln"><span class="lni"><?= e(t('home', 'hero_line1')) ?></span></span>
-        <span class="ln"><span class="lni"><span class="rotator"><?php foreach ($words as $w): ?><span><?= e($w) ?><i class="dot">.</i></span><?php endforeach; ?></span></span></span>
-      </h1>
-      <p class="hero-sub"><?= e(t('home', 'hero_sub')) ?></p>
-      <div class="hero-cta">
-        <a href="<?= url('contact') ?>" class="btn btn--grey btn--lg" data-magnetic=".2"><?= e(t('home', 'hero_cta')) ?> <?= icon('arrow-ur') ?></a>
-        <a href="<?= url('services') ?>" class="btn btn--line btn--lg"><?= e(t('home', 'hero_cta2')) ?></a>
-      </div>
-    </div>
-    <div class="hero-deg" aria-hidden="true"><b>0</b>°</div>
-    <div class="scroll-hint"><i></i>Scroll</div>
-<?php if ($reel): ?>
-    <div class="hero-video" data-reel-layer>
-      <video muted loop playsinline preload="none"<?= $poster ? ' poster="' . $poster . '"' : '' ?> data-sources="<?= $sources($reelDesk) ?>" aria-label="Dakpion IMC services showreel"></video>
-      <button type="button" class="reel-chip" data-reel-open><span class="pl" aria-hidden="true"></span><?= e(t('home', 'reel_label')) ?></button>
-    </div>
-<?php endif; ?>
+<section class="hero hero--video">
+  <h1 class="sr-only"><?= e(t('home', 'hero_h1')) ?></h1>
+  <div class="hv-frame<?= $custom ? '' : ' hv-frame--portrait' ?>">
+    <video autoplay muted loop playsinline preload="auto"<?= $poster ? ' poster="' . $poster . '" data-poster-mobile="' . url('assets/video/dakpion-reel-portrait-poster.jpg') . '"' : '' ?> data-eager data-sources="<?= $sources($reelDesk) ?>" data-sources-mobile="<?= $sources($reelMob) ?>" aria-label="Dakpion IMC — our services in motion"></video>
+    <button type="button" class="hv-toggle" aria-label="Pause video" data-video-toggle><i aria-hidden="true"></i></button>
   </div>
-<?php if ($reel): ?>
-  <div class="hero-reel container">
-    <div class="hero-reel-card"><video muted loop playsinline preload="none"<?= $poster ? ' poster="' . $poster . '"' : '' ?> data-sources="<?= $sources($reelMob) ?>" aria-label="Dakpion IMC services showreel"></video></div>
-  </div>
-<?php endif; ?>
 </section>
 
 <section class="tapes" aria-hidden="true">
