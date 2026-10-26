@@ -782,3 +782,21 @@ p { margin:0 0 1em; }
   .offer-bar { font-size:13px; padding:8px 14px; }
 }
 .popup-card:focus { outline:none; }
+
+/* ── Hero showreel: a small card that grows into a big centred player on scroll (desktop), inline card on mobile ── */
+.hero-video { position:absolute; right:var(--gutter); bottom:32px; width:min(300px, 24vw); aspect-ratio:16/9; z-index:3; border-radius:18px; overflow:hidden; background:var(--g-900); cursor:pointer; box-shadow:0 18px 50px rgba(44,45,47,.22); }
+.hero-video video { width:100%; height:100%; object-fit:cover; display:block; }
+.reel-chip { position:absolute; right:10px; bottom:10px; display:inline-flex; align-items:center; gap:8px; padding:7px 13px 7px 8px; border-radius:var(--r-full); background:rgba(255,255,255,.94); color:var(--g-900); font-size:12.5px; font-weight:600; box-shadow:0 6px 18px rgba(0,0,0,.18); }
+.reel-chip .pl { width:22px; height:22px; border-radius:50%; background:var(--lime); position:relative; flex:none; }
+.reel-chip .pl::after { content:''; position:absolute; left:8px; top:6px; border-left:8px solid var(--g-900); border-top:5px solid transparent; border-bottom:5px solid transparent; }
+.hero-pin:has(.hero-video) .hero-deg { right:auto; left:50%; transform:translateX(-50%); }
+.hero-reel { display:none; padding-bottom:clamp(36px, 8vw, 64px); }
+.hero-reel-card { position:relative; aspect-ratio:16/9; border-radius:var(--r-lg); overflow:hidden; background:var(--g-900); box-shadow:var(--shadow-md); }
+.hero-reel-card video { width:100%; height:100%; object-fit:cover; display:block; }
+@media (max-width:980px) {
+  .hero-video { display:none; }
+  .hero-reel { display:block; }
+  .hero-pin:has(.hero-video) .hero-deg { left:auto; right:var(--gutter); transform:none; }
+}
+.no-anim .hero-video { display:none; }
+.no-anim .hero-reel { display:block; }

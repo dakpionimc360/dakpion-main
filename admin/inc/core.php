@@ -273,7 +273,7 @@ function admin_foot(): void
 /** Fields that read better at full width in the two-column form grid. */
 function wide_field(string $type): bool
 {
-    return in_array($type, ['textarea', 'lines', 'image', 'multi', 'heading', 'check', 'rich'], true);
+    return in_array($type, ['textarea', 'lines', 'image', 'multi', 'heading', 'check', 'rich', 'video'], true);
 }
 
 function render_field(string $name, array $def, ?string $value, string $prefix = 'f'): string
@@ -319,6 +319,17 @@ function render_field(string $name, array $def, ?string $value, string $prefix =
                 . '<button type="button" class="btn btn--sm" data-pick>' . aicon('image', 15) . 'Library</button>'
                 . '<button type="button" class="btn btn--sm btn--danger-text" data-clear' . ($v ? '' : ' hidden') . '>Remove</button>'
                 . '</div></div>';
+            break;
+        case 'video':
+            $cur = $v ? media_url($v) : url('assets/video/dakpion-reel-mobile.mp4');
+            $max = ini_get('upload_max_filesize');
+            $input = '<div class="vid-field"><video src="' . e($cur) . '"' . ($v ? '' : ' poster="' . url('assets/video/dakpion-reel-poster.jpg') . '"') . ' muted loop playsinline controls preload="metadata"></video><div>'
+                . '<p class="small muted">' . ($v ? 'Apnar upload kora video cholche.' : 'Ekhon amader banano service reel cholche.') . '</p>'
+                . '<input type="hidden" name="' . $n . '" value="' . e($v) . '">'
+                . '<label class="btn btn--sm">' . aicon('upload', 15) . 'Upload MP4<input type="file" name="vid_' . $name . '" accept="video/mp4,video/webm" hidden data-vid-input></label>'
+                . ($v ? ' <button type="button" class="btn btn--sm btn--danger-text" data-vid-reset>Default reel e ferot jan</button>' : '')
+                . '<small>MP4 (H.264), 16:9, 30 second er moto. Server limit: ' . e((string)$max) . ' — boro hole host er upload limit barate hobe.</small>'
+                . '<span class="small vid-picked" hidden></span></div></div>';
             break;
         default:
             // url stays type=text so "facebook.com/page" is accepted; https:// is added on save

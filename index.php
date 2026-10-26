@@ -9,6 +9,15 @@ $process = items('process');
 $latest = posts(3);
 $words = tags(t('home', 'hero_words')) ?: ['loved'];
 
+// Hero showreel: our default motion reel, or a video uploaded in Admin → Pages → Home
+$reel = t('home', 'reel_on') === '1';
+$custom = t('home', 'reel_video');
+$reelDesk = $custom ? [[media_url($custom), str_ends_with($custom, '.webm') ? 'video/webm' : 'video/mp4']]
+    : [[url('assets/video/dakpion-reel.webm'), 'video/webm'], [url('assets/video/dakpion-reel.mp4'), 'video/mp4']];
+$reelMob = $custom ? $reelDesk : [[url('assets/video/dakpion-reel-mobile.mp4'), 'video/mp4']];
+$poster = $custom ? '' : url('assets/video/dakpion-reel-poster.jpg');
+$sources = fn(array $list) => e(json_encode($list, JSON_UNESCAPED_SLASHES));
+
 page_start('home');
 ?>
 
@@ -30,7 +39,18 @@ page_start('home');
     </div>
     <div class="hero-deg" aria-hidden="true"><b>0</b>°</div>
     <div class="scroll-hint"><i></i>Scroll</div>
+<?php if ($reel): ?>
+    <div class="hero-video" data-reel-layer>
+      <video muted loop playsinline preload="none"<?= $poster ? ' poster="' . $poster . '"' : '' ?> data-sources="<?= $sources($reelDesk) ?>" aria-label="Dakpion IMC services showreel"></video>
+      <button type="button" class="reel-chip" data-reel-open><span class="pl" aria-hidden="true"></span><?= e(t('home', 'reel_label')) ?></button>
+    </div>
+<?php endif; ?>
   </div>
+<?php if ($reel): ?>
+  <div class="hero-reel container">
+    <div class="hero-reel-card"><video muted loop playsinline preload="none"<?= $poster ? ' poster="' . $poster . '"' : '' ?> data-sources="<?= $sources($reelMob) ?>" aria-label="Dakpion IMC services showreel"></video></div>
+  </div>
+<?php endif; ?>
 </section>
 
 <section class="tapes" aria-hidden="true">

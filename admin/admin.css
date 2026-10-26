@@ -397,3 +397,9 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--lim
   .media-grid { grid-template-columns:repeat(2, 1fr); }
   .auth-card { padding:36px 22px; }
 }
+.vid-field { display:flex; gap:16px; align-items:flex-start; }
+.vid-field video { width:260px; aspect-ratio:16/9; border-radius:12px; background:var(--g-900); flex:none; object-fit:cover; }
+.vid-field > div { display:flex; flex-direction:column; gap:8px; align-items:flex-start; }
+.vid-field p { margin:0; }
+.vid-picked { color:var(--lime-deep); font-weight:600; }
+@media (max-width:640px) { .vid-field { flex-direction:column; } .vid-field video { width:100%; } }

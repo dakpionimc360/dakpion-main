@@ -280,3 +280,20 @@
     });
   }
 })();
+
+/* Hero video field: show the picked file, or switch back to the default reel */
+document.addEventListener('change', e => {
+  if (!e.target.matches('[data-vid-input]')) return;
+  const box = e.target.closest('.vid-field'), f = e.target.files[0];
+  const out = box.querySelector('.vid-picked');
+  if (f) { out.hidden = false; out.textContent = '✓ ' + f.name + ' (' + (f.size / 1048576).toFixed(1) + ' MB) — Save chaple upload hobe'; box.querySelector('video').src = URL.createObjectURL(f); }
+});
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-vid-reset]');
+  if (!b) return;
+  const box = b.closest('.vid-field');
+  box.querySelector('input[type=hidden]').value = '';
+  b.textContent = 'Default reel — Save chaple hobe';
+  b.disabled = true;
+  box.closest('form')?.dispatchEvent(new Event('input'));
+});

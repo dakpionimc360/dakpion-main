@@ -21,6 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($fields as $f => $def) {
         $v = trim(str_replace("\r\n", "\n", (string)($in[$f] ?? '')));
         if ($def['type'] === 'tags') $v = implode(', ', tags($v));
+        if ($def['type'] === 'check') $v = $v === '1' ? '1' : '0';
+        if ($def['type'] === 'video') {
+            $file = $_FILES['vid_' . $f] ?? null;
+            if ($file && $file['error'] !== UPLOAD_ERR_NO_FILE) {
+                try {
+                    $v = store_video($file);
+                    log_activity('Uploaded video', (string)$file['name']);
+                } catch (RuntimeException $ex) {
+                    flash($ex->getMessage(), 'err');
+                    redirect(aurl('pages/' . $key));
+                }
+            } elseif (!preg_match('~^uploads/[\w.-]+\.(mp4|webm)$~', $v) || !is_file(ROOT_DIR . '/' . $v)) {
+                $v = '';
+            }
+        }
         if ($v !== t($key, $f)) $changed[] = $def['label'];
         // Same as the default (or empty) → store nothing, so the page keeps using the default.
         if ($v === '' || $v === $def['default']) $del->execute(["$key.$f"]);
@@ -36,7 +51,7 @@ admin_head('Pages & SEO', 'pages', [], '<a class="btn btn--ghost" href="' . e($v
 ?>
 <nav class="tabs"><?php foreach (PAGES as $k => $p): ?><a href="<?= aurl('pages/' . $k) ?>"<?= $k === $key ? ' aria-current="page"' : '' ?>><?= e($p['label']) ?></a><?php endforeach; ?></nav>
 
-<form method="post" class="split-form" data-dirty>
+<form method="post" class="split-form" enctype="multipart/form-data" data-dirty>
   <?= csrf() ?>
   <div class="card form form-grid">
 <?php foreach ($fields as $f => $def): if (str_starts_with($f, 'seo_')) continue; ?>

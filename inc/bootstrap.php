@@ -417,6 +417,23 @@ function store_upload(array $file, int $maxW = 1600): string
     return $path;
 }
 
+/** Store an uploaded MP4/WebM under uploads/ (videos stay out of the image library). */
+function store_video(array $file): string
+{
+    $err = $file['error'] ?? UPLOAD_ERR_NO_FILE;
+    if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) {
+        throw new RuntimeException('Video ta server er upload limit (' . ini_get('upload_max_filesize') . ') er cheye boro. Choto kore din, ba hosting e limit barai.');
+    }
+    if ($err !== UPLOAD_ERR_OK) throw new RuntimeException('Video upload hoy nai, abar try korun.');
+    $mime = (new finfo(FILEINFO_MIME_TYPE))->file($file['tmp_name']);
+    $ext = ['video/mp4' => 'mp4', 'video/webm' => 'webm'][$mime] ?? null;
+    if (!$ext) throw new RuntimeException('Shudhu MP4 ba WebM video dewa jabe.');
+    if (!is_dir(UPLOAD_DIR)) mkdir(UPLOAD_DIR, 0775, true);
+    $path = 'uploads/' . date('Ym') . '-' . bin2hex(random_bytes(6)) . '.' . $ext;
+    if (!move_uploaded_file($file['tmp_name'], ROOT_DIR . '/' . $path)) throw new RuntimeException('Video save hoy nai — uploads folder writable kina dekhun.');
+    return $path;
+}
+
 /** Where a library file is used (settings, collections, blog). */
 function media_usage(string $path): array
 {

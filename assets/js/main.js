@@ -140,6 +140,31 @@
     pop.addEventListener('click', e => { if (e.target === pop || e.target.closest('[data-popup-close]')) close(); });
   }
 
+  /* Showreel videos: attach sources after the page has loaded, play only while on screen */
+  function initReels() {
+    const vids = $$('video[data-sources]');
+    if (!vids.length) return;
+    const load = v => {
+      if (v.dataset.loaded) return;
+      v.dataset.loaded = '1';
+      JSON.parse(v.dataset.sources).forEach(([src, type]) => {
+        const s = document.createElement('source'); s.src = src; s.type = type; v.appendChild(s);
+      });
+      v.load();
+    };
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      const v = en.target;
+      if (en.isIntersecting && v.offsetParent !== null) { load(v); v.play().catch(() => {}); }
+      else if (!v.paused) v.pause();
+    }), { rootMargin: '200px 0px' });
+    const go = () => vids.forEach(v => io.observe(v));
+    if (document.readyState === 'complete') setTimeout(go, 300);
+    else window.addEventListener('load', () => setTimeout(go, 300), { once: true });
+    document.addEventListener('visibilitychange', () => vids.forEach(v => {
+      if (document.hidden) v.pause(); else if (v.dataset.loaded && v.offsetParent !== null && v.getBoundingClientRect().bottom > 0 && v.getBoundingClientRect().top < innerHeight) v.play().catch(() => {});
+    }));
+  }
+
   function initRotator() {
     $$('.rotator').forEach(r => {
       const words = $$('span', r);
@@ -264,14 +289,34 @@
     const len = 1759.3;
     const counter = { v: 0 };
     const setDeg = () => { if (deg) deg.textContent = Math.round(counter.v); };
+    const layer = $('.hero-video');
     mm.add('(min-width: 981px)', () => {
+      // with a showreel the pin runs longer: ring first (0–1), then the video card grows to full screen (1–1.7)
+      const total = layer ? 1.7 : 1;
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
-          trigger: pin, start: 'top top', end: '+=160%', pin: true, scrub: .6,
-          onUpdate: self => showWord(Math.min(rwords.length - 1, Math.floor(self.progress * rwords.length * 1.15)))
+          trigger: pin, start: 'top top', end: layer ? '+=280%' : '+=160%', pin: true, scrub: .6, invalidateOnRefresh: true,
+          onUpdate: self => showWord(Math.min(rwords.length - 1, Math.floor(Math.min(1, self.progress * total) * rwords.length * 1.15)))
         }
       });
+      if (layer) {
+        const st = tl.scrollTrigger;
+        // final size: the biggest 16:9 box that fits the screen with a margin, centred
+        const fin = () => {
+          const W = pin.offsetWidth, H = pin.offsetHeight, fw = Math.min(W - 64, (H - 64) * 16 / 9);
+          return { w: fw, r: (W - fw) / 2, b: (H - fw * 9 / 16) / 2 };
+        };
+        tl.fromTo(layer, { width: () => Math.min(300, pin.offsetWidth * .24), right: () => parseFloat(getComputedStyle(root).getPropertyValue('--gutter')) || 40, bottom: 32, borderRadius: 18 },
+            { width: () => fin().w, right: () => fin().r, bottom: () => fin().b, borderRadius: 28, duration: .7, ease: 'power2.inOut', immediateRender: false }, 1)
+          .to('.reel-chip', { opacity: 0, duration: .1 }, 1)
+          .to(['.hero-ring', '.ring-words', '.hero-deg'], { opacity: 0, duration: .25 }, 1.05)
+          .to('.hero-title', { opacity: 0, y: -40, duration: .25 }, 1.05);
+        // clicking the small card scrolls to where the reel fills the screen
+        layer.addEventListener('click', () => {
+          lenis ? lenis.scrollTo(st.end, { duration: 1.6 }) : window.scrollTo({ top: st.end, behavior: 'smooth' });
+        });
+      }
       if (rot) {
         rot.dataset.manual = '1';
         rwords.forEach(w => w.classList.remove('is-on', 'is-out'));
@@ -288,7 +333,7 @@
         .to('.hero-title', { scale: .92, y: -20, duration: .45 }, .5)
         .to(['.hero-sub', '.hero-cta'], { y: -24, opacity: 0, duration: .35, stagger: .05 }, .6)
         .to('.hero-pin .scroll-hint', { opacity: 0, duration: .2 }, 0);
-      return () => { gsap.set(prog, { strokeDashoffset: len }); counter.v = 0; setDeg(); if (rot) delete rot.dataset.manual; };
+      return () => { gsap.set(prog, { strokeDashoffset: len }); counter.v = 0; setDeg(); if (rot) delete rot.dataset.manual; if (layer) gsap.set(layer, { clearProps: 'width,right,bottom,borderRadius' }); };
     });
     mm.add('(max-width: 980px)', () => {
       gsap.to(prog, { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut', delay: .4 });
@@ -517,6 +562,7 @@
     initFilter();
     initForms();
     initPopup();
+    initReels();
     initRotator();
     window.__animReady = true;
 

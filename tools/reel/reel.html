@@ -1,0 +1,254 @@
+<!doctype html>
+<!--
+  Source of assets/video/dakpion-reel.* (the homepage hero showreel). To change it and re-render:
+    1. Edit the services in the S array below (names, short text, tags) and the motifs if needed.
+    2. Put the font files next to this page: plus-jakarta-sans-latin-{600,700,800}-normal.woff2 and
+       inter-latin-{400,500,600}-normal.woff2 (npm i @fontsource/plus-jakarta-sans @fontsource/inter).
+    3. From the repo root: python3 -m http.server 8790  then  node tools/reel/render.mjs  (writes frames/)
+    4. Encode (from the repo root):
+       ffmpeg -framerate 30 -i frames/f%04d.jpg -vf "scale=1600:900,format=yuv420p" -c:v libx264 -preset slow -crf 25 -movflags +faststart -an assets/video/dakpion-reel.mp4
+       ffmpeg -framerate 30 -i frames/f%04d.jpg -vf "scale=1600:900,format=yuv420p" -c:v libvpx-vp9 -b:v 0 -crf 38 -an assets/video/dakpion-reel.webm
+       ffmpeg -framerate 30 -i frames/f%04d.jpg -vf "scale=960:540,format=yuv420p" -c:v libx264 -preset slow -crf 27 -movflags +faststart -an assets/video/dakpion-reel-mobile.mp4
+-->
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:J;font-weight:600;src:url(plus-jakarta-sans-latin-600-normal.woff2)}
+@font-face{font-family:J;font-weight:700;src:url(plus-jakarta-sans-latin-700-normal.woff2)}
+@font-face{font-family:J;font-weight:800;src:url(plus-jakarta-sans-latin-800-normal.woff2)}
+@font-face{font-family:I;font-weight:400;src:url(inter-latin-400-normal.woff2)}
+@font-face{font-family:I;font-weight:500;src:url(inter-latin-500-normal.woff2)}
+@font-face{font-family:I;font-weight:600;src:url(inter-latin-600-normal.woff2)}
+:root{--lime:#9BCB3C;--hi:#B4DD62;--deep:#557D12;--soft:#EAF4D6;--g9:#2C2D2F;--g8:#3A3B3D;--g:#58595B;--g5:#76777A;--paper:#F6F7F3;--p2:#EDEFE8;--w:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+body{font-family:I,sans-serif;color:var(--g9)}
+.scene{position:absolute;inset:0;overflow:hidden;clip-path:circle(0% at 50% 50%)}
+.scene.dark{background:var(--g9);color:#fff}.scene.lime{background:var(--lime);color:var(--g9)}.scene.paper{background:var(--paper);color:var(--g9)}
+.scene .brand{position:absolute;left:110px;top:84px;font:800 30px J;letter-spacing:-.03em}
+.scene .brand i{font-style:normal;color:var(--lime)}.lime .brand i{color:var(--w)}
+.scene .count{position:absolute;right:110px;top:88px;font:600 22px J;letter-spacing:.06em;opacity:.7}
+.txt{position:absolute;left:110px;top:250px;width:860px}
+.num{width:128px;height:128px;border-radius:36px;display:grid;place-items:center}.num svg{width:64px;height:64px}.dark .num,.paper .num{background:var(--lime);color:var(--g9)}.lime .num{background:var(--g9);color:var(--lime)}
+.name{font:800 116px/.98 J;letter-spacing:-.045em;margin-top:24px}
+.name .ln{display:block;overflow:hidden;padding-bottom:.06em}.name .ln>span{display:inline-block}
+.dark .name em{color:var(--lime);font-style:normal}.paper .name em{color:var(--deep);font-style:normal}.lime .name em{color:var(--w);font-style:normal}
+.short{font:500 34px/1.4 I;margin-top:34px;max-width:780px;opacity:.78}
+.tags{display:flex;gap:14px;margin-top:40px}
+.tag{padding:14px 26px;border-radius:999px;font:600 24px I;border:2px solid currentColor;opacity:.9}
+.dark .tag{border-color:rgba(255,255,255,.3)}.lime .tag{border-color:rgba(44,45,47,.35)}.paper .tag{border-color:#D6D8D1}
+.vis{position:absolute;right:120px;top:190px;width:700px;height:700px}
+.bar8{position:absolute;left:110px;right:110px;bottom:80px;display:flex;gap:12px}
+.bar8 i{flex:1;height:6px;border-radius:9px;background:currentColor;opacity:.18}
+.bar8 i.on{opacity:1;background:var(--lime)}.lime .bar8 i.on{background:var(--g9)}
+.ic{width:120px;height:120px;border-radius:34px;display:grid;place-items:center;position:absolute;left:110px;top:150px}
+.dark .ic{background:var(--lime);color:var(--g9)}.lime .ic{background:var(--g9);color:var(--lime)}.paper .ic{background:var(--g9);color:var(--lime)}
+.ic svg{width:60px;height:60px}
+svg.draw *{vector-effect:non-scaling-stroke}
+/* intro / outro */
+.center{position:absolute;inset:0;display:grid;place-items:center}
+.ring{position:absolute;left:50%;top:50%;width:900px;height:900px;margin:-450px 0 0 -450px}
+.big{font:800 250px/1 J;letter-spacing:-.06em;text-align:center}
+.big sup{font-size:.45em;vertical-align:.9em;color:var(--lime)}
+.kick{font:600 30px J;letter-spacing:.32em;text-transform:uppercase;text-align:center;color:var(--g5)}
+.line2{font:700 54px J;letter-spacing:-.03em;text-align:center;margin-top:18px}
+.line2 em{font-style:normal;color:var(--deep)}
+.orbit span{position:absolute;padding:14px 26px;border-radius:999px;background:var(--w);border:2px solid var(--lime);font:700 26px J;white-space:nowrap;transform:translate(-50%,-50%)}
+.orbit span::before{content:'';display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--lime);margin-right:12px;vertical-align:2px}
+.url{position:absolute;left:0;right:0;bottom:34px;text-align:center;font:600 30px I;color:var(--g5);letter-spacing:.04em}
+/* motifs */
+.card{position:absolute;border-radius:28px}
+.pill{position:absolute;padding:14px 24px;border-radius:999px;font:700 24px J;white-space:nowrap;box-shadow:0 18px 40px rgba(0,0,0,.12)}
+</style></head>
+<body>
+<div id="stage"></div>
+<script src="../../assets/js/vendor/gsap.min.js"></script>
+<script>
+const S = [
+ {n:'Strategy',n2:'& Research',icon:'target',bg:'dark',short:'Insight, positioning and a full-funnel plan before a single taka is spent.',tags:['Research','Positioning','Media plan']},
+ {n:'Branding',n2:'& Creative',icon:'brand',bg:'lime',short:'Identities and big ideas that make your brand impossible to ignore.',tags:['Identity','Packaging','Campaigns']},
+ {n:'Digital &',n2:'Social Media',icon:'social',bg:'paper',short:'Always-on content, community and creators across every platform.',tags:['Content','Community','Influencers']},
+ {n:'Performance',n2:'& SEO',icon:'ads',bg:'dark',short:'Meta, Google and TikTok ads plus SEO — optimised daily for sales.',tags:['Meta Ads','Google Ads','SEO']},
+ {n:'Video &',n2:'Production',icon:'video',bg:'lime',short:'TVC, OVC, reels, 3D and CGI — produced in-house, script to screen.',tags:['TVC','Reels','3D & CGI']},
+ {n:'Web &',n2:'MarTech',icon:'web',bg:'paper',short:'Websites, e-commerce, CRM and automation built to convert.',tags:['Websites','E-commerce','CRM']},
+ {n:'ATL Media',n2:'& PR',icon:'tv',bg:'dark',short:'TV, radio, print, billboards and press — mass reach, measured.',tags:['TV & Radio','OOH','PR']},
+ {n:'BTL &',n2:'Activation',icon:'flag',bg:'lime',short:'Launches, events, sampling and retail — brands people can touch.',tags:['Events','Sampling','Retail']},
+];
+const SHORT = ['Strategy','Branding','Digital & Social','Performance','Video','Web & MarTech','ATL & PR','BTL & Activation'];
+const ico = id => `<svg viewBox="0 0 24 24"><use href="../../assets/icons/sprite.svg#i-${id}"/></svg>`;
+const L='#9BCB3C', G='#2C2D2F', W='#fff', D='#557D12';
+
+/* one motif per service, drawn in a 700×700 box */
+const MOTIF = [
+ // 1 strategy: target + data points
+ () => `<svg viewBox="0 0 700 700" class="m1">
+   ${[300,230,160,90].map((r,i)=>`<circle class="rg" cx="350" cy="350" r="${r}" fill="none" stroke="${i%2?L:'rgba(255,255,255,.25)'}" stroke-width="${i%2?6:3}"/>`).join('')}
+   <line class="cross" x1="350" y1="20" x2="350" y2="680" stroke="rgba(255,255,255,.18)" stroke-width="2"/><line class="cross" x1="20" y1="350" x2="680" y2="350" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+   ${[[150,170],[560,210],[520,560]].map(([x,y])=>`<line class="lk" x1="${x}" y1="${y}" x2="350" y2="350" stroke="${L}" stroke-width="3" stroke-dasharray="10 10"/><circle class="pt" cx="${x}" cy="${y}" r="16" fill="${L}"/>`).join('')}
+   <circle class="hit" cx="350" cy="350" r="34" fill="${L}"/><circle class="pulse" cx="350" cy="350" r="34" fill="none" stroke="${L}" stroke-width="4"/>
+  </svg>
+  <span class="pill p" style="left:40px;top:90px;background:${W};color:${G}">Insight</span>
+  <span class="pill p" style="left:470px;top:120px;background:${L};color:${G}">Positioning</span>
+  <span class="pill p" style="left:420px;top:600px;background:${W};color:${G}">Full-funnel plan</span>`,
+ // 2 branding: Aa + swatches + logo mark
+ () => `<div class="card sw" style="left:40px;top:40px;width:400px;height:400px;background:${G};display:grid;place-items:center"><span style="font:800 230px J;color:${L};letter-spacing:-.05em">Aa</span></div>
+  ${[[G,470,40],[W,470,250],[D,40,470],['#F6F7F3',250,470]].map(([c,x,y])=>`<div class="card sw" style="left:${x}px;top:${y}px;width:190px;height:190px;background:${c}"></div>`).join('')}
+  <svg viewBox="0 0 700 700" style="position:absolute;inset:0"><path class="pen" d="M470 520 C 560 430, 650 560, 660 660" fill="none" stroke="${G}" stroke-width="10" stroke-linecap="round"/></svg>
+  <div class="card mark" style="left:470px;top:470px;width:190px;height:190px;background:${W};display:grid;place-items:center"><div style="width:110px;height:110px;border-radius:50%;border:22px solid ${G};border-right-color:${D}"></div></div>`,
+ // 3 social: phone with feed
+ () => `<div class="phone" style="position:absolute;left:190px;top:10px;width:320px;height:660px;border-radius:52px;background:${G};padding:18px;box-shadow:0 40px 80px rgba(0,0,0,.18)">
+    <div style="position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#F6F7F3">
+     <div class="feed" style="position:absolute;left:0;right:0;top:0">
+      ${['#9BCB3C','#2C2D2F','#B4DD62','#557D12','#9BCB3C','#2C2D2F'].map((c,i)=>`<div style="margin:16px;border-radius:22px;background:#fff;padding:12px"><div style="display:flex;gap:10px;align-items:center;margin-bottom:10px"><i style="width:34px;height:34px;border-radius:50%;background:${c}"></i><b style="font:700 16px J">dakpion.imc</b></div><div style="height:230px;border-radius:14px;background:${c}"></div><div style="font:600 15px I;margin-top:10px">♥ ${[12.4,8.1,21.9,5.6,14.2,9.8][i]}k · 💬 ${[340,120,980,88,410,230][i]}</div></div>`).join('')}
+     </div>
+    </div></div>
+  ${[[30,130,'♥ 12.4k'],[500,250,'+3.2k followers'],[40,480,'🔥 Trending'],[520,560,'💬 980 comments']].map(([x,y,t],i)=>`<span class="pill p" style="left:${x}px;top:${y}px;background:${i%2?L:G};color:${i%2?G:W}">${t}</span>`).join('')}`,
+ // 4 performance: bars + trend + counter
+ () => `<svg viewBox="0 0 700 700" style="position:absolute;inset:0">
+    ${[0,1,2,3].map(i=>`<line x1="40" x2="660" y1="${600-i*130}" y2="${600-i*130}" stroke="rgba(255,255,255,.12)" stroke-width="2"/>`).join('')}
+    ${[120,170,150,260,320,430].map((h,i)=>`<rect class="b" x="${60+i*100}" y="${600-h}" width="64" height="${h}" rx="10" fill="${i===5?L:'rgba(155,203,60,.45)'}"/>`).join('')}
+    <polyline class="trend" points="92,500 192,450 292,470 392,360 492,300 592,170" fill="none" stroke="${W}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle class="tip" cx="592" cy="170" r="14" fill="${W}"/>
+  </svg>
+  <div class="pill p" style="left:40px;top:20px;background:${L};color:${G};font-size:64px;padding:18px 34px;letter-spacing:-.03em"><span class="cnt">+0%</span></div>
+  <span class="pill p" style="left:420px;top:640px;background:${W};color:${G}">ROAS 5.2x</span>`,
+ // 5 video: frame, play, rec, scrubber, film strip
+ () => `<div class="card scr" style="left:20px;top:110px;width:660px;height:372px;background:${G};overflow:hidden">
+    <div class="sky" style="position:absolute;inset:0;background:linear-gradient(160deg,#3A3B3D,#2C2D2F)"></div>
+    <div class="sun" style="position:absolute;right:70px;top:50px;width:150px;height:150px;border-radius:50%;background:${L}"></div>
+    <div class="play" style="z-index:2;position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center"><div style="width:0;height:0;border-left:38px solid ${G};border-top:24px solid transparent;border-bottom:24px solid transparent;margin-left:10px"></div></div>
+    <div style="position:absolute;left:24px;top:22px;font:700 24px J;color:#fff;display:flex;align-items:center;gap:10px"><i class="rec" style="width:16px;height:16px;border-radius:50%;background:#FF4D3D"></i>REC</div>
+    <div style="position:absolute;left:24px;right:24px;bottom:22px;height:8px;border-radius:9px;background:rgba(255,255,255,.25)"><div class="scrub" style="height:100%;width:0;border-radius:9px;background:${L}"></div></div>
+  </div>
+  <div style="position:absolute;left:0;top:530px;width:700px;height:120px;overflow:hidden"><div class="film" style="position:absolute;left:0;top:10px;display:flex;gap:16px">${Array.from({length:9},(_,i)=>`<div style="width:150px;height:96px;border-radius:14px;background:${i%2?G:'#fff'};border:6px solid ${G}"></div>`).join('')}</div></div>
+  <span class="pill p" style="left:460px;top:40px;background:${W};color:${G}">4K · 9:16 · 16:9</span>`,
+ // 6 web: browser building + cursor click
+ () => `<div class="card brw" style="left:20px;top:60px;width:660px;height:520px;background:#fff;box-shadow:0 40px 80px rgba(0,0,0,.12);overflow:hidden">
+    <div style="height:54px;background:#EDEFE8;display:flex;align-items:center;gap:10px;padding:0 20px"><i style="width:14px;height:14px;border-radius:50%;background:#FF6B5B"></i><i style="width:14px;height:14px;border-radius:50%;background:#F5C04A"></i><i style="width:14px;height:14px;border-radius:50%;background:${L}"></i><span style="margin-left:16px;flex:1;height:26px;border-radius:9px;background:#fff;font:500 15px I;color:#76777A;padding:3px 12px">yourbrand.com</span></div>
+    <div class="blk" style="position:absolute;left:30px;top:84px;width:600px;height:30px;border-radius:8px;background:#EDEFE8"></div>
+    <div class="blk" style="position:absolute;left:30px;top:138px;width:330px;height:190px;border-radius:14px;background:${G};padding:24px;color:#fff;font:800 40px/1 J">Grow<br>faster.</div>
+    <div class="blk" style="position:absolute;left:380px;top:138px;width:250px;height:190px;border-radius:14px;background:${L}"></div>
+    ${[0,1,2].map(i=>`<div class="blk" style="position:absolute;left:${30+i*204}px;top:350px;width:188px;height:100px;border-radius:14px;background:#EDEFE8"></div>`).join('')}
+    <div class="blk btn" style="position:absolute;left:54px;top:268px;padding:12px 22px;border-radius:999px;background:${L};color:${G};font:700 18px J">Buy now →</div>
+    <div class="ripple" style="position:absolute;left:120px;top:288px;width:20px;height:20px;margin:-10px;border-radius:50%;border:4px solid ${L}"></div>
+  </div>
+  <svg class="cur" viewBox="0 0 24 24" style="position:absolute;left:560px;top:620px;width:56px;height:56px"><path d="M4 2l16 9-7 2-3 7z" fill="${G}" stroke="#fff" stroke-width="1.5"/></svg>
+  <span class="pill p" style="left:420px;top:610px;background:${G};color:${W}">CRM synced ✓</span>`,
+ // 7 ATL: billboard + on air + waves
+ () => `<div class="card bb" style="left:30px;top:40px;width:560px;height:300px;background:${L};display:flex;flex-direction:column;justify-content:center;padding:40px;transform-origin:50% 100%"><b style="font:800 86px/.95 J;color:${G};letter-spacing:-.04em">BIG IDEA.<br>EVERY<br>SCREEN.</b></div>
+  <div style="position:absolute;left:290px;top:340px;width:16px;height:120px;background:#58595B"></div>
+  <div class="card tv" style="left:330px;top:400px;width:340px;height:220px;background:#3A3B3D;border:10px solid #46474A;display:grid;place-items:center"><span class="air" style="font:800 40px J;color:#FF4D3D;letter-spacing:.06em">● ON AIR</span></div>
+  <svg viewBox="0 0 300 300" style="position:absolute;left:20px;top:420px;width:280px;height:280px">${[60,100,140].map(r=>`<path class="wave" d="M150 ${150-r} A ${r} ${r} 0 0 1 150 ${150+r}" fill="none" stroke="${L}" stroke-width="10" stroke-linecap="round" transform="rotate(180 150 150)"/>`).join('')}<circle cx="150" cy="150" r="22" fill="${L}"/></svg>`,
+ // 8 BTL: map dots + pins + confetti
+ () => `<svg viewBox="0 0 700 700" style="position:absolute;inset:0">
+    ${Array.from({length:12},(_,r)=>Array.from({length:12},(_,c)=>{const x=60+c*52,y=60+r*52;const inMap=Math.hypot(x-350,(y-360)*1.2)<300&&!(x>520&&y<200);return inMap?`<circle cx="${x}" cy="${y}" r="7" fill="rgba(44,45,47,.25)"/>`:''}).join('')).join('')}
+  </svg>
+  ${[[210,170],[420,260],[300,420],[500,470],[170,500]].map(([x,y])=>`<div class="pin" style="position:absolute;left:${x}px;top:${y}px;width:64px;height:64px;margin:-64px 0 0 -32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:${G};display:grid;place-items:center"><i style="width:22px;height:22px;border-radius:50%;background:${L}"></i></div>`).join('')}
+  ${Array.from({length:26},(_,i)=>`<i class="cf" style="position:absolute;left:350px;top:330px;width:${10+i%3*6}px;height:${16+i%2*10}px;border-radius:3px;background:${[G,W,D][i%3]}"></i>`).join('')}
+  <span class="pill p" style="left:400px;top:60px;background:${G};color:${W}">400+ activations</span>
+  <span class="pill p" style="left:30px;top:590px;background:${W};color:${G}">18 districts · live</span>`,
+];
+
+const stage = document.getElementById('stage');
+const PER = 2.6, INTRO = 2.8;
+let html = `<section class="scene paper intro" style="clip-path:none">
+  <svg class="ring" viewBox="0 0 760 760"><circle cx="380" cy="380" r="370" fill="none" stroke="#E4E5E0" stroke-width="2.5"/><circle class="rp" cx="380" cy="380" r="370" fill="none" stroke="${L}" stroke-width="7" stroke-linecap="round" transform="rotate(-90 380 380)" stroke-dasharray="2325" stroke-dashoffset="2325"/></svg>
+  <div class="center"><div><div class="kick ik">Dakpion IMC presents</div><div class="big ib"><span>360</span><sup>°</sup></div><div class="line2 il">One team. <em>Every channel.</em></div></div></div>
+</section>`;
+S.forEach((s, i) => {
+  html += `<section class="scene ${s.bg} sv" data-i="${i}">
+   <div class="brand">DAKPION <i>IMC</i></div><div class="count">${String(i+1).padStart(2,'0')} / 08</div>
+   <div class="txt"><div class="num">${ico(s.icon)}</div>
+     <div class="name"><span class="ln"><span>${s.n}</span></span><span class="ln"><span><em>${s.n2}</em></span></span></div>
+     <div class="short">${s.short}</div>
+     <div class="tags">${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
+   <div class="vis">${MOTIF[i]()}</div>
+   <div class="bar8">${S.map((_,j)=>`<i class="${j<=i?'on':''}"></i>`).join('')}</div>
+  </section>`;
+});
+html += `<section class="scene paper outro">
+  <svg class="ring" viewBox="0 0 760 760"><circle cx="380" cy="380" r="370" fill="none" stroke="#E4E5E0" stroke-width="2.5"/><circle class="rp" cx="380" cy="380" r="370" fill="none" stroke="${L}" stroke-width="7" stroke-linecap="round" transform="rotate(-90 380 380)" stroke-dasharray="2325" stroke-dashoffset="0"/></svg>
+  <div class="orbit">${S.map((s,i)=>{const a=(i/8)*Math.PI*2-Math.PI/2;return `<span style="left:${960+Math.cos(a)*600}px;top:${540+Math.sin(a)*445}px">${SHORT[i]}</span>`}).join('')}</div>
+  <div class="center"><div><div class="kick ok">All under one roof</div><div class="big ob" style="font-size:190px"><span>360</span><sup>°</sup></div><div class="line2 ol">Marketing that <em>moves numbers.</em></div></div></div>
+  <div class="url">dakpionimc.com</div>
+</section>`;
+stage.innerHTML = html;
+
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+const $ = (s, c = document) => c.querySelector(s), $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+/* intro */
+const intro = $('.intro');
+tl.to($('.rp', intro), { strokeDashoffset: 0, duration: 2.2, ease: 'power2.inOut' }, 0.1)
+  .from($('.ik', intro), { y: 30, opacity: 0, duration: .9 }, .2)
+  .from($('.ib span', intro), { yPercent: 60, opacity: 0, duration: 1.1 }, .35)
+  .from($('.ib sup', intro), { scale: 0, opacity: 0, duration: .8, ease: 'back.out(3)' }, .8)
+  .from($('.il', intro), { y: 30, opacity: 0, duration: .9 }, .7);
+
+/* services */
+$$('.sv').forEach((sc, i) => {
+  const t = INTRO + i * PER;
+  tl.fromTo(sc, { clipPath: 'circle(0% at 74% 50%)' }, { clipPath: 'circle(150% at 74% 50%)', duration: .9, ease: 'power3.inOut' }, t - .45)
+    .from($('.num', sc), { scale: 0, rotate: -90, duration: .8, ease: 'back.out(1.8)' }, t)
+    .from($$('.name .ln>span', sc), { yPercent: 110, duration: .9, stagger: .1 }, t + .05)
+    .from($('.short', sc), { y: 26, opacity: 0, duration: .8 }, t + .3)
+    .from($$('.tag', sc), { y: 20, opacity: 0, scale: .8, duration: .6, stagger: .07, ease: 'back.out(2)' }, t + .45)
+    .from($$('.bar8 i.on', sc).slice(-1), { scaleX: 0, transformOrigin: 'left', duration: 1.6, ease: 'power2.out' }, t + .2)
+    .from($$('.p', sc), { scale: 0, opacity: 0, duration: .6, stagger: .12, ease: 'back.out(2.2)' }, t + .7)
+    .fromTo($('.vis', sc), { x: 80 }, { x: -20, duration: PER + .6, ease: 'none' }, t - .3); // slow drift
+  const v = $('.vis', sc);
+  const m = [
+    () => tl.from($$('.rg', v), { scale: 0, transformOrigin: '350px 350px', duration: .8, stagger: .1 }, t + .1)
+             .from($$('.lk', v), { opacity: 0, duration: .4, stagger: .1 }, t + .6)
+             .from($$('.pt', v), { scale: 0, transformOrigin: 'center', transformBox: 'fill-box', duration: .5, stagger: .1, ease: 'back.out(3)' }, t + .5)
+             .from($('.hit', v), { scale: 3, opacity: 0, transformOrigin: '350px 350px', duration: .6, ease: 'power4.in' }, t + .9)
+             .fromTo($('.pulse', v), { scale: 1, opacity: 1, transformOrigin: '350px 350px' }, { scale: 4, opacity: 0, duration: 1.2, ease: 'power2.out' }, t + 1.5),
+    () => tl.from($$('.sw', v), { scale: 0, rotate: -20, duration: .7, stagger: .1, ease: 'back.out(1.8)' }, t + .1)
+             .from($('.mark', v), { scale: 0, rotate: 180, duration: .9, ease: 'back.out(1.5)' }, t + .7)
+             .fromTo($('.pen', v), { strokeDasharray: 400, strokeDashoffset: 400 }, { strokeDashoffset: 0, duration: 1, ease: 'power2.inOut' }, t + 1),
+    () => tl.from($('.phone', v), { y: 120, opacity: 0, duration: 1 }, t)
+             .to($('.feed', v), { y: -760, duration: PER + .2, ease: 'power1.inOut' }, t + .4),
+    () => { const o = { v: 0 }; const c = $('.cnt', v);
+             tl.from($$('.b', v), { scaleY: 0, transformOrigin: '50% 100%', transformBox: 'fill-box', duration: .9, stagger: .08 }, t + .1)
+               .fromTo($('.trend', v), { strokeDasharray: 800, strokeDashoffset: 800 }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut' }, t + .5)
+               .from($('.tip', v), { attr: { r: 0 }, duration: .5, ease: 'back.out(3)' }, t + 1.6)
+               .to(o, { v: 212, duration: 1.6, ease: 'power2.out', onUpdate: () => { c.textContent = '+' + Math.round(o.v) + '%'; } }, t + .6); },
+    () => tl.from($('.scr', v), { scale: .7, opacity: 0, duration: .9 }, t)
+             .from($('.play', v), { scale: 0, duration: .6, ease: 'back.out(3)' }, t + .5)
+                          .to($('.scrub', v), { width: '100%', duration: PER, ease: 'none' }, t + .3)
+             .to($('.sun', v), { x: -140, y: 40, duration: PER + .6, ease: 'none' }, t - .3)
+             .to($('.rec', v), { opacity: .15, duration: .3, repeat: 7, yoyo: true, ease: 'none' }, t)
+             .fromTo($('.film', v), { x: 0 }, { x: -760, duration: PER + .6, ease: 'none' }, t - .3),
+    () => tl.from($('.brw', v), { y: 60, opacity: 0, duration: .8 }, t)
+             .from($$('.blk', v), { scale: .6, opacity: 0, duration: .55, stagger: .09, ease: 'back.out(1.6)' }, t + .3)
+             .fromTo($('.cur', v), { x: 0, y: 0 }, { x: -470, y: -330, duration: .9, ease: 'power3.inOut' }, t + 1.0)
+             .to($('.btn', v), { scale: .9, duration: .12, yoyo: true, repeat: 1 }, t + 1.9)
+             .fromTo($('.ripple', v), { scale: 0, opacity: 1 }, { scale: 6, opacity: 0, duration: .8, ease: 'power2.out' }, t + 1.95),
+    () => tl.from($('.bb', v), { rotateX: 90, duration: 1, transformPerspective: 900 }, t + .1)
+             .from($('.tv', v), { scale: 0, duration: .7, ease: 'back.out(1.8)' }, t + .5)
+             .to($('.air', v), { opacity: .2, duration: .35, repeat: 5, yoyo: true, ease: 'none' }, t + 1)
+             .from($$('.wave', v), { opacity: 0, scale: .5, transformOrigin: '150px 150px', duration: .5, stagger: .15, repeat: 2, repeatDelay: .2 }, t + .5),
+    () => tl.from($$('.pin', v), { y: -200, opacity: 0, duration: .7, stagger: .12, ease: 'bounce.out' }, t + .1)
+             .fromTo($$('.cf', v), { x: 0, y: 0, rotate: 0, opacity: 1 }, {
+                x: i => Math.cos(i * 2.4) * (180 + (i % 5) * 50), y: i => Math.sin(i * 2.4) * (160 + (i % 4) * 50) + 120,
+                rotate: i => (i % 2 ? 1 : -1) * 360, opacity: 0, duration: 1.6, ease: 'power3.out' }, t + 1.0),
+  ];
+  m[i]();
+});
+
+/* outro */
+const out = $('.outro'), T = INTRO + S.length * PER;
+tl.fromTo(out, { clipPath: 'circle(0% at 50% 50%)' }, { clipPath: 'circle(150% at 50% 50%)', duration: .9, ease: 'power3.inOut' }, T - .45)
+  .from($$('.orbit span', out), { scale: 0, opacity: 0, duration: .6, stagger: .08, ease: 'back.out(2)' }, T)
+  .from($('.ok', out), { y: 20, opacity: 0, duration: .8 }, T + .1)
+  .from($('.ob span', out), { yPercent: 60, opacity: 0, duration: 1 }, T + .2)
+  .from($('.ob sup', out), { scale: 0, duration: .7, ease: 'back.out(3)' }, T + .6)
+  .from($('.ol', out), { y: 20, opacity: 0, duration: .8 }, T + .5)
+  .from($('.url', out), { opacity: 0, duration: .8 }, T + .9)
+  // fade everything out to the blank paper frame the intro starts on → seamless loop
+  .to([...$$('.orbit span', out), $('.center', out), $('.url', out)], { opacity: 0, scale: .9, duration: .6, ease: 'power2.in' }, T + 2.5)
+  .to($('.rp', out), { strokeDashoffset: -2325, duration: .8, ease: 'power2.in' }, T + 2.4);
+window.DURATION = T + 3.3;
+window.seek = s => { tl.seek(s, false); };
+window.ready = document.fonts.ready.then(() => true);
+</script>
+</body></html>
