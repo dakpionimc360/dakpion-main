@@ -3,7 +3,7 @@
 #   FTP_SERVER     e.g. ftp.dakpionimc.com
 #   FTP_USERNAME   cPanel FTP account
 #   FTP_PASSWORD   its password
-#   FTP_SERVER_DIR folder the domain serves from, ending in "/" (e.g. /public_html/). Optional: defaults to ./
+#   (the FTP account must open in the site folder: files go to its starting folder, ./)
 # data/ and uploads/ hold the live database and images: they are never uploaded, changed or deleted.
 
 name: Deploy to cPanel
@@ -23,20 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clean up server name and folder
+      - name: Clean up server name
         env:
           HOST: ${{ secrets.FTP_SERVER }}
-          DIR: ${{ secrets.FTP_SERVER_DIR }}
         run: |
           # Accept "ftp://ftp.example.com:21/", "https://example.com" etc. and keep only the host name.
           h="$(printf '%s' "$HOST" | tr -d '[:space:]')"
           h="${h#*://}"; h="${h%%/*}"; h="${h%%:*}"
-          d="$(printf '%s' "$DIR" | tr -d '[:space:]')"
-          [ -z "$d" ] && d="./"
-          case "$d" in */) ;; *) d="$d/" ;; esac
           echo "::add-mask::$h"
           echo "FTP_HOST=$h" >> "$GITHUB_ENV"
-          echo "FTP_DIR=$d" >> "$GITHUB_ENV"
 
       - name: Upload changed files over FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -44,7 +39,8 @@ jobs:
           server: ${{ env.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ env.FTP_DIR }}
+          # The FTP account opens in the site folder, so upload right there ("/" is the hosting home, not the site).
+          server-dir: ./
           protocol: ftps
           exclude: |
             **/.git*
