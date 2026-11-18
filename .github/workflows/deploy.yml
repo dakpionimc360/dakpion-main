@@ -23,23 +23,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Resolve server folder
-        id: dir
+      - name: Clean up server name and folder
         env:
+          HOST: ${{ secrets.FTP_SERVER }}
           DIR: ${{ secrets.FTP_SERVER_DIR }}
         run: |
+          # Accept "ftp://ftp.example.com:21/", "https://example.com" etc. and keep only the host name.
+          h="$(printf '%s' "$HOST" | tr -d '[:space:]')"
+          h="${h#*://}"; h="${h%%/*}"; h="${h%%:*}"
           d="$(printf '%s' "$DIR" | tr -d '[:space:]')"
           [ -z "$d" ] && d="./"
           case "$d" in */) ;; *) d="$d/" ;; esac
-          echo "path=$d" >> "$GITHUB_OUTPUT"
+          echo "::add-mask::$h"
+          echo "FTP_HOST=$h" >> "$GITHUB_ENV"
+          echo "FTP_DIR=$d" >> "$GITHUB_ENV"
 
       - name: Upload changed files over FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ env.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ steps.dir.outputs.path }}
+          server-dir: ${{ env.FTP_DIR }}
           protocol: ftps
           exclude: |
             **/.git*
