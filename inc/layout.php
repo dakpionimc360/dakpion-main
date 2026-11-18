@@ -225,12 +225,15 @@ function page_hero(string $crumb, string $label, string $h1Html, string $lead, s
 function stats_section(): void
 {
     $stats = items('stats');
-    if (!$stats) return; ?>
-<section class="section section--lime round" style="margin:0 clamp(8px,1.4vw,20px);overflow:hidden">
+    if (!$stats) return;
+    $title = t('global', 'stats_title');
+    // No *highlight* set in the admin? Highlight the last word so the heading gets its sweep animation.
+    if (strpos($title, '*') === false) $title = preg_replace('/(\S+)\s*$/u', '*$1*', rtrim($title), 1); ?>
+<section class="section section--lime round stats-sec" style="margin:0 clamp(8px,1.4vw,20px);overflow:hidden">
   <div class="big-360" aria-hidden="true">360°</div>
   <div class="container" style="position:relative">
     <div class="head">
-      <div><div class="label" data-reveal>By the numbers</div><h2 data-split><?= heading(t('global', 'stats_title')) ?></h2></div>
+      <div><div class="label" data-reveal>By the numbers</div><h2 data-split><?= heading($title) ?></h2></div>
     </div>
     <div class="stats">
 <?php foreach ($stats as $s): $v = is_numeric($s['value']) ? $s['value'] : '0'; ?>

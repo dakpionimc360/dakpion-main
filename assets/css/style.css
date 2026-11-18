@@ -98,6 +98,7 @@ p { margin:0 0 1em; }
 }
 .label::before { content:''; width:10px; height:10px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 5px var(--lime-soft); }
 .section--lime .label { color:var(--g-900); }
+.section--lime .hl::after { background:#fff; }
 .section--lime .label::before { background:var(--g-900); box-shadow:0 0 0 5px rgba(44,45,47,.12); }
 .lead { font-size:clamp(17px, 1.4vw, 20px); color:var(--g-500); max-width:620px; line-height:1.6; }
 

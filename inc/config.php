@@ -196,7 +196,7 @@ const SEO_FIELDS = ['seo_title' => 'SEO title (Google e je title dekhabe)', 'seo
 
 const PAGES = [
     'global' => ['label' => 'Shared sections', 'fields' => [
-        'stats_title'   => ['heading', 'Stats section heading', "Small team energy.\nBig brand results."],
+        'stats_title'   => ['heading', 'Stats section heading', "Small team energy.\nBig brand *results.*"],
         'header_button' => ['text', 'Header button', "Let's talk"],
         'footer_title'  => ['heading', 'Footer heading', "Got a brand\nto grow?"],
         'footer_button' => ['text', 'Footer button', 'Start a project'],

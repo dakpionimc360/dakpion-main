@@ -316,6 +316,22 @@
     }));
   }
 
+  /* "By the numbers": outlined 360° drifts and turns with the scroll, numbers pop in one by one. */
+  function initStatsSection() {
+    $$('.stats-sec').forEach(sec => {
+      const big = $('.big-360', sec);
+      if (big) gsap.fromTo(big, { xPercent: 18, rotate: -10, opacity: .4 }, {
+        xPercent: -8, rotate: 4, opacity: 1, ease: 'none',
+        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: .8 }
+      });
+      const nums = $$('.stat b', sec);
+      if (nums.length) gsap.from(nums, {
+        yPercent: 60, scale: .7, opacity: 0, duration: 1.1, stagger: .12, ease: 'back.out(1.8)',
+        scrollTrigger: { trigger: sec.querySelector('.stats') || sec, start: 'top 85%', once: true }
+      });
+    });
+  }
+
   function initManifesto() {
     const m = $('.manifesto');
     if (!m || typeof window.SplitText === 'undefined') { m && m.classList.add('no-split'); return; }
@@ -585,6 +601,7 @@
     const start = () => {
       heroIntro();
       initReveals();
+      initStatsSection();
       initManifesto();
       initTapes();
       initHScroll(mm);
