@@ -1,0 +1,45 @@
+# Auto deploy: every push to the main branch uploads the changed files to the cPanel server over FTP.
+# Needs these repo secrets (GitHub → Settings → Secrets and variables → Actions):
+#   FTP_SERVER     e.g. ftp.dakpionimc.com
+#   FTP_USERNAME   cPanel FTP account
+#   FTP_PASSWORD   its password
+#   FTP_SERVER_DIR folder the domain serves from, ending in "/" (e.g. /public_html/). Optional: defaults to ./
+# data/ and uploads/ hold the live database and images: they are never uploaded, changed or deleted.
+
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [claude/vigilant-gauss-8pvwxd, main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload changed files over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          protocol: ftps
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            data/**
+            uploads/**
+            inc/local.php
+            frames/**
+            .playwright-mcp/**
+            *.zip
+            s-index-*.png
+            DEPLOY.md
