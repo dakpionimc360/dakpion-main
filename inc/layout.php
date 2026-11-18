@@ -241,9 +241,9 @@ function stats_section(): void
 </section>
 <?php }
 
-function team_grid(array $members, bool $join = false): void
+function team_grid(array $members, bool $join = false, bool $slider = false): void
 {
-    echo '<div class="team-grid">';
+    echo $slider ? '<div class="team-slider" data-team-slider><div class="team-grid team-track">' : '<div class="team-grid">';
     foreach ($members as $i => $m) {
         $name = trim((string)$m['name']);
         $ini = $m['initials'] ?: ($name ? initials($name) : initials((string)$m['role']));
@@ -263,7 +263,7 @@ function team_grid(array $members, bool $join = false): void
         echo '<a class="member member--join" href="' . e($link) . '" data-reveal data-cursor="Apply"><div class="card"><div><span class="plus">'
             . icon('plus') . '</span><h3>Join the crew</h3><p>We\'re always looking for bold strategists, creators and makers.</p></div></div></a>';
     }
-    echo '</div>';
+    echo $slider ? '</div></div>' : '</div>';
 }
 
 function thumb(array $p): string

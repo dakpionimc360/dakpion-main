@@ -120,7 +120,7 @@ const COLLECTIONS = [
         'initials'  => ['label' => 'Initials (chobi na thakle)', 'type' => 'text'],
         'linkedin'  => ['label' => 'LinkedIn', 'type' => 'url'],
         'instagram' => ['label' => 'Instagram', 'type' => 'url'],
-        'home'      => ['label' => 'Home page e dekhabe (max 4)', 'type' => 'check'],
+        'home'      => ['label' => 'Home slider e age dekhabe', 'type' => 'check'],
     ]],
     'testimonials' => ['label' => 'Testimonials', 'singular' => 'Testimonial', 'list' => ['name', 'role', 'quote'], 'fields' => [
         'quote'    => ['label' => 'Quote', 'type' => 'textarea', 'required' => true],

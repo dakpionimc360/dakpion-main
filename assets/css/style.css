@@ -434,6 +434,26 @@ p { margin:0 0 1em; }
 .member--join .plus { width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:var(--g-900); color:var(--lime); display:grid; place-items:center; transition:transform .6s var(--ease); }
 .member--join:hover .plus { transform:rotate(90deg); }
 
+/* ── Team slider (home) ──────────────────────────── */
+.team-head-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.ts-btn { width:52px; height:52px; border-radius:50%; display:grid; place-items:center; border:1.5px solid var(--g-900); background:transparent; color:var(--g-900); cursor:pointer; transition:background .3s, color .3s, transform .3s var(--ease); }
+.ts-btn:hover { background:var(--g-900); color:#fff; }
+.ts-btn:active { transform:scale(.92); }
+.ts-btn[hidden] { display:none; }
+.ts-btn svg { width:20px; height:20px; }
+.ts-prev svg { transform:rotate(180deg); }
+.team-slider { --per:4; --gap:clamp(14px, 2vw, 24px); position:relative; }
+.team-slider .team-track { display:flex; gap:var(--gap); overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scroll-padding-inline:4px; scrollbar-width:none; -webkit-overflow-scrolling:touch; padding:12px 4px 24px; margin:-12px -4px -24px; }
+.team-slider .team-track::-webkit-scrollbar { display:none; }
+.team-slider .member { flex:0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align:start; }
+.ts-dots { display:flex; justify-content:center; gap:8px; margin-top:28px; }
+.ts-dots:empty { display:none; }
+.ts-dots button { width:8px; height:8px; padding:0; border:0; border-radius:99px; background:var(--g-300); cursor:pointer; transition:width .4s var(--ease), background .3s; }
+.ts-dots button.on { width:28px; background:var(--g-900); }
+@media (max-width:1100px) { .team-slider { --per:3; } }
+@media (max-width:760px) { .team-slider { --per:2; } .ts-btn { width:44px; height:44px; } }
+@media (max-width:420px) { .team-slider { --per:1.4; } }
+
 /* ── Testimonials marquee ────────────────────────── */
 .tm { display:flex; overflow:hidden; mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .tm-track { display:flex; gap:22px; padding-right:22px; flex:none; animation:slide 50s linear infinite; }

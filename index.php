@@ -116,14 +116,21 @@ page_start('home');
 </section>
 <?php endif; ?>
 
-<?php $crew = items('team', 'home', 4); if ($crew): ?>
+<?php
+$crew = items('team');
+usort($crew, fn($a, $b) => ((int)$b['home'] <=> (int)$a['home']) ?: ((int)$a['sort'] <=> (int)$b['sort']) ?: ((int)$a['id'] <=> (int)$b['id']));
+if ($crew): ?>
 <section class="section section--paper round" style="margin:0 clamp(8px,1.4vw,20px)">
   <div class="container">
     <div class="head">
       <div><div class="label" data-reveal>The crew</div><h2 data-split><?= heading(t('home', 'team_title')) ?></h2></div>
-      <a href="<?= url('about') ?>#team" class="btn btn--line" data-reveal>Meet the full team <?= icon('arrow-ur') ?></a>
+      <div class="team-head-actions" data-reveal>
+        <button type="button" class="ts-btn ts-prev" aria-label="Previous team member"><?= icon('arrow') ?></button>
+        <button type="button" class="ts-btn ts-next" aria-label="Next team member"><?= icon('arrow') ?></button>
+        <a href="<?= url('about') ?>#team" class="btn btn--line">Meet the full team <?= icon('arrow-ur') ?></a>
+      </div>
     </div>
-    <?php team_grid($crew); ?>
+    <?php team_grid($crew, false, true); ?>
   </div>
 </section>
 <?php endif; ?>

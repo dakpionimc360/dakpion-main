@@ -487,6 +487,72 @@
     }));
   }
 
+  /* Home team: auto-sliding carousel (native scroll + snap, so swipe works too). */
+  function initTeamSlider() {
+    $$('[data-team-slider]').forEach(slider => {
+      const track = $('.team-track', slider);
+      const cards = track ? $$('.member', track) : [];
+      const section = slider.closest('section');
+      const prev = section && $('.ts-prev', section), next = section && $('.ts-next', section);
+      if (!cards.length) return;
+
+      const step = () => cards[0].offsetWidth + (parseFloat(getComputedStyle(track).columnGap) || 0);
+      const maxScroll = () => track.scrollWidth - track.clientWidth;
+      const pages = () => Math.max(1, Math.round(maxScroll() / step()) + 1);
+      const index = () => Math.min(pages() - 1, Math.round(track.scrollLeft / step()));
+
+      const dots = document.createElement('div');
+      dots.className = 'ts-dots';
+      slider.after(dots);
+
+      const go = i => {
+        const last = pages() - 1;
+        if (i > last) i = 0;
+        if (i < 0) i = last;
+        track.scrollTo({ left: Math.min(i * step(), maxScroll()), behavior: reduced ? 'auto' : 'smooth' });
+      };
+
+      let timer = null, paused = false, inView = true;
+      const tick = () => { if (!paused && inView && !document.hidden && maxScroll() > 2) go(index() + 1); };
+      const restart = () => { clearInterval(timer); if (!reduced) timer = setInterval(tick, 3200); };
+
+      const renderDots = () => {
+        const n = maxScroll() > 2 ? pages() : 0;
+        if (dots.children.length !== n) {
+          dots.innerHTML = '';
+          for (let i = 0; i < n; i++) {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+            b.addEventListener('click', () => { go(i); restart(); });
+            dots.appendChild(b);
+          }
+        }
+        const cur = index();
+        [...dots.children].forEach((d, i) => d.classList.toggle('on', i === cur));
+        [prev, next].forEach(b => { if (b) b.hidden = n === 0; });
+      };
+
+      if (prev) prev.addEventListener('click', () => { go(index() - 1); restart(); });
+      if (next) next.addEventListener('click', () => { go(index() + 1); restart(); });
+      slider.addEventListener('mouseenter', () => { paused = true; });
+      slider.addEventListener('mouseleave', () => { paused = false; restart(); });
+      slider.addEventListener('focusin', () => { paused = true; });
+      slider.addEventListener('focusout', () => { paused = false; });
+      track.addEventListener('touchstart', () => { paused = true; }, { passive: true });
+      track.addEventListener('touchend', () => { paused = false; restart(); }, { passive: true });
+
+      let raf = 0;
+      track.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(renderDots); }, { passive: true });
+      window.addEventListener('resize', renderDots);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([e]) => { inView = e.isIntersecting; }).observe(slider);
+      }
+      renderDots();
+      restart();
+    });
+  }
+
   /* ── Boot ─────────────────────────────────────── */
   function boot() {
     setActiveNav();
@@ -497,6 +563,7 @@
     initPopup();
     initReels();
     initRotator();
+    initTeamSlider();
     window.__animReady = true;
 
     if (!animate) {
