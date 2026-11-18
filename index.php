@@ -45,7 +45,8 @@ page_start('home');
 <?php if ($clients): ?>
 <section class="logos" aria-label="Clients">
   <div class="container"><div class="label" data-reveal>Trusted by</div></div>
-  <div class="logos-row"><?php for ($k = 0; $k < 2; $k++): ?><div class="logos-track"<?= $k ? ' aria-hidden="true"' : '' ?>><?php foreach ($clients as $c): ?><span class="logo-item"><img src="<?= e(media_url($c['logo'])) ?>" alt="<?= $k ? '' : e($c['name']) ?>" loading="lazy"></span><?php endforeach; ?></div><?php endfor; ?></div>
+<?php $reps = max(1, (int)ceil(8 / count($clients))); /* keep the strip full even with only a few logos */ ?>
+  <div class="logos-row"><?php for ($k = 0; $k < 2; $k++): ?><div class="logos-track"<?= $k ? ' aria-hidden="true"' : '' ?>><?php for ($r = 0; $r < $reps; $r++): foreach ($clients as $c): ?><span class="logo-item"><img src="<?= e(media_url($c['logo'])) ?>" alt="<?= ($k || $r) ? '' : e($c['name']) ?>" loading="lazy"></span><?php endforeach; endfor; ?></div><?php endfor; ?></div>
 </section>
 <?php endif; ?>
 
