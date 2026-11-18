@@ -23,13 +23,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Resolve server folder
+        id: dir
+        env:
+          DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          d="$(printf '%s' "$DIR" | tr -d '[:space:]')"
+          [ -z "$d" ] && d="./"
+          case "$d" in */) ;; *) d="$d/" ;; esac
+          echo "path=$d" >> "$GITHUB_OUTPUT"
+
       - name: Upload changed files over FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          server-dir: ${{ steps.dir.outputs.path }}
           protocol: ftps
           exclude: |
             **/.git*
