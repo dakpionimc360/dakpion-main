@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="field"><label for="p">Password</label><input id="p" type="password" name="password" required autocomplete="<?= $setup ? 'new-password' : 'current-password' ?>"<?= $setup ? ' minlength="8"' : '' ?>></div>
     <?php if ($setup): ?><div class="field"><label for="p2">Password abar</label><input id="p2" type="password" name="password2" required minlength="8" autocomplete="new-password"></div><?php endif; ?>
     <button class="btn btn--main btn--block" type="submit"><?= $setup ? 'Create account' : 'Log in' ?></button>
+    <?php if (!$setup): ?><a class="auth-back" href="<?= aurl('reset') ?>">Password bhule gechen?</a><?php endif; ?>
     <a class="auth-back" href="<?= url() ?>">← Back to website</a>
   </form>
 </div>

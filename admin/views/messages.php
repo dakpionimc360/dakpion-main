@@ -12,9 +12,9 @@ if ($sub === 'export') {
     header('Content-Disposition: attachment; filename="messages-' . date('Y-m-d') . '.csv"');
     $out = fopen('php://output', 'w');
     fwrite($out, "\xEF\xBB\xBF"); // Excel reads UTF-8 (৳, Bangla) only with a BOM
-    fputcsv($out, ['Date', ...array_values(LEAD_FIELDS), 'Status', 'Follow-up']);
+    fputcsv($out, ['Date', ...array_values(LEAD_FIELDS), 'Status', 'Follow-up', 'Source', 'Medium', 'Campaign']);
     foreach (db()->query('SELECT * FROM leads ORDER BY id DESC') as $l) {
-        $row = [$l['created_at'], ...array_map(fn($k) => $l[$k], array_keys(LEAD_FIELDS)), LEAD_STATUSES[$l['status'] ?: 'new'] ?? $l['status'], $l['follow_up']];
+        $row = [$l['created_at'], ...array_map(fn($k) => $l[$k], array_keys(LEAD_FIELDS)), LEAD_STATUSES[$l['status'] ?: 'new'] ?? $l['status'], $l['follow_up'], $l['source'], $l['medium'], $l['campaign']];
         // A leading = + - @ would run as a formula in Excel
         fputcsv($out, array_map(fn($v) => preg_match('/^[=+\-@\t\r]/', (string)$v) ? "'" . $v : $v, $row));
     }
@@ -96,7 +96,9 @@ if (ctype_digit($sub)) {
     <dl>
 <?php foreach (LEAD_FIELDS as $k => $label): if ((string)$l[$k] === '' || in_array($k, ['name', 'company'], true)) continue; ?>
       <dt><?= $label ?></dt><dd><?= $k === 'email' ? '<a href="mailto:' . e($l[$k]) . '">' . e($l[$k]) . '</a>' : ($k === 'phone' ? '<a href="' . e(tel_href($l[$k])) . '">' . e($l[$k]) . '</a>' : e($l[$k])) ?></dd>
-<?php endforeach; ?>
+<?php endforeach; if ((string)$l['source'] !== ''): ?>
+      <dt>Came from</dt><dd><?= e($l['source']) ?><?= $l['medium'] !== '' && $l['medium'] !== 'none' ? ' · ' . e($l['medium']) : '' ?><?= $l['campaign'] !== '' ? ' · <b>' . e($l['campaign']) . '</b>' : '' ?></dd>
+<?php endif; ?>
     </dl>
     <div class="actions">
       <a class="btn btn--main" href="mailto:<?= e($l['email']) ?>?subject=<?= rawurlencode('Re: your enquiry — ' . setting('site_name', 'Dakpion IMC')) ?>"><?= aicon('mail', 16) ?>Reply by email</a>

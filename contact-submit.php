@@ -41,7 +41,9 @@ $recent = db()->prepare("SELECT COUNT(*) FROM leads WHERE ip = ? AND created_at 
 $recent->execute([$ip, date('Y-m-d H:i:s', time() - 3600)]);
 if ($recent->fetchColumn() >= 5) done(false, 'rate');
 
-$lead += ['created_at' => date('Y-m-d H:i:s'), 'ip' => $ip, 'user_agent' => mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255)];
+[$src, $med, $camp] = lead_source();
+$lead += ['created_at' => date('Y-m-d H:i:s'), 'ip' => $ip, 'user_agent' => mb_substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255),
+    'source' => $src, 'medium' => $med, 'campaign' => $camp];
 insert_row(db(), 'leads', $lead);
 
 $to = setting('notify_email');
@@ -52,10 +54,9 @@ if ($to && filter_var($to, FILTER_VALIDATE_EMAIL)) {
               'industry' => 'Industry', 'budget' => 'Budget'] as $k => $label) {
         if ($lead[$k] !== '') $body .= str_pad($label . ':', 10) . $lead[$k] . "\n";
     }
+    $body .= "Came from: " . $src . ($med !== '' && $med !== 'none' ? " / $med" : '') . ($camp !== '' ? " ($camp)" : '') . "\n";
     $body .= "\n" . $lead['message'] . "\n\n— Sent " . $lead['created_at'] . " from " . $host;
-    $headers = "From: " . setting('site_name', 'Website') . " <no-reply@" . preg_replace('/^www\./', '', $host) . ">\r\n"
-        . "Reply-To: " . $lead['email'] . "\r\nContent-Type: text/plain; charset=UTF-8";
-    @mail($to, '=?UTF-8?B?' . base64_encode('New enquiry: ' . $lead['name'] . ' — ' . $lead['company']) . '?=', $body, $headers);
+    send_mail($to, 'New enquiry: ' . $lead['name'] . ' — ' . $lead['company'], $body, $lead['email']);
 }
 
 done(true);

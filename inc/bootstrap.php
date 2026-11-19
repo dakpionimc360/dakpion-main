@@ -10,6 +10,7 @@ if (is_file(__DIR__ . '/local.php')) require __DIR__ . '/local.php';
 defined('DATA_DIR') || define('DATA_DIR', ROOT_DIR . '/data');
 
 require __DIR__ . '/config.php';
+require __DIR__ . '/mailer.php';
 
 date_default_timezone_set('Asia/Dhaka');
 
@@ -55,6 +56,10 @@ function migrate(PDO $pdo): void
     $pdo->exec('CREATE TABLE IF NOT EXISTS activity (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, username TEXT, action TEXT,
         target TEXT, details TEXT, ip TEXT, created_at TEXT)');
     $pdo->exec('CREATE TABLE IF NOT EXISTS views (day TEXT, path TEXT, count INTEGER DEFAULT 0, PRIMARY KEY (day, path))');
+    // One row per visitor per day: an anonymous daily hash (no cookie) and where that visit came from.
+    $pdo->exec('CREATE TABLE IF NOT EXISTS visitors (day TEXT, vid TEXT, source TEXT, medium TEXT, campaign TEXT, landing TEXT, pages INTEGER DEFAULT 1, PRIMARY KEY (day, vid))');
+    $pdo->exec('CREATE TABLE IF NOT EXISTS password_resets (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, token_hash TEXT UNIQUE, expires_at INTEGER, used INTEGER DEFAULT 0, created_at TEXT)');
+    add_columns($pdo, 'leads', ['source' => 'TEXT', 'medium' => 'TEXT', 'campaign' => 'TEXT']);
 
     $tables = $pdo->query("SELECT name FROM sqlite_master WHERE type='table'")->fetchAll(PDO::FETCH_COLUMN);
     foreach (COLLECTIONS as $key => $c) {
@@ -277,18 +282,157 @@ function log_activity(string $action, string $target = '', string $details = '')
     ]);
 }
 
-/** Count a page view (no cookies, no personal data). */
+/**
+ * Anonymous visitor id for today: a hash of IP + browser + date + a secret salt. It changes every day,
+ * can't be turned back into an IP, and needs no cookie.
+ */
+function visitor_id(?string $day = null): string
+{
+    $salt = setting('_salt');
+    if ($salt === '') {
+        $salt = bin2hex(random_bytes(16));
+        db()->prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)')->execute(['_salt', $salt]);
+        $salt = (string)db()->query("SELECT value FROM settings WHERE key = '_salt'")->fetchColumn();
+    }
+    return substr(hash('sha256', ($day ?? date('Y-m-d')) . '|' . ($_SERVER['REMOTE_ADDR'] ?? '') . '|' . ($_SERVER['HTTP_USER_AGENT'] ?? '') . '|' . $salt), 0, 20);
+}
+
+/** Where this visit came from: [source, medium, campaign]. UTM tags win, then ad click ids, then the referring site. */
+function traffic_source(): array
+{
+    $clean = fn($v, int $n = 60) => mb_substr(trim(preg_replace('/[^\p{L}\p{N} ._\-|]/u', '', (string)$v)), 0, $n);
+    if (!empty($_GET['utm_source'])) {
+        $src = $clean($_GET['utm_source']);
+        $known = ['fb' => 'Facebook', 'facebook' => 'Facebook', 'ig' => 'Instagram', 'instagram' => 'Instagram', 'google' => 'Google',
+            'youtube' => 'YouTube', 'linkedin' => 'LinkedIn', 'tiktok' => 'TikTok', 'whatsapp' => 'WhatsApp', 'email' => 'Email', 'newsletter' => 'Email'];
+        return [$known[strtolower($src)] ?? $src, strtolower($clean($_GET['utm_medium'] ?? '', 30)) ?: 'campaign', $clean($_GET['utm_campaign'] ?? '', 80)];
+    }
+    if (!empty($_GET['gclid']) || !empty($_GET['gbraid']) || !empty($_GET['wbraid'])) return ['Google', 'cpc', ''];
+    $ref = (string)($_SERVER['HTTP_REFERER'] ?? '');
+    $host = strtolower((string)parse_url($ref, PHP_URL_HOST));
+    $self = strtolower(preg_replace('/:\d+$/', '', (string)($_SERVER['HTTP_HOST'] ?? '')));
+    $bare = fn(string $h) => preg_replace('/^(www|m|l|lm|mobile|web)\./', '', $h);
+    if ($host === '' || $bare($host) === $bare($self)) {
+        return !empty($_GET['fbclid']) ? ['Facebook', 'social', ''] : ['Direct', 'none', ''];
+    }
+    $map = [
+        '/(^|\.)google\./' => ['Google', 'organic'], '/(^|\.)bing\.com$/' => ['Bing', 'organic'], '/(^|\.)duckduckgo\.com$/' => ['DuckDuckGo', 'organic'],
+        '/(^|\.)yahoo\./' => ['Yahoo', 'organic'], '/(^|\.)(facebook\.com|fb\.com|fb\.me)$/' => ['Facebook', 'social'],
+        '/(^|\.)instagram\.com$/' => ['Instagram', 'social'], '/(^|\.)(linkedin\.com|lnkd\.in)$/' => ['LinkedIn', 'social'],
+        '/(^|\.)(youtube\.com|youtu\.be)$/' => ['YouTube', 'social'], '/(^|\.)tiktok\.com$/' => ['TikTok', 'social'],
+        '/(^|\.)(t\.co|twitter\.com|x\.com)$/' => ['X (Twitter)', 'social'], '/(^|\.)(whatsapp\.com|wa\.me)$/' => ['WhatsApp', 'social'],
+        '/(^|\.)(chatgpt\.com|openai\.com)$/' => ['ChatGPT', 'ai'], '/(^|\.)perplexity\.ai$/' => ['Perplexity', 'ai'],
+        '/(^|\.)(claude\.ai|gemini\.google\.com|copilot\.microsoft\.com)$/' => ['AI assistant', 'ai'],
+    ];
+    foreach ($map as $re => [$src, $med]) if (preg_match($re, $host)) return [$src, $med, ''];
+    return [$bare($host), 'referral', ''];
+}
+
+/** Count a page view and the visitor behind it (no cookies, no personal data). */
 function track_view(string $path): void
 {
     $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
-    if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|monitor|curl|wget|python|headless|lighthouse/i', $ua)) return;
+    if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|monitor|curl|wget|python|headless|lighthouse|facebookexternalhit|whatsapp/i', $ua)) return;
     if (($_SERVER['HTTP_SEC_PURPOSE'] ?? '') !== '' || ($_SERVER['HTTP_PURPOSE'] ?? '') === 'prefetch') return;
     if (isset($_COOKIE['dk_staff'])) return; // admins browsing their own site
     try {
+        $day = date('Y-m-d');
         db()->prepare('INSERT INTO views (day, path, count) VALUES (?, ?, 1) ON CONFLICT(day, path) DO UPDATE SET count = count + 1')
-            ->execute([date('Y-m-d'), mb_substr($path, 0, 120)]);
+            ->execute([$day, mb_substr($path, 0, 120)]);
+        $vid = visitor_id($day);
+        [$src, $med, $camp] = traffic_source();
+        $st = db()->prepare('INSERT OR IGNORE INTO visitors (day, vid, source, medium, campaign, landing) VALUES (?, ?, ?, ?, ?, ?)');
+        $st->execute([$day, $vid, $src, $med, $camp, mb_substr($path, 0, 120)]);
+        if (!$st->rowCount()) {
+            // Returning today: count the page, and let a tagged/referred visit replace a plain "Direct".
+            db()->prepare("UPDATE visitors SET pages = pages + 1,
+                source = CASE WHEN source = 'Direct' AND ? <> 'Direct' THEN ? ELSE source END,
+                medium = CASE WHEN source = 'Direct' AND ? <> 'Direct' THEN ? ELSE medium END,
+                campaign = CASE WHEN source = 'Direct' AND ? <> 'Direct' THEN ? ELSE campaign END
+                WHERE day = ? AND vid = ?")->execute([$src, $src, $src, $med, $src, $camp, $day, $vid]);
+        }
     } catch (PDOException) {
         // a locked database must never break a page
+    }
+    maybe_auto_backup();
+}
+
+/** Source of the visitor sending a contact form today (same anonymous id as track_view). */
+function lead_source(): array
+{
+    try {
+        $st = db()->prepare('SELECT source, medium, campaign FROM visitors WHERE day = ? AND vid = ?');
+        $st->execute([date('Y-m-d'), visitor_id()]);
+        if ($r = $st->fetch()) return [$r['source'], $r['medium'], $r['campaign']];
+    } catch (PDOException) {}
+    return ['Unknown', '', ''];
+}
+
+/* ── Automatic backups ────────────────────────────────────── */
+
+const BACKUP_DIR = DATA_DIR . '/backups';
+const BACKUP_KEEP_DAILY = 14;
+const BACKUP_KEEP_WEEKLY = 4;
+
+/**
+ * Once a day (on the first page view after midnight) save a copy of the database to data/backups/,
+ * and once a week a full .zip with the images. Runs after the page is sent, so visitors don't wait.
+ */
+function maybe_auto_backup(): void
+{
+    if (setting('_backup_day') === date('Y-m-d')) return;
+    static $queued = false;
+    if ($queued) return;
+    $queued = true;
+    register_shutdown_function(function () {
+        if (function_exists('litespeed_finish_request')) @litespeed_finish_request();
+        elseif (function_exists('fastcgi_finish_request')) @fastcgi_finish_request();
+        try { run_auto_backup(); } catch (Throwable) {}
+    });
+}
+
+function run_auto_backup(bool $force = false): ?string
+{
+    if (!is_dir(BACKUP_DIR) && !@mkdir(BACKUP_DIR, 0775, true)) return null;
+    $lock = fopen(BACKUP_DIR . '/.lock', 'c');
+    if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) return null;
+    try {
+        $today = date('Y-m-d');
+        $cur = db()->query("SELECT value FROM settings WHERE key = '_backup_day'")->fetchColumn();
+        if (!$force && $cur === $today) return null;
+        @set_time_limit(300);
+        $file = BACKUP_DIR . '/db-' . $today . '.sqlite';
+        @unlink($file);
+        try {
+            db()->exec('VACUUM INTO ' . db()->quote($file));
+        } catch (PDOException) {
+            copy(DATA_DIR . '/site.sqlite', $file);
+        }
+        $made = basename($file);
+        // Full backup with images on Sundays, or when there is none yet.
+        if (class_exists('ZipArchive') && ($force || date('w') === '0' || !glob(BACKUP_DIR . '/full-*.zip'))) {
+            $zipFile = BACKUP_DIR . '/full-' . $today . '.zip';
+            $zip = new ZipArchive();
+            if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+                $zip->addFile($file, 'data/site.sqlite');
+                foreach (glob(UPLOAD_DIR . '/*') ?: [] as $f) if (is_file($f) && basename($f) !== '.htaccess') $zip->addFile($f, 'uploads/' . basename($f));
+                $zip->addFromString('README.txt', "Dakpion website backup — $today\n\nRestore: put data/site.sqlite in the site's data/ folder and\nthe uploads/ files in uploads/, replacing what is there.\n");
+                $zip->close();
+                $made = basename($zipFile);
+            }
+        }
+        foreach (['db-*.sqlite' => BACKUP_KEEP_DAILY, 'full-*.zip' => BACKUP_KEEP_WEEKLY] as $pattern => $keep) {
+            $all = glob(BACKUP_DIR . '/' . $pattern) ?: [];
+            rsort($all);
+            foreach (array_slice($all, $keep) as $old) @unlink($old);
+        }
+        db()->prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value')->execute(['_backup_day', $today]);
+        // Visitor rows older than ~13 months aren't shown anywhere.
+        db()->prepare('DELETE FROM visitors WHERE day < ?')->execute([date('Y-m-d', strtotime('-400 days'))]);
+        return $made;
+    } finally {
+        flock($lock, LOCK_UN);
+        fclose($lock);
     }
 }
 

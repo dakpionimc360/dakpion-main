@@ -333,7 +333,12 @@ function render_field(string $name, array $def, ?string $value, string $prefix =
             break;
         default:
             // url stays type=text so "facebook.com/page" is accepted; https:// is added on save
-            $t = ['email' => 'email', 'number' => 'number', 'date' => 'date'][$type] ?? 'text';
+            $t = ['email' => 'email', 'number' => 'number', 'date' => 'date', 'password' => 'password'][$type] ?? 'text';
+            if ($type === 'password') {
+                // Never send a saved password back to the browser.
+                $attrs .= ' autocomplete="new-password" placeholder="' . ($v !== '' ? '•••••••• (saved — leave empty to keep)' : '') . '"';
+                $v = '';
+            }
             $extra = ['number' => ' step="any"', 'url' => ' inputmode="url" placeholder="https://"'][$type] ?? '';
             $input = '<input type="' . $t . '" id="' . $id . '" name="' . $n . '" value="' . e($v) . '"' . $req . $extra . $attrs . '>';
     }

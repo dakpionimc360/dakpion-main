@@ -27,6 +27,25 @@ function snapshot_db(): string
     return $tmp;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'auto_now') {
+    $made = run_auto_backup(true);
+    $made ? flash('Backup toiri hoyeche: ' . $made) : flash('Backup kora jay nai — data/ folder e lekhar permission check korun.', 'err');
+    if ($made) log_activity('Ran backup now', $made);
+    redirect(aurl('backup'));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'get') {
+    $name = basename((string)($_POST['file'] ?? ''));
+    $path = BACKUP_DIR . '/' . $name;
+    if (!preg_match('/^(db|full)-\d{4}-\d{2}-\d{2}\.(sqlite|zip)$/', $name) || !is_file($path)) redirect(aurl('backup'));
+    log_activity('Downloaded backup', 'automatic: ' . $name);
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="dakpion-' . $name . '"');
+    header('Content-Length: ' . filesize($path));
+    readfile($path);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     set_time_limit(300);
     $stamp = date('Y-m-d-Hi');
@@ -61,6 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 [$files, $bytes] = dir_size(UPLOAD_DIR);
 $dbSize = (int)@filesize(DATA_DIR . '/site.sqlite');
 $last = db()->query("SELECT created_at, username FROM activity WHERE action = 'Downloaded backup' ORDER BY id DESC LIMIT 1")->fetch();
+$autos = array_merge(glob(BACKUP_DIR . '/full-*.zip') ?: [], glob(BACKUP_DIR . '/db-*.sqlite') ?: []);
+$bday = fn(string $f) => preg_match('/(\d{4}-\d{2}-\d{2})/', basename($f), $m) ? $m[1] : '';
+usort($autos, fn($a, $b) => [$bday($b), basename($a)] <=> [$bday($a), basename($b)]);
+$lastAuto = setting('_backup_day');
 
 admin_head('Backup', 'backup');
 ?>
@@ -79,5 +102,22 @@ admin_head('Backup', 'backup');
     <p class="muted">Zip ta khule <code>data/site.sqlite</code> ar <code>uploads/</code> folder hosting er File Manager diye site e replace korun.</p>
   </section>
 </div>
-<p class="muted small">Tip: mashe ekbar backup niye Google Drive e rakhun.</p>
+<section class="card">
+  <div class="card-head"><h2>Automatic backups</h2>
+    <form method="post"><?= csrf() ?><input type="hidden" name="action" value="auto_now"><button class="btn btn--sm"><?= aicon('download', 15) ?>Back up now</button></form></div>
+  <p class="muted">Protidin nijei database er copy rakha hoy (shesh <?= BACKUP_KEEP_DAILY ?> din), ar proti Robibar chobi soho full backup (shesh <?= BACKUP_KEEP_WEEKLY ?> ta). Server er <code>data/backups/</code> folder e thake — website theke keu khulte pare na.</p>
+  <p class="small">Last automatic backup: <b><?= $lastAuto ? e(date('d M Y', strtotime($lastAuto))) : 'ekhono hoy nai — site e prothom visit er por hobe' ?></b></p>
+<?php if ($autos): ?>
+  <table class="table">
+    <thead><tr><th>Date</th><th>Type</th><th>Size</th><th></th></tr></thead>
+    <tbody>
+<?php foreach ($autos as $f): $n = basename($f); $full = str_starts_with($n, 'full-'); ?>
+      <tr><td><?= e(date('D, d M Y', strtotime($bday($f)))) ?></td><td><?= $full ? 'Full (database + images)' : 'Database' ?></td><td><?= human_size((int)filesize($f)) ?></td>
+        <td><form method="post"><?= csrf() ?><input type="hidden" name="action" value="get"><input type="hidden" name="file" value="<?= e($n) ?>"><button class="btn btn--sm btn--ghost"><?= aicon('download', 14) ?>Download</button></form></td></tr>
+<?php endforeach; ?>
+    </tbody>
+  </table>
+<?php endif; ?>
+</section>
+<p class="muted small">Tip: server nosto hole server er backup o jabe — mashe ekbar full backup download kore Google Drive e rakhun.</p>
 <?php admin_foot();

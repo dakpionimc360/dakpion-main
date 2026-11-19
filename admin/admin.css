@@ -403,3 +403,6 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--lim
 .vid-field p { margin:0; }
 .vid-picked { color:var(--lime-deep); font-weight:600; }
 @media (max-width:640px) { .vid-field { flex-direction:column; } .vid-field video { width:100%; } }
+
+.card-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
+.card-head h2 { margin:0; }

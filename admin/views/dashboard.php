@@ -68,11 +68,28 @@ $st->execute([$from]);
 foreach ($st->fetchAll(PDO::FETCH_KEY_PAIR) as $d => $n) if (isset($leads[$d])) $leads[$d] = (int)$n;
 
 $q = fn(string $sql, array $a) => (int)(($s = db()->prepare($sql)) && $s->execute($a) ? $s->fetchColumn() : 0);
+$people = array_fill_keys(array_keys($visits), 0);
+$st = db()->prepare('SELECT day, COUNT(*) FROM visitors WHERE day >= ? GROUP BY day');
+$st->execute([$from]);
+foreach ($st->fetchAll(PDO::FETCH_KEY_PAIR) as $d => $n) if (isset($people[$d])) $people[$d] = (int)$n;
+$peopleNow = array_sum($people);
+$peoplePrev = $q('SELECT COUNT(*) FROM visitors WHERE day >= ? AND day < ?', [$prevFrom, $from]);
 $visitsNow = array_sum($visits);
 $visitsPrev = $q('SELECT COALESCE(SUM(count), 0) FROM views WHERE day >= ? AND day < ?', [$prevFrom, $from]);
 $leadsNow = array_sum($leads);
 $leadsPrev = $q('SELECT COUNT(*) FROM leads WHERE created_at >= ? AND created_at < ?', [$prevFrom, $from]);
-$conv = $visitsNow ? round($leadsNow / $visitsNow * 100, 1) : 0;
+$conv = ($peopleNow ?: $visitsNow) ? round($leadsNow / ($peopleNow ?: $visitsNow) * 100, 1) : 0;
+
+$st = db()->prepare("SELECT source || CASE WHEN medium IN ('cpc', 'paid', 'ads', 'ppc', 'paidsocial', 'paid_social') THEN ' (ads)' ELSE '' END s, COUNT(*) n
+    FROM visitors WHERE day >= ? GROUP BY s ORDER BY n DESC LIMIT 8");
+$st->execute([$from]);
+$sources = $st->fetchAll(PDO::FETCH_KEY_PAIR);
+$st = db()->prepare("SELECT COALESCE(NULLIF(source, ''), 'Unknown') s, COUNT(*) n FROM leads WHERE created_at >= ? GROUP BY s ORDER BY n DESC LIMIT 8");
+$st->execute([date('Y-m-d', strtotime('-90 days'))]);
+$leadSources = $st->fetchAll(PDO::FETCH_KEY_PAIR);
+$st = db()->prepare("SELECT campaign, COUNT(*) n FROM visitors WHERE day >= ? AND campaign <> '' GROUP BY campaign ORDER BY n DESC LIMIT 6");
+$st->execute([$from]);
+$campaigns = $st->fetchAll(PDO::FETCH_KEY_PAIR);
 $pipeline = db()->query("SELECT COALESCE(NULLIF(status, ''), 'new') s, COUNT(*) n FROM leads GROUP BY s")->fetchAll(PDO::FETCH_KEY_PAIR);
 $open = ($pipeline['new'] ?? 0) + ($pipeline['contacted'] ?? 0) + ($pipeline['proposal'] ?? 0);
 
@@ -109,6 +126,8 @@ $checks = [
     ['Prothom blog post', has_posts(), 'blog/new'],
     ['Google Analytics / Meta Pixel', setting('ga_id') !== '' || setting('pixel_id') !== '', 'settings/seo'],
     ['"Placeholder" note off', setting('show_notes') !== '1', 'settings/seo'],
+    ['Email sending (SMTP)', smtp_ready(), 'settings/email'],
+    ['Apnar account e email (password reset)', (string)(current_user()['email'] ?? '') !== '', 'account'],
 ];
 $done = count(array_filter(array_column($checks, 1)));
 $user = current_user();
@@ -118,15 +137,21 @@ admin_head('Dashboard', 'dash');
 <p class="hello">Hi <?= e(explode(' ', $user['name'] ?: $user['username'])[0]) ?> — last <?= $days ?> days at a glance.</p>
 
 <div class="kpis">
-  <div class="card kpi"><span>Website visits</span><b><?= number_format($visitsNow) ?></b><?= change($visitsNow, $visitsPrev) ?></div>
+  <div class="card kpi"><span>Visitors</span><b><?= number_format($peopleNow) ?></b><?= $peoplePrev ? change($peopleNow, $peoplePrev) : '<small>' . number_format($visitsNow) . ' page views</small>' ?></div>
   <a class="card kpi" href="<?= aurl('messages') ?>"><span>New messages</span><b><?= $leadsNow ?></b><?= change($leadsNow, $leadsPrev) ?></a>
-  <div class="card kpi"><span>Conversion rate</span><b><?= $conv ?>%</b><small>visit → message</small></div>
+  <div class="card kpi"><span>Conversion rate</span><b><?= $conv ?>%</b><small>visitor → message</small></div>
   <a class="card kpi" href="<?= aurl('messages') ?>"><span>Open pipeline</span><b><?= $open ?></b><small><?= (int)($pipeline['won'] ?? 0) ?> won · <?= (int)($pipeline['lost'] ?? 0) ?> lost</small></a>
 </div>
 
 <div class="grid2">
-  <section class="card chart-card"><h2>Visits per day</h2><?= column_chart($visits, 'visits', 'Website visits per day, last 30 days') ?></section>
+  <section class="card chart-card"><h2>Visitors per day <small><?= number_format($visitsNow) ?> page views</small></h2><?= column_chart($people, 'visitors', 'Unique visitors per day, last 30 days') ?></section>
   <section class="card chart-card"><h2>Messages per day</h2><?= column_chart($leads, 'messages', 'Contact form messages per day, last 30 days') ?></section>
+</div>
+
+<div class="grid3">
+  <section class="card"><h2>Where visitors come from <small>last 30 days</small></h2><?= hbars($sources, 'Notun tracking — kichu din por ekhane Facebook, Google, Direct etc. dekhabe.') ?></section>
+  <section class="card"><h2>Messages by source <small>last 90 days</small></h2><?= hbars($leadSources, 'Notun message ashle kon jayga theke esheche ekhane dekhabe.') ?></section>
+  <section class="card"><h2>Campaigns <small>utm_campaign</small></h2><?= hbars($campaigns, 'Ad / post link e ?utm_source=facebook&utm_campaign=naam dile ekhane dekhabe.') ?></section>
 </div>
 
 <div class="grid3">

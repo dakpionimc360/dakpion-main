@@ -22,17 +22,17 @@ The database (`data/site.sqlite`) is created automatically on the first visit an
 
 | Section | What you can do |
 | --- | --- |
-| Dashboard | Visits and messages per day, conversion rate, pipeline, top pages, follow-ups due, launch checklist |
+| Dashboard | Unique visitors and messages per day, where visitors come from (Google, Facebook, ads, UTM campaigns), messages by source, conversion rate, pipeline, top pages, follow-ups due, launch checklist |
 | Messages | Leads from the contact form: status (New → Contacted → Proposal → Won/Lost), notes, follow-up date, search, CSV |
 | Pages & SEO | Every page's headings, text and buttons, plus SEO title and description with a Google preview. The Home hero is a video (our services reel); upload your own MP4 there to replace it |
 | Blog | Write posts in a visual editor (headings, lists, links, images), categories, cover, schedule, SEO |
 | Media library | Drag-and-drop upload, search, copy link, delete (warns where an image is used); every image field can pick from it |
 | Offer bar & popup | Announcement bar on top of every page, and a timed popup with "show again" frequency |
 | Portfolio, Team, Testimonials, Client logos, Stats, FAQ, Services, Packages, Industries, Process, Values, Journey | Add, edit, duplicate, delete, hide, drag to reorder |
-| Settings (admin only) | Contact info, social links, company, contact form, SEO & tracking IDs |
+| Settings (admin only) | Contact info, social links, company, contact form, **Email sending (SMTP)** with a test button, SEO & tracking IDs |
 | Users (admin only) | Staff accounts. **Admin** has full access. **Editor** can manage content, pages, blog, media, messages and offers, but not settings, users or backup |
 | Activity log (admin only) | Who changed what, and when |
-| Backup (admin only) | One-click download of the database plus images (.zip), or the database alone |
+| Backup (admin only) | Automatic: database every day (last 14) and a full .zip with images every Sunday (last 4), kept in `data/backups/`. Also one-click download of either |
 
 ## Clean URLs
 

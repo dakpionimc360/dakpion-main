@@ -34,7 +34,7 @@ admin_head('My account', 'account');
   <h2>Profile</h2>
   <p class="muted">Username: <b><?= e($user['username']) ?></b> · Role: <b><?= e(ROLES[$user['role']] ?? $user['role']) ?></b></p>
   <div class="field"><label for="nm">Name</label><input id="nm" name="name" value="<?= e($user['name']) ?>" autocomplete="name"></div>
-  <div class="field"><label for="em">Email</label><input id="em" type="email" name="email" value="<?= e($user['email']) ?>" autocomplete="email"><small>Email diyeo login kora jabe.</small></div>
+  <div class="field"><label for="em">Email</label><input id="em" type="email" name="email" value="<?= e($user['email']) ?>" autocomplete="email"><small>Email diyeo login kora jabe. Password bhule gele reset link ei email e jabe.</small></div>
   <h2 class="mt">Change password</h2>
   <p class="muted">Password na bodlate chaile khali rakhun.</p>
   <div class="field"><label for="c">Current password</label><input id="c" type="password" name="current" autocomplete="current-password"></div>

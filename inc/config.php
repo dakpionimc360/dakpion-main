@@ -54,6 +54,15 @@ const SETTINGS = [
         'success_title' => ['label' => 'Success title', 'type' => 'text'],
         'success_text'  => ['label' => 'Success message', 'type' => 'textarea'],
     ]],
+    'email' => ['label' => 'Email sending', 'fields' => [
+        'smtp_host'      => ['label' => 'SMTP server', 'type' => 'text', 'help' => 'Gmail: smtp.gmail.com · Zoho: smtp.zoho.com · Hostinger: smtp.hostinger.com · cPanel: mail.apnar-domain.com'],
+        'smtp_port'      => ['label' => 'Port', 'type' => 'number', 'help' => '587 (TLS) ba 465 (SSL)'],
+        'smtp_secure'    => ['label' => 'Security', 'type' => 'select', 'options' => ['tls' => 'TLS (port 587)', 'ssl' => 'SSL (port 465)']],
+        'smtp_user'      => ['label' => 'Email / username', 'type' => 'text', 'help' => 'Je mailbox theke mail jabe, jemon hello@dakpionimc.com'],
+        'smtp_pass'      => ['label' => 'Password', 'type' => 'password', 'help' => 'Gmail hole normal password na — Google Account → Security → App passwords theke 16 akkhorer app password din. Khali rakhle ager ta thakbe.'],
+        'mail_from'      => ['label' => '"From" email (optional)', 'type' => 'email', 'help' => 'Khali thakle upore username ta'],
+        'mail_from_name' => ['label' => '"From" name (optional)', 'type' => 'text', 'help' => 'Jemon: Dakpion Website'],
+    ]],
     'seo' => ['label' => 'SEO & tracking', 'fields' => [
         'og_image'      => ['label' => 'Share image (1200×630)', 'type' => 'image'],
         'ga_id'         => ['label' => 'Google Analytics 4 ID', 'type' => 'text', 'help' => 'Jemon G-XXXXXXXXXX'],
