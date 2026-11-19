@@ -60,6 +60,14 @@ function migrate(PDO $pdo): void
     $pdo->exec('CREATE TABLE IF NOT EXISTS visitors (day TEXT, vid TEXT, source TEXT, medium TEXT, campaign TEXT, landing TEXT, pages INTEGER DEFAULT 1, PRIMARY KEY (day, vid))');
     $pdo->exec('CREATE TABLE IF NOT EXISTS password_resets (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, token_hash TEXT UNIQUE, expires_at INTEGER, used INTEGER DEFAULT 0, created_at TEXT)');
     add_columns($pdo, 'leads', ['source' => 'TEXT', 'medium' => 'TEXT', 'campaign' => 'TEXT', 'assigned_to' => 'INTEGER']);
+    // Two-step login: authenticator secret, last used time step (no replays), hashed one-time recovery codes.
+    add_columns($pdo, 'users', ['totp_secret' => 'TEXT', 'totp_last' => 'INTEGER', 'recovery_codes' => 'TEXT']);
+    // Undo: a copy of anything deleted or overwritten in the admin.
+    $pdo->exec('CREATE TABLE IF NOT EXISTS revisions (id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT, ref TEXT, row_id INTEGER, label TEXT,
+        action TEXT, data TEXT, username TEXT, created_at TEXT, restored_at TEXT)');
+    $pdo->exec('CREATE TABLE IF NOT EXISTS redirects (id INTEGER PRIMARY KEY AUTOINCREMENT, from_path TEXT UNIQUE, to_url TEXT, code INTEGER DEFAULT 301,
+        hits INTEGER DEFAULT 0, last_hit TEXT, created_at TEXT)');
+    $pdo->exec('CREATE TABLE IF NOT EXISTS not_found (path TEXT PRIMARY KEY, hits INTEGER DEFAULT 0, referrer TEXT, last_seen TEXT)');
 
     $tables = $pdo->query("SELECT name FROM sqlite_master WHERE type='table'")->fetchAll(PDO::FETCH_COLUMN);
     foreach (COLLECTIONS as $key => $c) {
@@ -366,6 +374,73 @@ function lead_source(): array
         if ($r = $st->fetch()) return [$r['source'], $r['medium'], $r['campaign']];
     } catch (PDOException) {}
     return ['Unknown', '', ''];
+}
+
+/* ── Undo (trash & version history) ───────────────────────── */
+
+const REVISION_DAYS = 90;
+
+/** Keep a copy of a row before it is deleted or overwritten. kind: item | post | lead | page. */
+function save_revision(string $kind, string $ref, int $rowId, string $label, string $action, array $data): void
+{
+    $u = $GLOBALS['ACTOR'] ?? null;
+    insert_row(db(), 'revisions', ['kind' => $kind, 'ref' => $ref, 'row_id' => $rowId, 'label' => mb_substr($label, 0, 160), 'action' => $action,
+        'data' => json_encode($data, JSON_UNESCAPED_UNICODE), 'username' => $u['name'] ?? $u['username'] ?? '', 'created_at' => now()]);
+    db()->prepare('DELETE FROM revisions WHERE created_at < ?')->execute([date('Y-m-d H:i:s', strtotime('-' . REVISION_DAYS . ' days'))]);
+}
+
+/* ── Redirects & 404s ─────────────────────────────────────── */
+
+/** "/Old-Page/" → "/old-page" (case and trailing slash don't matter). */
+function norm_path(string $p): string
+{
+    $p = '/' . ltrim(rawurldecode((string)parse_url(trim($p), PHP_URL_PATH)), '/');
+    $p = rtrim(strtolower($p), '/');
+    return $p === '' ? '/' : $p;
+}
+
+/** Path of this request inside the site, e.g. "/old-page". */
+function request_path(): string
+{
+    $uri = (string)parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    $base = rtrim(base_path(), '/');
+    if ($base !== '' && str_starts_with($uri, $base)) $uri = substr($uri, strlen($base));
+    return norm_path($uri);
+}
+
+/** If a redirect matches this request, send the visitor there and stop. */
+function check_redirect(): void
+{
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET' && ($_SERVER['REQUEST_METHOD'] ?? '') !== 'HEAD') return;
+    try {
+        $st = db()->prepare('SELECT id, to_url, code FROM redirects WHERE from_path = ?');
+        $st->execute([request_path()]);
+        $r = $st->fetch();
+    } catch (PDOException) {
+        return;
+    }
+    if (!$r) return;
+    db()->prepare('UPDATE redirects SET hits = hits + 1, last_hit = ? WHERE id = ?')->execute([now(), $r['id']]);
+    $to = preg_match('~^https?://~i', $r['to_url']) ? $r['to_url'] : url(ltrim($r['to_url'], '/'));
+    $q = (string)($_SERVER['QUERY_STRING'] ?? '');
+    if ($q !== '' && !str_contains($to, '?')) $to .= '?' . $q; // keep utm tags etc.
+    header('Location: ' . $to, true, (int)$r['code'] === 302 ? 302 : 301);
+    exit;
+}
+
+/** Remember a broken address so the admin can redirect it. */
+function log_not_found(): void
+{
+    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    $path = request_path();
+    if (preg_match('/bot|crawl|spider|curl|wget|python/i', $ua) || strlen($path) > 200
+        || preg_match('~\.(php\d?|env|git|sql|bak|ini|asp|aspx|jsp|cgi)$|^/(wp-|xmlrpc|\.well-known|vendor|cgi-bin)~i', $path)) return;
+    $ref = mb_substr((string)($_SERVER['HTTP_REFERER'] ?? ''), 0, 255);
+    try {
+        db()->prepare('INSERT INTO not_found (path, hits, referrer, last_seen) VALUES (?, 1, ?, ?)
+            ON CONFLICT(path) DO UPDATE SET hits = hits + 1, last_seen = excluded.last_seen, referrer = CASE WHEN excluded.referrer <> \'\' THEN excluded.referrer ELSE referrer END')
+            ->execute([$path, $ref, now()]);
+    } catch (PDOException) {}
 }
 
 /* ── Automatic backups ────────────────────────────────────── */

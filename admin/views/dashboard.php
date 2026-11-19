@@ -137,6 +137,7 @@ $checks = [
     ['Google Analytics / Meta Pixel', setting('ga_id') !== '' || setting('pixel_id') !== '', 'settings/seo'],
     ['"Placeholder" note off', setting('show_notes') !== '1', 'settings/seo'],
     ['Email sending (SMTP)', smtp_ready(), 'settings/email'],
+    ['Two-step login (apnar account)', (string)db()->query('SELECT totp_secret FROM users WHERE id = ' . (int)current_user()['id'])->fetchColumn() !== '', 'account'],
     ['Apnar account e email (password reset)', (string)(current_user()['email'] ?? '') !== '', 'account'],
 ];
 $done = count(array_filter(array_column($checks, 1)));

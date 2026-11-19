@@ -52,6 +52,15 @@ function assign_lead(array $l, ?int $uid): bool
     return true;
 }
 
+/** Copy a lead and its notes to the trash before deleting. */
+function trash_lead(int $id): void
+{
+    if (!($l = lead($id))) return;
+    $n = db()->prepare('SELECT * FROM lead_notes WHERE lead_id = ?');
+    $n->execute([$id]);
+    save_revision('lead', 'leads', $id, $l['name'] . ' (' . $l['company'] . ')', 'delete', $l + ['_notes' => $n->fetchAll()]);
+}
+
 function lead(int $id): ?array
 {
     $st = db()->prepare('SELECT * FROM leads WHERE id = ?');
@@ -78,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             db()->prepare("UPDATE leads SET is_read = ? WHERE id IN ($in)")->execute([$do === 'read' ? 1 : 0, ...$ids]);
             flash("$n message " . ($do === 'read' ? 'read' : 'unread') . ' kora hoyeche.');
         } elseif ($do === 'delete') {
+            foreach ($ids as $gid) trash_lead($gid);
             db()->prepare("DELETE FROM leads WHERE id IN ($in)")->execute($ids);
             db()->prepare("DELETE FROM lead_notes WHERE lead_id IN ($in)")->execute($ids);
             log_activity('Deleted messages', "$n messages");
@@ -120,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             db()->prepare('UPDATE leads SET is_read = 0 WHERE id = ?')->execute([$id]);
             redirect(aurl('messages'));
         case 'delete':
+            trash_lead($id);
             db()->prepare('DELETE FROM leads WHERE id = ?')->execute([$id]);
             db()->prepare('DELETE FROM lead_notes WHERE lead_id = ?')->execute([$id]);
             log_activity('Deleted message', $who);

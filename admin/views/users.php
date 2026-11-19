@@ -18,6 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $st->execute([$id]);
     $old = $st->fetch() ?: null;
 
+    if (($_POST['action'] ?? '') === 'reset2fa') {
+        if ($old && (string)$old['totp_secret'] !== '') {
+            db()->prepare('UPDATE users SET totp_secret = NULL, totp_last = NULL, recovery_codes = NULL WHERE id = ?')->execute([$id]);
+            log_activity('Turned off two-step login for user', $old['username']);
+            flash($old['username'] . ' er two-step login bondho kora hoyeche — login er por My account theke abar chalu korte bolun.');
+        }
+        redirect(aurl('users'));
+    }
+
     if (($_POST['action'] ?? '') === 'delete') {
         if (!$old) redirect(aurl('users'));
         if ($id === (int)$me['id']) flash('Nijer account delete kora jabe na.', 'err');
@@ -110,11 +119,13 @@ admin_head('Users', 'users', [], '<a class="btn btn--main" href="' . aurl('users
     <tr class="<?= $u['active'] ? '' : 'off' ?>">
       <td><div class="user-cell"><span class="av"><?= e(initials($u['name'] ?: $u['username'])) ?></span><span><a class="rowlink" href="<?= aurl('users/' . $u['id']) ?>"><?= e($u['name'] ?: $u['username']) ?></a><small>@<?= e($u['username']) ?><?= (int)$u['id'] === (int)$me['id'] ? ' · you' : '' ?></small></span></div></td>
       <td><?= e($u['email']) ?: '<span class="muted">—</span>' ?></td>
-      <td><span class="badge badge--<?= e($u['role'] ?: 'admin') ?>"><?= e(ROLES[$u['role'] ?: 'admin'] ?? $u['role']) ?></span><?= $u['active'] ? '' : ' <span class="badge">Disabled</span>' ?></td>
+      <td><span class="badge badge--<?= e($u['role'] ?: 'admin') ?>"><?= e(ROLES[$u['role'] ?: 'admin'] ?? $u['role']) ?></span><?= $u['active'] ? '' : ' <span class="badge">Disabled</span>' ?><?= (string)$u['totp_secret'] !== '' ? ' <span class="badge badge--won" title="Two-step login on">2-step</span>' : '' ?></td>
       <td class="nowrap muted"><?= e(ago($u['last_login'])) ?></td>
       <td class="act">
         <a class="ib" href="<?= aurl('users/' . $u['id']) ?>" title="Edit" aria-label="Edit"><?= aicon('edit', 17) ?></a>
-<?php if ((int)$u['id'] !== (int)$me['id']): ?>
+<?php if ((string)$u['totp_secret'] !== '' && (int)$u['id'] !== (int)$me['id']): ?>
+        <form method="post"><?= csrf() ?><input type="hidden" name="action" value="reset2fa"><input type="hidden" name="id" value="<?= $u['id'] ?>"><button class="ib" title="Turn off two-step (lost phone)" aria-label="Turn off two-step" data-confirm="<?= e($u['username']) ?> er two-step login bondho korben? (Phone hariye gele)"><?= aicon('eye-off', 17) ?></button></form>
+<?php endif; if ((int)$u['id'] !== (int)$me['id']): ?>
         <form method="post"><?= csrf() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= $u['id'] ?>"><button class="ib danger" title="Delete" aria-label="Delete" data-confirm="<?= e($u['username']) ?> ke delete korben?"><?= aicon('trash', 17) ?></button></form>
 <?php endif; ?>
       </td>

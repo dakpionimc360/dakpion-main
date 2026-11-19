@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $in = implode(',', array_fill(0, count($ids), '?'));
         $n = count($ids);
         if ($do === 'delete') {
+            $q = db()->prepare("SELECT * FROM $table WHERE id IN ($in)");
+            $q->execute($ids);
+            foreach ($q->fetchAll() as $gone) save_revision('item', $key, (int)$gone['id'], $label_of($gone), 'delete', $gone);
             db()->prepare("DELETE FROM $table WHERE id IN ($in)")->execute($ids);
             log_activity('Deleted ' . strtolower($col['label']), "$n items");
             flash("$n ta delete hoyeche.");
@@ -58,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $vals = collect_fields($col['fields']);
             if ($id) {
+                $diff = array_diff_assoc(array_map('strval', $vals), array_map('strval', array_intersect_key($old, $vals)));
+                if ($diff) save_revision('item', $key, $id, $label_of($old), 'edit', $old);
                 $set = implode(', ', array_map(fn($c) => '"' . $c . '" = ?', array_keys($vals)));
                 db()->prepare("UPDATE $table SET $set WHERE id = ?")->execute([...array_values($vals), $id]);
                 log_activity('Edited ' . strtolower($col['singular']), $label_of($vals + ['id' => $id]));
@@ -76,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($row = find_row($table, $id)) {
         if ($action === 'delete') {
+            save_revision('item', $key, $id, $label_of($row), 'delete', $row);
             db()->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
             log_activity('Deleted ' . strtolower($col['singular']), $label_of($row));
             flash($col['singular'] . ' deleted.');
@@ -102,7 +108,13 @@ if ($sub !== '') {
     if ($id && !$row) redirect($base);
     $row = array_merge($row ?: [], $draft ?? []);
     $title = $id ? 'Edit ' . strtolower($col['singular']) : 'New ' . strtolower($col['singular']);
-    admin_head($title, 'c-' . $key, [$col['label'] => $base]);
+    $hist = '';
+    if ($id) {
+        $hc = db()->prepare("SELECT COUNT(*) FROM revisions WHERE kind = 'item' AND ref = ? AND row_id = ? AND action = 'edit'");
+        $hc->execute([$key, $id]);
+        if ($n = (int)$hc->fetchColumn()) $hist = '<a class="btn btn--ghost" href="' . aurl('history') . '?tab=edits&kind=item&ref=' . $key . '&row=' . $id . '">' . aicon('activity', 16) . '<span>History (' . $n . ')</span></a>';
+    }
+    admin_head($title, 'c-' . $key, [$col['label'] => $base], $hist);
     ?>
 <form class="card form form-grid" method="post" enctype="multipart/form-data" data-dirty>
   <?= csrf() ?>
@@ -142,7 +154,7 @@ admin_head($col['label'], 'c-' . $key, [], '<a class="btn btn--main" href="' . $
   <div class="bulkbar" hidden><b data-bulk-count>0</b> selected
     <button class="btn btn--sm" name="bulk" value="show"><?= aicon('eye', 15) ?>Show</button>
     <button class="btn btn--sm" name="bulk" value="hide"><?= aicon('eye-off', 15) ?>Hide</button>
-    <button class="btn btn--sm btn--danger-text" name="bulk" value="delete" data-confirm="Select kora shob gula delete korben? Ferot ana jabe na."><?= aicon('trash', 15) ?>Delete</button>
+    <button class="btn btn--sm btn--danger-text" name="bulk" value="delete" data-confirm="Select kora shob gula delete korben? Trash & history theke ferot ana jabe."><?= aicon('trash', 15) ?>Delete</button>
     <button class="btn btn--sm btn--ghost" type="button" data-bulk-clear>Clear</button>
   </div>
 </form>
@@ -161,7 +173,7 @@ admin_head($col['label'], 'c-' . $key, [], '<a class="btn btn--main" href="' . $
         <?= $btn($r, 'toggle', $r['active'] ? 'eye' : 'eye-off', $r['active'] ? 'Visible — click to hide' : 'Hidden — click to show') ?>
         <a class="ib" href="<?= $base . '/' . $r['id'] ?>" title="Edit" aria-label="Edit"><?= aicon('edit', 17) ?></a>
         <?= $btn($r, 'duplicate', 'copy', 'Duplicate') ?>
-        <?= $btn($r, 'delete', 'trash', 'Delete', 'danger', 'Delete korben? Eta ar ferot ana jabe na.') ?>
+        <?= $btn($r, 'delete', 'trash', 'Delete', 'danger', 'Delete korben? Trash & history theke ferot ana jabe.') ?>
       </td>
     </tr>
 <?php endforeach; ?>

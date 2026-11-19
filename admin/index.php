@@ -12,7 +12,7 @@ if (isset($legacy[$seg[0]])) redirect(aurl($legacy[$seg[0]]));
 
 $view = match (true) {
     in_array($seg[0], ['login', 'logout', 'reset'], true) => $seg[0],
-    in_array($seg[0], ['', 'messages', 'settings', 'pages', 'blog', 'media', 'users', 'activity', 'backup', 'account'], true) => $seg[0] ?: 'dashboard',
+    in_array($seg[0], ['', 'messages', 'settings', 'pages', 'blog', 'media', 'users', 'activity', 'backup', 'account', 'history', 'redirects'], true) => $seg[0] ?: 'dashboard',
     isset(COLLECTIONS[$seg[0]]) => 'items',
     default => '404',
 };

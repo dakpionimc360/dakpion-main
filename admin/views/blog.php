@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (($_POST['action'] ?? '') === 'delete') {
         if ($old) {
+            save_revision('post', 'posts', $id, $old['title'], 'delete', $old);
             db()->prepare('DELETE FROM posts WHERE id = ?')->execute([$id]);
             log_activity('Deleted blog post', $old['title']);
             flash('Post deleted.');
@@ -58,8 +59,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($title === '') throw new RuntimeException('Title lagbe.');
         $data += collect_fields(['cover' => ['type' => 'image', 'label' => 'Cover']]);
         if ($id && $old) {
+            $diff = array_diff_assoc(array_map('strval', array_intersect_key($data, $old)), array_map('strval', array_intersect_key($old, $data)));
+            unset($diff['updated_at']);
+            if ($diff) save_revision('post', 'posts', $id, $old['title'], 'edit', $old);
             $set = implode(', ', array_map(fn($c) => "$c = ?", array_keys($data)));
             db()->prepare("UPDATE posts SET $set WHERE id = ?")->execute([...array_values($data), $id]);
+            // A published post got a new link: send the old link to the new one.
+            if ($old['slug'] !== $data['slug'] && $old['status'] === 'published') {
+                $from = norm_path('blog/' . $old['slug']);
+                db()->prepare('DELETE FROM redirects WHERE from_path = ?')->execute([norm_path('blog/' . $data['slug'])]);
+                db()->prepare('INSERT INTO redirects (from_path, to_url, code, created_at) VALUES (?, ?, 301, ?)
+                    ON CONFLICT(from_path) DO UPDATE SET to_url = excluded.to_url')->execute([$from, '/blog/' . $data['slug'], now()]);
+                log_activity('Added redirect', $from . ' → /blog/' . $data['slug'], 'post link changed');
+            }
         } else {
             $id = insert_row(db(), 'posts', $data + ['author_id' => current_user()['id'], 'created_at' => now()]);
         }
@@ -86,6 +98,11 @@ if ($sub !== '') {
     $state = $id ? post_state($p) : 'draft';
     $cats = db()->query("SELECT DISTINCT category FROM posts WHERE category <> '' ORDER BY category")->fetchAll(PDO::FETCH_COLUMN);
     $live = $state === 'published' ? '<a class="btn btn--ghost" href="' . url('blog/' . $p['slug']) . '" target="_blank" rel="noopener">' . aicon('eye', 16) . '<span>View post</span></a>' : '';
+    if ($id) {
+        $hc = db()->prepare("SELECT COUNT(*) FROM revisions WHERE kind = 'post' AND row_id = ? AND action = 'edit'");
+        $hc->execute([$id]);
+        if ($n = (int)$hc->fetchColumn()) $live = '<a class="btn btn--ghost" href="' . aurl('history') . '?tab=edits&kind=post&row=' . $id . '">' . aicon('activity', 16) . '<span>History (' . $n . ')</span></a>' . $live;
+    }
     admin_head($id ? 'Edit post' : 'New post', 'blog', ['Blog' => $base], $live);
     ?>
 <form method="post" enctype="multipart/form-data" class="split-form editor-form" data-dirty>

@@ -63,7 +63,7 @@
       if (!sel) return;
       if (!sel.value) { e.preventDefault(); sel.focus(); return; }
       const n = items().filter(c => c.checked).length;
-      if (sel.value === 'delete' && !confirm('Select kora ' + n + ' ta message delete korben? Ferot ana jabe na.')) e.preventDefault();
+      if (sel.value === 'delete' && !confirm('Select kora ' + n + ' ta message delete korben? Trash & history theke ferot ana jabe.')) e.preventDefault();
     });
     sync();
   });

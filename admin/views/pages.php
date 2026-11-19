@@ -15,6 +15,9 @@ foreach ($page['fields'] as $f => [$type, $label, $default]) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $in = $_POST['f'] ?? [];
+    // Version history: what this page's saved text was before this save.
+    $before = [];
+    foreach ($fields as $f => $_) if (($v = setting("$key.$f")) !== '') $before[$f] = $v;
     $set = db()->prepare('INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
     $del = db()->prepare('DELETE FROM settings WHERE key = ?');
     $changed = [];
@@ -41,13 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($v === '' || $v === $def['default']) $del->execute(["$key.$f"]);
         else $set->execute(["$key.$f", $v]);
     }
+    if ($changed) save_revision('page', $key, 0, $page['label'] . ' page text', 'edit', $before);
     if ($changed) log_activity('Edited page text', $page['label'], implode(', ', array_slice($changed, 0, 6)) . (count($changed) > 6 ? '…' : ''));
     flash($page['label'] . ' saved.');
     redirect(aurl('pages/' . $key));
 }
 
 $view = isset($page['path']) ? url($page['path']) : url();
-admin_head('Pages & SEO', 'pages', [], '<a class="btn btn--ghost" href="' . e($view) . '" target="_blank" rel="noopener">' . aicon('eye', 16) . '<span>View ' . e($page['label']) . '</span></a>');
+$hc = db()->prepare("SELECT COUNT(*) FROM revisions WHERE kind = 'page' AND ref = ?");
+$hc->execute([$key]);
+$hist = ($n = (int)$hc->fetchColumn()) ? '<a class="btn btn--ghost" href="' . aurl('history') . '?tab=edits&kind=page&ref=' . $key . '">' . aicon('activity', 16) . '<span>History (' . $n . ')</span></a>' : '';
+admin_head('Pages & SEO', 'pages', [], $hist . '<a class="btn btn--ghost" href="' . e($view) . '" target="_blank" rel="noopener">' . aicon('eye', 16) . '<span>View ' . e($page['label']) . '</span></a>');
 ?>
 <nav class="tabs"><?php foreach (PAGES as $k => $p): ?><a href="<?= aurl('pages/' . $k) ?>"<?= $k === $key ? ' aria-current="page"' : '' ?>><?= e($p['label']) ?></a><?php endforeach; ?></nav>
 

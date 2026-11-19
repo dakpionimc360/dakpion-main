@@ -1,6 +1,7 @@
 <?php
 /* Admin core: session, auth & roles, CSRF, layout and form fields. Views live in admin/views/. */
 require __DIR__ . '/../../inc/bootstrap.php';
+require __DIR__ . '/totp.php';
 
 const ADMIN = true;
 
@@ -223,6 +224,8 @@ function admin_head(string $title, string $active = '', array $crumbs = [], stri
     <?= $link('blog', 'blog', 'Blog', 'pen') ?>
     <?= $link('media', 'media', 'Media library', 'image') ?>
     <?= $link('settings/popup', 'set-popup', 'Offer bar & popup', 'megaphone') ?>
+    <?= $link('redirects', 'redirects', 'Redirects', 'external') ?>
+    <?= $link('history', 'history', 'Trash & history', 'trash') ?>
 <?php foreach (ADMIN_MENU as $group => $keys): ?>
     <h6><?= e($group) ?></h6>
 <?php foreach ($keys as $k): ?>

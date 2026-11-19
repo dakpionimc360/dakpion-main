@@ -36,6 +36,7 @@ if ($uri === '/sitemap.xml') return $run('sitemap.php');
 if ($uri === '/robots.txt') return $run('robots.php');
 if (preg_match('~^/blog/([A-Za-z0-9-]+)/?$~', $uri, $m)) return $run('blog-post.php', ['slug' => $m[1]]);
 if (preg_match('~^/([A-Za-z0-9-]+)/?$~', $uri, $m) && is_file("$root/$m[1].php")) return $run("$m[1].php");
+if (!preg_match('~^/(assets|uploads)/~', $uri)) return $run('404.php');
 http_response_code(404);
 echo 'Not found';
 return true;

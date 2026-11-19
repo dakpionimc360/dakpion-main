@@ -28,9 +28,12 @@ The database (`data/site.sqlite`) is created automatically on the first visit an
 | Blog | Write posts in a visual editor (headings, lists, links, images), categories, cover, schedule, SEO |
 | Media library | Drag-and-drop upload, search, copy link, delete (warns where an image is used); every image field can pick from it |
 | Offer bar & popup | Announcement bar on top of every page, and a timed popup with "show again" frequency |
+| Redirects | Send old or mistyped addresses to the right page (301/302). Lists broken links (404s) with one-click "Redirect". Changing a published post's link adds a redirect automatically |
+| Trash & history | Anything deleted (sections, blog posts, messages) and earlier versions of edits and page text, kept 90 days; one-click restore |
 | Portfolio, Team, Testimonials, Client logos, Stats, FAQ, Services, Packages, Industries, Process, Values, Journey | Add, edit, duplicate, delete, hide, drag to reorder |
 | Settings (admin only) | Contact info, social links, company, contact form, **Email sending (SMTP)** with a test button, SEO & tracking IDs |
 | Users (admin only) | Staff accounts. **Admin** has full access. **Editor** can manage content, pages, blog, media, messages and offers, but not settings, users or backup |
+| My account | Name, email, password, and **two-step login** with an authenticator app (QR code + 8 recovery codes). An admin can turn it off for someone who lost their phone (Users) |
 | Activity log (admin only) | Who changed what, and when |
 | Backup (admin only) | Automatic: database every day (last 14) and a full .zip with images every Sunday (last 4), kept in `data/backups/`. Also one-click download of either |
 

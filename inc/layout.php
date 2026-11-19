@@ -23,6 +23,7 @@ function icon(string $name, string $class = 'icon'): string
  */
 function page_start(string $page, array $meta = []): void
 {
+    check_redirect();
     $title = $meta['title'] ?? t($page, 'seo_title');
     $desc = $meta['desc'] ?? t($page, 'seo_desc');
     $og = $meta['image'] ?? setting('og_image');
@@ -42,6 +43,8 @@ function page_start(string $page, array $meta = []): void
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= e($title) ?></title>
 <meta name="description" content="<?= e($desc) ?>">
+<?php if (http_response_code() === 404): ?><meta name="robots" content="noindex">
+<?php endif; ?>
 <link rel="canonical" href="<?= e(abs_url($path)) ?>">
 <meta name="theme-color" content="#9BCB3C">
 <meta property="og:site_name" content="<?= e($brand) ?>">
