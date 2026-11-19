@@ -34,6 +34,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         json_out(['ok' => true]);
     }
 
+    if ($action === 'bulk') {
+        $ids = array_values(array_unique(array_filter(array_map('intval', (array)($_POST['ids'] ?? [])))));
+        $do = (string)($_POST['bulk'] ?? '');
+        if (!$ids || !in_array($do, ['show', 'hide', 'delete'], true)) { flash('Age kichu select korun, tarpor action.', 'err'); redirect($base); }
+        $in = implode(',', array_fill(0, count($ids), '?'));
+        $n = count($ids);
+        if ($do === 'delete') {
+            db()->prepare("DELETE FROM $table WHERE id IN ($in)")->execute($ids);
+            log_activity('Deleted ' . strtolower($col['label']), "$n items");
+            flash("$n ta delete hoyeche.");
+        } else {
+            db()->prepare("UPDATE $table SET active = ? WHERE id IN ($in)")->execute([$do === 'show' ? 1 : 0, ...$ids]);
+            log_activity(($do === 'show' ? 'Showed ' : 'Hid ') . strtolower($col['label']), "$n items");
+            flash("$n ta " . ($do === 'show' ? 'show' : 'hide') . ' kora hoyeche.');
+        }
+        redirect($base);
+    }
+
     if ($action === 'save') {
         $old = $id ? find_row($table, $id) : null;
         if ($id && !$old) redirect($base);
@@ -120,12 +138,21 @@ admin_head($col['label'], 'c-' . $key, [], '<a class="btn btn--main" href="' . $
 <?php if (!$rows): ?>
 <div class="card empty"><h2>Ekhono kichu nai</h2><p class="muted">Prothom <?= e(strtolower($col['singular'])) ?> add korun.</p><a class="btn btn--main" href="<?= $base ?>/new"><?= aicon('plus', 16) ?>Add <?= e(strtolower($col['singular'])) ?></a></div>
 <?php else: ?>
+<form method="post" id="bulk-form" data-bulk><?= csrf() ?><input type="hidden" name="action" value="bulk">
+  <div class="bulkbar" hidden><b data-bulk-count>0</b> selected
+    <button class="btn btn--sm" name="bulk" value="show"><?= aicon('eye', 15) ?>Show</button>
+    <button class="btn btn--sm" name="bulk" value="hide"><?= aicon('eye-off', 15) ?>Hide</button>
+    <button class="btn btn--sm btn--danger-text" name="bulk" value="delete" data-confirm="Select kora shob gula delete korben? Ferot ana jabe na."><?= aicon('trash', 15) ?>Delete</button>
+    <button class="btn btn--sm btn--ghost" type="button" data-bulk-clear>Clear</button>
+  </div>
+</form>
 <div class="card table-wrap">
 <table class="table">
-  <thead><tr><th class="handle-col"></th><?php foreach ($col['list'] as $f): ?><th><?= e(preg_replace('/\s*[(—].*$/u', '', $col['fields'][$f]['label'])) ?></th><?php endforeach; ?><th class="act"></th></tr></thead>
+  <thead><tr><th class="check-col"><input type="checkbox" data-bulk-all aria-label="Select all"></th><th class="handle-col"></th><?php foreach ($col['list'] as $f): ?><th><?= e(preg_replace('/\s*[(—].*$/u', '', $col['fields'][$f]['label'])) ?></th><?php endforeach; ?><th class="act"></th></tr></thead>
   <tbody id="rows" data-sortable="<?= $base ?>">
 <?php foreach ($rows as $r): ?>
     <tr data-id="<?= $r['id'] ?>" class="<?= $r['active'] ? '' : 'off' ?>">
+      <td class="check-col"><input type="checkbox" name="ids[]" value="<?= $r['id'] ?>" form="bulk-form" data-bulk-item aria-label="Select"></td>
       <td class="handle-col"><span class="handle" title="Drag to reorder"><?= aicon('drag', 16) ?></span></td>
 <?php foreach ($col['list'] as $f): ?>
       <td><?= $f === $linkCol ? '<a class="rowlink" href="' . $base . '/' . $r['id'] . '">' . (cell($col['fields'][$f], $r[$f]) ?: '(blank)') . '</a>' . ($r['active'] ? '' : ' <span class="badge">Hidden</span>') : cell($col['fields'][$f], $r[$f]) ?></td>

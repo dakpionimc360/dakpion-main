@@ -406,3 +406,18 @@ input:focus, select:focus, textarea:focus { outline:none; border-color:var(--lim
 
 .card-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
 .card-head h2 { margin:0; }
+
+/* Bulk selection */
+.check-col { width:38px; padding-right:0 !important; }
+.check-col input { width:17px; height:17px; accent-color:var(--g-900); cursor:pointer; margin:0; vertical-align:middle; }
+.bulkbar { position:sticky; top:10px; z-index:20; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; padding:10px 14px; border-radius:16px; background:var(--g-900); color:#fff; font-size:14px; box-shadow:0 12px 30px rgba(0,0,0,.18); }
+.bulkbar[hidden] { display:none; }
+.bulkbar b { font-size:15px; }
+.bulkbar select { width:auto; height:36px; border-radius:99px; padding:0 12px; }
+.bulkbar .btn { background:#fff; color:var(--g-900); }
+.bulkbar .btn--main { background:var(--lime); }
+.bulkbar .btn--ghost { background:transparent; color:#fff; border-color:rgba(255,255,255,.35); }
+.bulkbar .btn--danger-text { color:#B42318; }
+.table tr.picked td { background:#F3F7EA; }
+.toolbar .hello { margin:0; }
+.av--xs { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:50%; font-size:10.5px; font-weight:700; background:var(--g-900); color:#fff; vertical-align:middle; margin-right:4px; }

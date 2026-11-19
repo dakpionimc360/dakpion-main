@@ -59,7 +59,7 @@ function migrate(PDO $pdo): void
     // One row per visitor per day: an anonymous daily hash (no cookie) and where that visit came from.
     $pdo->exec('CREATE TABLE IF NOT EXISTS visitors (day TEXT, vid TEXT, source TEXT, medium TEXT, campaign TEXT, landing TEXT, pages INTEGER DEFAULT 1, PRIMARY KEY (day, vid))');
     $pdo->exec('CREATE TABLE IF NOT EXISTS password_resets (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, token_hash TEXT UNIQUE, expires_at INTEGER, used INTEGER DEFAULT 0, created_at TEXT)');
-    add_columns($pdo, 'leads', ['source' => 'TEXT', 'medium' => 'TEXT', 'campaign' => 'TEXT']);
+    add_columns($pdo, 'leads', ['source' => 'TEXT', 'medium' => 'TEXT', 'campaign' => 'TEXT', 'assigned_to' => 'INTEGER']);
 
     $tables = $pdo->query("SELECT name FROM sqlite_master WHERE type='table'")->fetchAll(PDO::FETCH_COLUMN);
     foreach (COLLECTIONS as $key => $c) {

@@ -3,8 +3,9 @@ defined('ADMIN') || exit;
 require_once ROOT_DIR . '/inc/seed.php';
 
 /** Column chart (one series) as inline SVG; hover tooltips come from data-tip (admin.js). */
-function column_chart(array $series, string $unit, string $label): string
+function column_chart(array $series, string $unit, string $label, bool $weekly = false): string
 {
+    $every = max(1, (int)ceil(count($series) / 7));
     $w = 640; $h = 180; $padL = 30; $padB = 22; $padT = 8;
     $max = max(1, max($series));
     $step = (int)ceil($max / 4);
@@ -22,7 +23,7 @@ function column_chart(array $series, string $unit, string $label): string
     foreach ($series as $day => $v) {
         $x = $padL + $slot * $i + ($slot - $bw) / 2;
         $bh = ($h - $padT) * $v / $top;
-        $tip = date('D, d M', strtotime($day)) . ' — ' . $v . ' ' . $unit;
+        $tip = ($weekly ? 'Week of ' . date('d M', strtotime($day)) : date('D, d M', strtotime($day))) . ' — ' . $v . ' ' . $unit;
         if ($v > 0) {
             $r = min(4, $bw / 2, $bh);
             $y = $h - $bh;
@@ -30,7 +31,7 @@ function column_chart(array $series, string $unit, string $label): string
             $svg .= '<path class="bar" d="M' . round($x, 1) . ' ' . $h . 'V' . round($y + $r, 1) . 'q0 -' . $r . ' ' . $r . ' -' . $r . 'h' . round($bw - 2 * $r, 1) . 'q' . $r . ' 0 ' . $r . ' ' . $r . 'V' . $h . 'z"/>';
         }
         $svg .= '<rect class="hit" x="' . round($padL + $slot * $i, 1) . '" y="0" width="' . round($slot, 1) . '" height="' . $h . '" data-tip="' . e($tip) . '"/>';
-        if (($n - 1 - $i) % 7 === 0) $svg .= '<text x="' . round($x + $bw / 2, 1) . '" y="' . ($h + 16) . '" class="xtick">' . date('d M', strtotime($day)) . '</text>';
+        if (($n - 1 - $i) % $every === 0) $svg .= '<text x="' . round($x + $bw / 2, 1) . '" y="' . ($h + 16) . '" class="xtick">' . date('d M', strtotime($day)) . '</text>';
         $i++;
     }
     return $svg . '</svg>';
@@ -55,10 +56,19 @@ function change(int $now, int $before): string
     return '<span class="delta ' . ($pct >= 0 ? 'up' : 'down') . '">' . ($pct >= 0 ? '▲ ' : '▼ ') . abs($pct) . '%</span>';
 }
 
-$days = 30;
+const RANGES = ['7' => '7 days', '30' => '30 days', '90' => '90 days', '365' => '12 months'];
+$range = isset(RANGES[$_GET['range'] ?? '']) ? $_GET['range'] : '30';
+$days = (int)$range;
+$weekly = $days > 90;
 $from = date('Y-m-d', strtotime('-' . ($days - 1) . ' days'));
 $prevFrom = date('Y-m-d', strtotime('-' . (2 * $days - 1) . ' days'));
 $visits = $leads = array_fill_keys(array_map(fn($i) => date('Y-m-d', strtotime("-$i days")), range($days - 1, 0)), 0);
+/** Daily series → weekly totals keyed by the Monday of each week (for long ranges). */
+$byWeek = function (array $daily): array {
+    $out = [];
+    foreach ($daily as $d => $v) { $wk = date('Y-m-d', strtotime('monday this week', strtotime($d))); $out[$wk] = ($out[$wk] ?? 0) + $v; }
+    return $out;
+};
 
 $st = db()->prepare('SELECT day, SUM(count) FROM views WHERE day >= ? GROUP BY day');
 $st->execute([$from]);
@@ -85,7 +95,7 @@ $st = db()->prepare("SELECT source || CASE WHEN medium IN ('cpc', 'paid', 'ads',
 $st->execute([$from]);
 $sources = $st->fetchAll(PDO::FETCH_KEY_PAIR);
 $st = db()->prepare("SELECT COALESCE(NULLIF(source, ''), 'Unknown') s, COUNT(*) n FROM leads WHERE created_at >= ? GROUP BY s ORDER BY n DESC LIMIT 8");
-$st->execute([date('Y-m-d', strtotime('-90 days'))]);
+$st->execute([$from]);
 $leadSources = $st->fetchAll(PDO::FETCH_KEY_PAIR);
 $st = db()->prepare("SELECT campaign, COUNT(*) n FROM visitors WHERE day >= ? AND campaign <> '' GROUP BY campaign ORDER BY n DESC LIMIT 6");
 $st->execute([$from]);
@@ -95,7 +105,7 @@ $open = ($pipeline['new'] ?? 0) + ($pipeline['contacted'] ?? 0) + ($pipeline['pr
 
 $interest = [];
 $st = db()->prepare('SELECT services FROM leads WHERE created_at >= ?');
-$st->execute([date('Y-m-d', strtotime('-90 days'))]);
+$st->execute([$from]);
 foreach ($st->fetchAll(PDO::FETCH_COLUMN) as $s) foreach (array_filter(array_map('trim', explode(',', (string)$s))) as $svc) $interest[$svc] = ($interest[$svc] ?? 0) + 1;
 arsort($interest);
 $interest = array_slice($interest, 0, 8, true);
@@ -134,7 +144,10 @@ $user = current_user();
 
 admin_head('Dashboard', 'dash');
 ?>
-<p class="hello">Hi <?= e(explode(' ', $user['name'] ?: $user['username'])[0]) ?> — last <?= $days ?> days at a glance.</p>
+<div class="toolbar">
+  <p class="hello">Hi <?= e(explode(' ', $user['name'] ?: $user['username'])[0]) ?> — last <?= e(RANGES[$range]) ?> at a glance.</p>
+  <nav class="tabs tabs--inline" aria-label="Date range"><?php foreach (RANGES as $k => $lbl): ?><a href="<?= aurl() ?>?range=<?= $k ?>"<?= (string)$k === $range ? ' aria-current="page"' : '' ?>><?= e($lbl) ?></a><?php endforeach; ?></nav>
+</div>
 
 <div class="kpis">
   <div class="card kpi"><span>Visitors</span><b><?= number_format($peopleNow) ?></b><?= $peoplePrev ? change($peopleNow, $peoplePrev) : '<small>' . number_format($visitsNow) . ' page views</small>' ?></div>
@@ -144,18 +157,18 @@ admin_head('Dashboard', 'dash');
 </div>
 
 <div class="grid2">
-  <section class="card chart-card"><h2>Visitors per day <small><?= number_format($visitsNow) ?> page views</small></h2><?= column_chart($people, 'visitors', 'Unique visitors per day, last 30 days') ?></section>
-  <section class="card chart-card"><h2>Messages per day</h2><?= column_chart($leads, 'messages', 'Contact form messages per day, last 30 days') ?></section>
+  <section class="card chart-card"><h2>Visitors per <?= $weekly ? 'week' : 'day' ?> <small><?= number_format($visitsNow) ?> page views</small></h2><?= column_chart($weekly ? $byWeek($people) : $people, 'visitors', 'Unique visitors, last ' . RANGES[$range], $weekly) ?></section>
+  <section class="card chart-card"><h2>Messages per <?= $weekly ? 'week' : 'day' ?></h2><?= column_chart($weekly ? $byWeek($leads) : $leads, 'messages', 'Contact form messages, last ' . RANGES[$range], $weekly) ?></section>
 </div>
 
 <div class="grid3">
-  <section class="card"><h2>Where visitors come from <small>last 30 days</small></h2><?= hbars($sources, 'Notun tracking — kichu din por ekhane Facebook, Google, Direct etc. dekhabe.') ?></section>
-  <section class="card"><h2>Messages by source <small>last 90 days</small></h2><?= hbars($leadSources, 'Notun message ashle kon jayga theke esheche ekhane dekhabe.') ?></section>
+  <section class="card"><h2>Where visitors come from <small>last <?= e(RANGES[$range]) ?></small></h2><?= hbars($sources, 'Notun tracking — kichu din por ekhane Facebook, Google, Direct etc. dekhabe.') ?></section>
+  <section class="card"><h2>Messages by source <small>last <?= e(RANGES[$range]) ?></small></h2><?= hbars($leadSources, 'Notun message ashle kon jayga theke esheche ekhane dekhabe.') ?></section>
   <section class="card"><h2>Campaigns <small>utm_campaign</small></h2><?= hbars($campaigns, 'Ad / post link e ?utm_source=facebook&utm_campaign=naam dile ekhane dekhabe.') ?></section>
 </div>
 
 <div class="grid3">
-  <section class="card"><h2>What people ask for <small>last 90 days</small></h2><?= hbars($interest, 'Form e service select korle ekhane dekhabe.') ?></section>
+  <section class="card"><h2>What people ask for <small>last <?= e(RANGES[$range]) ?></small></h2><?= hbars($interest, 'Form e service select korle ekhane dekhabe.') ?></section>
   <section class="card"><h2>Pipeline</h2><?= hbars(array_filter($stages) ?: [], 'Ekhono kono lead nai.') ?></section>
   <section class="card"><h2>Top pages <small>visits</small></h2><?= hbars($top, 'Visit count shuru hoyeche — kichu din por dekhabe.') ?></section>
 </div>

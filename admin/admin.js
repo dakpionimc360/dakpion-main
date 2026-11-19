@@ -39,6 +39,35 @@
     window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
   });
 
+  /* Bulk select: row checkboxes (form="bulk-form"), select-all, a bar with the count and actions */
+  $$('form[data-bulk]').forEach(form => {
+    const bar = $('.bulkbar', form);
+    const items = () => $$('[data-bulk-item]').filter(c => c.form === form);
+    const all = $('[data-bulk-all]');
+    const sync = () => {
+      const list = items(), on = list.filter(c => c.checked);
+      $('[data-bulk-count]', form).textContent = on.length;
+      bar.hidden = !on.length;
+      list.forEach(c => { const tr = c.closest('tr'); if (tr) tr.classList.toggle('picked', c.checked); });
+      if (all) { all.checked = on.length > 0 && on.length === list.length; all.indeterminate = on.length > 0 && on.length < list.length; }
+    };
+    document.addEventListener('change', e => { if (e.target.matches('[data-bulk-item]')) sync(); });
+    if (all) all.addEventListener('change', () => {
+      items().forEach(c => { const tr = c.closest('tr'); if (!tr || !tr.hidden) c.checked = all.checked; });
+      sync();
+    });
+    const clear = $('[data-bulk-clear]', form);
+    if (clear) clear.addEventListener('click', () => { items().forEach(c => { c.checked = false; }); sync(); });
+    form.addEventListener('submit', e => {
+      const sel = $('select[name="bulk"]', form);
+      if (!sel) return;
+      if (!sel.value) { e.preventDefault(); sel.focus(); return; }
+      const n = items().filter(c => c.checked).length;
+      if (sel.value === 'delete' && !confirm('Select kora ' + n + ' ta message delete korben? Ferot ana jabe na.')) e.preventDefault();
+    });
+    sync();
+  });
+
   /* Client-side search over table rows */
   $$('[data-filter-rows]').forEach(input => {
     const body = $(input.dataset.filterRows);
