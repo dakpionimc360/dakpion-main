@@ -122,10 +122,9 @@ $st->execute([date('Y-m-d', strtotime('+2 days'))]);
 $followups = $st->fetchAll();
 $latest = db()->query('SELECT * FROM leads ORDER BY id DESC LIMIT 6')->fetchAll();
 
-$changed = fn(string $k) => setting($k) !== '' && setting($k) !== (SEED_SETTINGS[$k] ?? '');
 $checks = [
     ['Phone number', !is_placeholder(setting('phone')), 'settings/contact'],
-    ['Office address', $changed('address'), 'settings/contact'],
+    ['Office address', setting('address') !== '' && !str_contains(setting('address'), 'House 12, Road 5'), 'settings/contact'],
     ['WhatsApp number', !is_placeholder(setting('whatsapp')), 'settings/contact'],
     ['Form message kon email e jabe', setting('notify_email') !== '', 'settings/form'],
     ['Social media links', (bool)array_filter(array_map('setting', ['facebook', 'instagram', 'linkedin', 'youtube', 'tiktok'])), 'settings/social'],

@@ -104,6 +104,29 @@ function migrate(PDO $pdo): void
         }
         $pdo->exec("INSERT OR IGNORE INTO settings (key, value) VALUES ('_v2', '1')");
     }
+    if (!in_array('_v3', $flags, true)) {
+        // Real contact details, social links and the Gmail SMTP server. The login email, app password and notify email are entered in the admin.
+        // Only fills a setting that is still empty or still holds the old first-run value, so admin edits are kept.
+        $old = ['phone' => '+880 1XXX-XXXXXX', 'address' => 'House 12, Road 5, Dhanmondi, Dhaka 1209, Bangladesh',
+            'address_short' => 'Dhanmondi, Dhaka', 'hours' => 'Saturday – Thursday, 10:00 AM – 7:00 PM'];
+        $new = [
+            'phone' => '+880 1715-913197', 'whatsapp' => '8801715913197',
+            'address' => 'House 6, Floor 6, Avenue 1, Block B, Mirpur-12, Dhaka (next to Purobi 11 Metro Station)',
+            'address_short' => 'Mirpur-12, Dhaka', 'hours' => 'Saturday – Thursday, 10:00 AM – 6:00 PM',
+            'facebook' => 'https://www.facebook.com/DakpionIMC', 'instagram' => 'https://www.instagram.com/dakpionimc/',
+            'linkedin' => 'https://bd.linkedin.com/company/dakpionimc',
+            'smtp_host' => 'smtp.gmail.com', 'smtp_port' => '587', 'smtp_secure' => 'tls',
+            'mail_from_name' => 'Dakpion Website',
+        ];
+        $get = $pdo->prepare('SELECT value FROM settings WHERE key = ?');
+        $put = $pdo->prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)');
+        foreach ($new as $k => $v) {
+            $get->execute([$k]);
+            $cur = (string)$get->fetchColumn();
+            if ($cur === '' || $cur === ($old[$k] ?? null)) $put->execute([$k, $v]);
+        }
+        $pdo->exec("INSERT OR IGNORE INTO settings (key, value) VALUES ('_v3', '1')");
+    }
 }
 
 function insert_row(PDO $pdo, string $table, array $row): int
